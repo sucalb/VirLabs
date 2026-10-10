@@ -54,11 +54,39 @@ body.present .credit{display:none}
 .counter .cl{font-size:.92rem}
 .counter .cl i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
 .counter b{font:700 1.2rem var(--f-mono);text-align:center}
-.b3wrap{position:relative}
-canvas.tall{height:clamp(420px,74vh,760px);background:radial-gradient(circle at 50% 40%,#ffffff,#eef1f6)}
-.b3load{position:absolute;inset:0;display:grid;place-items:center;font-weight:600;color:var(--muted);background:var(--surface);text-align:center;padding:16px}
-.b3hint{position:absolute;left:10px;bottom:8px;font-size:.78rem;color:var(--muted);background:rgba(255,255,255,.85);padding:3px 8px;pointer-events:none}
-.b3tip{position:absolute;pointer-events:none;background:#10162f;color:#fff;font:600 .82rem var(--f-body);padding:4px 8px;transform:translate(-50%,-130%);white-space:nowrap}
+.stage.b3wrap{position:relative;background:radial-gradient(circle at 50% 28%,#2c3656,#0b0f1e 78%);border-color:#0b0f1e}
+canvas.tall{height:clamp(460px,78vh,800px)}
+.b3wrap:fullscreen canvas.tall{height:100vh}
+.bench.b3bench{grid-template-columns:minmax(0,1fr)}
+.b3bench .drawer{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));align-items:start}
+.b3load{position:absolute;inset:0;display:grid;place-items:center;font-weight:600;color:#c9d1e6;background:#0b0f1e;text-align:center;padding:16px}
+.b3layers,.b3bar,#b3Q,#b3Res{background:rgba(13,17,32,.88);color:#e8ecf7;border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px)}
+.b3layers{position:absolute;left:12px;top:12px;width:224px;max-height:calc(100% - 84px);overflow:auto;padding:10px 12px;font-size:.88rem}
+.b3layers summary{cursor:pointer;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.78rem;color:#aeb8d4}
+.b3row{display:flex;align-items:center;gap:9px;padding:5px 6px;cursor:pointer;border-radius:2px}
+.b3row:hover{background:rgba(255,255,255,.07)}
+.b3row i{width:10px;height:10px;border-radius:50%;flex:none}
+.b3row small{margin-left:auto;opacity:.55;font:500 .74rem var(--f-mono)}
+.b3row input,.b3sl input,.b3chk input{accent-color:#4fd1c5}
+.b3sl{display:grid;grid-template-columns:58px 1fr;align-items:center;gap:8px;margin-top:8px;font-size:.84rem}
+.b3chk{display:flex;gap:8px;align-items:center;margin-top:8px;font-size:.86rem;cursor:pointer}
+.b3search{position:absolute;right:12px;top:12px;width:min(270px,42%)}
+#b3Q{text-transform:none;font-family:var(--f-body);color:#fff}
+#b3Q::placeholder{color:#8f99b5}
+#b3Res{margin-top:4px;max-height:240px;overflow:auto}
+#b3Res:empty{display:none}
+#b3Res button{display:block;width:100%;text-align:left;background:none;border:none;color:#e8ecf7;padding:7px 10px;font:500 .86rem var(--f-body);cursor:pointer}
+#b3Res button:hover{background:rgba(255,255,255,.08)}
+#b3Res small{opacity:.55;margin-left:6px}
+.b3bar{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:flex;gap:2px;padding:4px;flex-wrap:wrap;justify-content:center;max-width:calc(100% - 24px)}
+.b3bar button{background:none;border:none;color:#e8ecf7;font:600 .82rem var(--f-body);padding:7px 10px;cursor:pointer;display:flex;align-items:center}
+.b3bar button:hover{background:rgba(255,255,255,.1)}
+.b3bar .sep{width:1px;background:rgba(255,255,255,.18);margin:4px 3px}
+.b3labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.b3lab{position:absolute;transform:translate(-50%,-50%);font:600 .74rem var(--f-body);color:#fff;background:rgba(11,15,30,.72);padding:2px 7px;border-left:3px solid;white-space:nowrap}
+.b3lab.on{background:#ffd300;color:#10162f;font-weight:700}
+.b3tip{position:absolute;pointer-events:none;background:#ffd300;color:#10162f;font:700 .82rem var(--f-body);padding:4px 8px;transform:translate(-50%,-140%);white-space:nowrap}
+@media (max-width:700px){.b3layers{width:178px;font-size:.8rem}.b3search{width:44%}.b3bar button{padding:6px 7px;font-size:.76rem}}
 .tipcard{border:1px solid var(--navy);border-radius:14px;background:var(--surface);padding:18px;display:flex;flex-direction:column;gap:8px}
 .tipcard h2{font:700 1.05rem var(--f-display);margin:0}
 .tipcard p{margin:0;font-size:.9rem}
@@ -1252,17 +1280,27 @@ V = n · 24,79 L  (khí, 25 °C, 1 bar)</div><dl class="kv" id="moInfo"></dl></d
   <!-- ===================== SINH: CƠ THỂ NGƯỜI 3D ===================== -->
   <section class="panel" id="p-body3d" hidden>
     <div class="lesson"><span class="chip">KHTN 8 · Sinh học 11</span><h2>Cơ thể người 3D</h2></div>
-    <div class="bench">
-      <div class="stage b3wrap"><canvas id="cBody" class="dragc tall" aria-label="Mô hình 3D cơ thể người, kéo để xoay, cuộn để phóng to, bấm vào bộ phận để xem thông tin"></canvas>
+    <div class="bench b3bench">
+      <div class="stage b3wrap" id="b3Wrap"><canvas id="cBody" class="dragc tall" aria-label="Mô hình 3D cơ thể người, kéo để xoay, cuộn để phóng to, bấm vào bộ phận để xem thông tin"></canvas>
         <div class="b3load" id="b3load">Đang tải mô hình 3D (khoảng 4 MB)…</div>
-        <div class="b3hint">Kéo: xoay · Cuộn hoặc chụm hai ngón: phóng to · Bấm vào bộ phận: xem thông tin</div></div>
+        <details class="b3layers" id="b3Layers" open><summary>Lớp hiển thị</summary>
+          <div id="b3Sys"></div>
+          <div class="b3sl"><label for="b3Skin">Da</label><input type="range" id="b3Skin" min="0" max="1" step="0.05" value="0.08"></div>
+          <div class="b3sl"><label for="b3Exp">Phân rã</label><input type="range" id="b3Exp" min="0" max="1" step="0.02" value="0"></div>
+          <label class="b3chk"><input type="checkbox" id="b3Lab" checked> Nhãn trên mô hình</label>
+          <label class="b3chk"><input type="checkbox" id="b3Cut"> Mặt cắt dọc</label>
+          <div class="b3sl" id="b3CutRow" hidden><label for="b3CutP">Vị trí</label><input type="range" id="b3CutP" min="-1" max="1" step="0.02" value="0"></div>
+          <label class="b3chk"><input type="checkbox" id="b3Spin"> Tự xoay</label>
+        </details>
+        <div class="b3search"><input type="text" id="b3Q" placeholder="Tìm: tim, gan, thuỳ trán, liver…" aria-label="Tìm bộ phận" autocomplete="off"><div id="b3Res"></div></div>
+        <div class="b3labels" id="b3Labels"></div>
+        <div class="b3bar" role="toolbar" aria-label="Điều khiển góc nhìn"><button data-v="front">Trước</button><button data-v="back">Sau</button><button data-v="left">Trái</button><button data-v="right">Phải</button><button data-v="top">Trên</button><button data-v="bottom">Dưới</button><span class="sep"></span><button id="b3Out" aria-label="Thu nhỏ">−</button><button id="b3In" aria-label="Phóng to">+</button><span class="sep"></span><button id="b3Home">Đặt lại</button><button id="b3Full" aria-label="Toàn màn hình"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></button></div>
+      </div>
       <div class="drawer">
-        <div class="box"><h3>Xem</h3>
+        <div class="box"><h3>Hệ cơ quan</h3>
           <div class="row"><button class="btn ghost sm" data-b3="toan">Toàn thân</button><button class="btn ghost sm" data-b3="tim">Tim</button><button class="btn ghost sm" data-b3="nao">Não</button><button class="btn ghost sm" data-b3="hohap">Hệ hô hấp</button><button class="btn ghost sm" data-b3="tieuhoa">Hệ tiêu hoá</button></div>
-          <label class="check"><input type="checkbox" id="b3Skin" checked> Hiện da</label>
-          <label class="check"><input type="checkbox" id="b3Bone" checked> Hiện bộ xương</label>
-          <label class="check"><input type="checkbox" id="b3Spin"> Tự xoay</label></div>
-        <div class="box"><h3 id="b3Name">Chọn một bộ phận</h3><p style="margin:0" id="b3Desc">Bấm vào một cơ quan trên mô hình, máy sẽ phóng to vào hệ cơ quan đó.</p><dl class="kv" id="b3Info"></dl></div>
+          <p class="note">Kéo để xoay, cuộn hoặc chụm hai ngón để phóng to, rê chuột để đọc tên, bấm để xem chi tiết.</p></div>
+        <div class="box"><h3 id="b3Name">Toàn thân</h3><p style="margin:0" id="b3Desc">Bấm vào một cơ quan trên mô hình, máy sẽ phóng to vào hệ cơ quan đó.</p><dl class="kv" id="b3Info"></dl></div>
         <div class="box"><h3>Các bộ phận</h3><div class="row" id="b3Parts"></div></div>
         <p class="note">Mô hình: <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/" target="_blank" rel="noopener">BodyParts3D</a>, © The Database Center for Life Science, giấy phép <a href="https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en" target="_blank" rel="noopener">CC BY-SA 2.1 Japan</a>. Đã giảm số đa giác để hiển thị trên web.</p>
       </div>
