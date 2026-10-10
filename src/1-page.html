@@ -1,0 +1,786 @@
+<title>Phòng Lab Ảo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+/* Layout: kiểu trang khoá học — thanh môn học bên trái, tiêu đề môn có linh vật cú, tab bài lab gạch chân,
+   sân khấu mô phỏng bên trái, ngăn điều khiển bên phải. Nền kem, chữ xanh than, viền sắc, mỗi môn một màu nhấn. */
+:root{
+  --navy:#10162f; --cream:#f3f0ff; --yellow:#ffd300;
+  --accent:#3a10e5; --accentSoft:#ece7ff;
+  --paper:#fff8f2; --surface:#ffffff; --ink:#10162f; --muted:#555b73;
+  --grid:#efe8e1; --gridStrong:#d3c9bf; --line:#ddd3c9; --frame:#10162f;
+  --red:#d63a2f; --green:#0f8a52; --amber:#c47400; --rain:#2f7cc4;
+  --nA:#2f9e44; --nT:#d9480f; --nG:#1971c2; --nC:#b07d00; --ntText:#ffffff;
+  --f-display:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light}
+/* Trang chủ động chỉ dùng giao diện sáng */
+:root[data-theme="dark"]{color-scheme:light}
+:root[data-subj="ly"]{--accent:#0a7ea4;--accentSoft:#dcf2f9;--cream:#ecf7fa}
+:root[data-subj="hoa"]{--accent:#9418c9;--accentSoft:#f4e3fc;--cream:#f9f0fd}
+:root[data-subj="sinh"]{--accent:#1d8a3a;--accentSoft:#dff3e3;--cream:#eff8ef}
+:root[data-subj="dia"]{--accent:#b4530a;--accentSoft:#fdebd8;--cream:#fff1e3}
+:root[data-subj="tin"]{--accent:#cf1468;--accentSoft:#fde1ee;--cream:#fff0f6}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;transition:background-color .3s}
+button:focus-visible,select:focus-visible,input:focus-visible,.el:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.top{border-bottom:1px solid var(--navy)}
+.topin{max-width:1320px;margin:0 auto;padding-inline:16px;padding-block:12px;display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;font:700 1.45rem var(--f-display);color:var(--navy);letter-spacing:-.02em;margin:0}
+.logo b{border:2.5px solid var(--navy);padding:0 6px;margin-right:3px;line-height:1.2;font-weight:700}
+.topnote{color:var(--muted);font-size:.92rem}
+.topin .btn{margin-left:auto}
+.wrap{max-width:1320px;margin:0 auto;padding-inline:16px;padding-block:28px 48px;display:grid;grid-template-columns:236px minmax(0,1fr);gap:36px;align-items:start}
+.side{display:flex;flex-direction:column;gap:24px;position:sticky;top:16px}
+.tabs{display:flex;flex-direction:column;gap:2px}
+.tab{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:500 1.02rem var(--f-body);color:var(--navy);background:none;border:none;border-left:4px solid transparent;padding:11px 12px;cursor:pointer}
+.tab .ic svg{width:24px;height:24px;display:block;color:var(--tc)}
+.tab small{margin-left:auto;font:500 .76rem var(--f-mono);color:var(--muted)}
+.tab:hover{background:rgba(16,22,47,.05)}
+.tab[aria-selected="true"]{background:rgba(16,22,47,.07);border-left-color:var(--tc);font-weight:700}
+.tipcard{border:1px solid var(--navy);border-radius:14px;background:var(--surface);padding:18px;display:flex;flex-direction:column;gap:8px}
+.tipcard h2{font:700 1.05rem var(--f-display);margin:0}
+.tipcard p{margin:0;font-size:.9rem}
+.tipcard mark{background:var(--yellow);color:var(--navy);padding:0 3px}
+.main{display:flex;flex-direction:column;gap:18px;min-width:0}
+.subhead{display:flex;align-items:center;gap:20px}
+.subhead h1{font:700 2.1rem var(--f-display);margin:0;letter-spacing:-.02em;line-height:1.1;color:var(--accent)}
+.subhead p{margin:6px 0 0;color:var(--muted);max-width:60ch}
+.owlwrap{margin-left:auto;flex:none;width:132px;height:132px;border-radius:50%;background:var(--accentSoft);border:1px solid var(--navy);display:grid;place-items:center}
+.owl{width:104px;height:96px;display:block}
+.owl .lid{transform-box:fill-box;transform-origin:center top;transform:scaleY(0);animation:blink 6s infinite}
+@keyframes blink{0%,93%,100%{transform:scaleY(0)}95%{transform:scaleY(1)}}
+.prog{display:flex;align-items:center;gap:10px;margin-top:12px;font:600 .82rem var(--f-mono)}
+.prog .barx{width:130px;height:11px;border:1.5px solid var(--navy);border-radius:6px;overflow:hidden;background:var(--surface)}
+.prog .barx i{display:block;height:100%;background:repeating-linear-gradient(-45deg,var(--navy) 0 2px,var(--surface) 2px 5px);transition:width .3s}
+.labnav{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--navy);scrollbar-width:thin}
+.labbtn{flex:none;display:flex;align-items:center;gap:8px;border:none;background:none;color:var(--navy);font:500 .96rem var(--f-body);padding:11px 14px 9px;border-bottom:4px solid transparent;cursor:pointer;white-space:nowrap}
+.labbtn:hover{background:rgba(16,22,47,.05)}
+.labbtn[aria-current="true"]{border-bottom-color:var(--accent);font-weight:700}
+.seen{width:18px;height:18px;border-radius:50%;background:var(--yellow);display:inline-grid;place-items:center;flex:none}
+.seen svg{width:11px;height:11px}
+.panel{display:flex;flex-direction:column;gap:16px}
+.lesson{display:flex;flex-direction:column;gap:2px}
+.lesson h2{font:700 1.45rem var(--f-display);margin:0;text-wrap:balance}
+.chip{font:500 .88rem var(--f-mono);color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.bench{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start}
+@media (max-width:1080px){.bench{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);gap:18px;padding-block:16px 40px}.side{position:static}.tabs{flex-direction:row;overflow-x:auto}.tab{width:auto;flex:none;border-left:none;border-bottom:4px solid transparent;padding:9px 12px}.tab[aria-selected="true"]{border-bottom-color:var(--tc)}.tab small{display:none}.tipcard{display:none}.owl{width:72px;height:66px}.owlwrap{width:92px;height:92px}.subhead h1{font-size:1.55rem}.topnote{display:none}}
+.palette{display:flex;flex-wrap:wrap;gap:6px;padding:10px;border-bottom:1px solid var(--frame);background:var(--paper)}
+.pal{font:600 .84rem var(--f-body);border:1px solid var(--frame);background:var(--surface);color:var(--ink);padding:6px 10px;border-radius:2px;cursor:grab;touch-action:none;display:flex;align-items:center;gap:6px}
+.pal svg{width:22px;height:16px;color:var(--accent)}
+.pal:hover{box-shadow:-3px 3px 0 var(--ink);transform:translate(1px,-1px)}
+.pal[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pal[aria-pressed="true"] svg{color:#fff}
+pre.code{margin:0;font:500 .82rem/1.6 var(--f-mono);background:#10162f;color:#e8ecf7;padding:8px 0;overflow-x:auto}
+pre.code span{display:block;padding:0 10px;white-space:pre}
+pre.code span.hl{background:rgba(255,211,0,.22);box-shadow:inset 3px 0 0 var(--yellow)}
+.cells{display:flex;flex-wrap:wrap;gap:6px}
+.cellx{width:46px;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--f-mono)}
+.cellx b{width:46px;height:46px;display:grid;place-items:center;border-radius:2px;border:2px solid var(--frame);background:var(--surface);font-size:1rem;transition:all .2s}
+.cellx small{font-size:.68rem;color:var(--muted)}
+.cellx i{font-style:normal;font-size:.7rem;font-weight:700;color:var(--accent);height:1em}
+.cellx.out b{opacity:.3}
+.cellx.cur b{border-color:var(--amber);background:color-mix(in srgb,var(--amber) 20%,var(--surface))}
+.cellx.found b{border-color:var(--green);background:color-mix(in srgb,var(--green) 25%,var(--surface))}
+.bits{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.bit{width:54px;border:2px solid var(--frame);border-radius:2px;background:var(--surface);color:var(--ink);padding:6px 0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bit small{font:500 .68rem var(--f-mono);color:var(--muted)}
+.bit b{font:700 1.6rem var(--f-mono)}
+.bit[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.bit[aria-pressed="true"] small{color:var(--surface);opacity:.8}
+.mnp .ctl{grid-template-columns:auto 80px 1fr}
+.divtab{border-collapse:collapse;font-family:var(--f-mono);font-size:.88rem}
+.divtab td{padding:3px 10px;border-bottom:1px solid var(--line);text-align:right}
+.divtab td:last-child{color:var(--accent);font-weight:700}
+.bench{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:start}
+@media (max-width:860px){.bench{grid-template-columns:minmax(0,1fr)}}
+.stage{background:var(--surface);border:1px solid var(--frame);overflow:hidden;min-width:0}
+canvas{display:block;width:100%;height:clamp(300px,62vh,580px)}
+canvas.dragc{touch-action:none;cursor:grab}
+canvas.small{height:220px}
+.drawer{display:flex;flex-direction:column;gap:14px;min-width:0}
+.box{background:var(--surface);border:1px solid var(--frame);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.box h3{margin:0;font:700 1rem var(--f-display);color:var(--ink)}
+.ctl{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}
+.ctl label{font-family:var(--f-mono);font-weight:600;min-width:2.2em}
+.ctl output{font-family:var(--f-mono);font-variant-numeric:tabular-nums;min-width:4.4em;text-align:right}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select,input[type=text]{font:inherit;padding:7px 9px;border-radius:2px;border:1px solid var(--frame);background:var(--surface);color:var(--ink);width:100%}
+input[type=text]{font-family:var(--f-mono);text-transform:uppercase}
+.btn{font:700 .92rem var(--f-body);padding:9px 16px;border-radius:2px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(2px,-2px);box-shadow:-4px 4px 0 var(--ink)}
+.btn:active{transform:none;box-shadow:none}
+.btn[aria-pressed="true"]{background:var(--accent);color:#fff}
+.btn.ghost{background:var(--surface);color:var(--accent)}
+.btn.ghost[aria-pressed="true"]{background:var(--accent);color:#fff}
+.btn.sm{padding:6px 11px;font-size:.85rem}
+.formula{font-family:var(--f-mono);font-size:.92rem;background:var(--paper);border:1px solid var(--line);padding:8px 10px;overflow-x:auto;white-space:nowrap}
+.formula.pre{white-space:pre;line-height:1.75}
+.kv{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:4px 12px;font-variant-numeric:tabular-nums;margin:0}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-family:var(--f-mono);text-align:right;overflow-wrap:anywhere}
+.verdict{font-weight:600;padding:9px 12px;background:var(--accentSoft);border-left:4px solid var(--accent)}
+.verdict.ok{background:color-mix(in srgb,var(--green) 14%,var(--surface));border-left-color:var(--green)}
+.verdict.bad{background:color-mix(in srgb,var(--red) 12%,var(--surface));border-left-color:var(--red)}
+.note{font-size:.84rem;color:var(--muted);margin:0}
+.check{display:flex;align-items:center;gap:8px;font-size:.92rem}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.pad{padding:16px;display:flex;flex-direction:column;gap:14px}
+/* bars (Mendel, probability, energy) */
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:120px 1fr 80px;gap:10px;align-items:center;font-size:.88rem}
+.bar .track{position:relative;height:16px;background:var(--paper);border-radius:4px;overflow:hidden}
+.bar .exp{position:absolute;top:0;bottom:0;border-right:2px dashed var(--ink);opacity:.55}
+.bar .obs{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:4px;transition:width .3s}
+.bar>span:last-child{font-family:var(--f-mono);text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:480px){.bar{grid-template-columns:86px 1fr 70px}}
+/* chem beaker */
+.beakerRow{display:flex;gap:14px;align-items:flex-end}
+.beaker{position:relative;width:86px;height:110px;border:3px solid var(--gridStrong);border-top:none;border-radius:0 0 16px 16px;overflow:hidden;flex:none}
+.liquid{position:absolute;left:0;right:0;bottom:0;transition:background-color .25s,height .25s}
+.big{font-family:var(--f-display);font-size:2.1rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+/* mendel */
+.punnett{overflow-x:auto}
+.punnett table{border-collapse:collapse;margin:0 auto;font-family:var(--f-mono)}
+.punnett th,.punnett td{border:1px solid var(--line);padding:8px 10px;text-align:center;min-width:68px}
+.punnett th{background:var(--paper);color:var(--accent);font-weight:600}
+.cell{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.9rem}
+.pea{display:inline-block;width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.25);vertical-align:middle}
+.pea.wr{border-radius:38% 62% 45% 55%/60% 40% 60% 40%;box-shadow:inset 2px -2px 0 rgba(0,0,0,.18),inset -3px 2px 0 rgba(0,0,0,.12)}
+/* periodic table */
+.ptwrap{overflow-x:auto;padding:14px}
+.ptable{display:grid;grid-template-columns:repeat(18,minmax(32px,1fr));gap:3px;min-width:620px}
+.ptable .gh{font:600 .62rem var(--f-mono);color:var(--muted);text-align:center;align-self:end}
+.el{aspect-ratio:1/1.08;border:1px solid var(--line);border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);padding:1px;font:inherit;min-width:0}
+.el b{font:700 .98rem var(--f-display);line-height:1.1}
+.el small{font:500 .58rem var(--f-mono);color:var(--muted)}
+.el[aria-pressed="true"]{outline:2.5px solid var(--ink);outline-offset:-1px}
+/* balance */
+.eq{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:center;gap:10px 12px;font:600 1.35rem var(--f-display);padding-top:6px}
+.sp{display:flex;flex-direction:column;align-items:center;gap:6px}
+.step{display:flex;align-items:center;gap:3px}
+.step button{width:30px;height:30px;border-radius:2px;border:1px solid var(--frame);background:var(--surface);color:var(--ink);font-weight:700;cursor:pointer}
+.coef{font:700 1.15rem var(--f-mono);min-width:1.6em;text-align:center;color:var(--accent)}
+.atoms{display:grid;grid-template-columns:40px minmax(0,1fr) 40px 40px minmax(0,1fr) 26px;gap:8px 10px;align-items:center;font-variant-numeric:tabular-nums}
+.atoms .h{font:600 .78rem var(--f-body);color:var(--muted)}
+.balls{display:flex;flex-wrap:wrap;gap:3px}
+.balls.l{justify-content:flex-end}
+.ball{width:13px;height:13px;border-radius:50%;border:1px solid rgba(0,0,0,.3)}
+.atoms .n{font-family:var(--f-mono);text-align:center}
+/* gene */
+.gtrack{overflow-x:auto}
+.gwrap{display:flex;gap:8px;width:max-content;padding-bottom:4px}
+.gcol{display:grid;grid-template-rows:repeat(5,30px);gap:5px;padding:3px;border-radius:7px}
+.glbl{position:sticky;left:0;background:var(--surface);z-index:1;font-size:.78rem;color:var(--muted);padding-right:8px}
+.glbl div{display:flex;align-items:center;white-space:nowrap}
+.tri{display:flex;gap:2px}
+.nt{width:22px;height:30px;display:grid;place-items:center;border-radius:4px;font:600 .85rem var(--f-mono);color:var(--ntText)}
+.nA{background:var(--nA)} .nT,.nU{background:var(--nT)} .nG{background:var(--nG)} .nC{background:var(--nC)}
+.nt.mut{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--red)}
+.aa{font:600 .8rem var(--f-mono);display:grid;place-items:center;border-radius:6px;background:var(--accentSoft);color:var(--accent)}
+.aa.stop{background:var(--paper);color:var(--red)}
+.aa.off{opacity:.18}
+.gcol.ribo{background:color-mix(in srgb,var(--amber) 22%,transparent)}
+.prot{font-family:var(--f-mono);font-size:.88rem;overflow-wrap:anywhere}
+.prot mark{background:color-mix(in srgb,var(--red) 22%,transparent);color:inherit;border-radius:3px;padding:0 2px}
+body.present{font-size:18px}
+body.present .side,body.present .top{display:none}
+body.present .wrap{grid-template-columns:minmax(0,1fr)}
+body.present canvas:not(.small){height:clamp(360px,72vh,760px)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="top"><div class="topin">
+    <h1 class="logo"><b>Lab</b>ảo</h1><span class="topnote">Mô phỏng trình chiếu cho giáo viên cấp 2 và cấp 3</span>
+    <button class="btn" id="present">Chế độ trình chiếu</button></div></div>
+<div class="wrap">
+  <aside class="side">
+    <nav class="tabs" role="tablist" aria-label="Môn học">
+        <button class="tab" role="tab" data-t="toan" style="--tc:#3a10e5"><span class="ic"></span>Toán học<small></small></button>
+        <button class="tab" role="tab" data-t="ly" style="--tc:#0a7ea4"><span class="ic"></span>Vật lí<small></small></button>
+        <button class="tab" role="tab" data-t="hoa" style="--tc:#9418c9"><span class="ic"></span>Hoá học<small></small></button>
+        <button class="tab" role="tab" data-t="sinh" style="--tc:#1d8a3a"><span class="ic"></span>Sinh học<small></small></button>
+        <button class="tab" role="tab" data-t="dia" style="--tc:#b4530a"><span class="ic"></span>Địa lí<small></small></button>
+        <button class="tab" role="tab" data-t="tin" style="--tc:#cf1468"><span class="ic"></span>Tin học<small></small></button>
+    </nav>
+    <div class="tipcard"><h2>Mẹo khi lên lớp</h2><p>Bấm <mark>Chế độ trình chiếu</mark> để phóng to mô phỏng trên máy chiếu. Thanh trượt và hình vẽ đều kéo được ngay trong lúc giảng.</p><p class="note">Bài nào đã mở sẽ có dấu tích vàng.</p></div>
+  </aside>
+  <main class="main">
+  <section class="subhead"><div><h1 id="bandName"></h1><p id="bandDesc"></p><div class="prog"><span id="progTxt"></span><span class="barx"><i id="progBar"></i></span></div></div><span class="owlwrap" id="bandIcon"></span></section>
+  <nav class="labnav" id="labNav" aria-label="Danh sách bài lab"></nav>
+
+  <!-- ===================== TOÁN ===================== -->
+  <section class="panel" id="p-cubic" hidden>
+    <div class="lesson"><span class="chip">Toán 12</span><h2>Khảo sát hàm số bậc ba và biện luận số nghiệm</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cMath" aria-label="Đồ thị hàm số bậc ba"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Hệ số</h3>
+          <div class="formula" id="mFormula"></div>
+          <div class="ctl"><label for="ma">a</label><input type="range" id="ma" min="-2" max="2" step="0.1" value="1"><output id="oa"></output></div>
+          <div class="ctl"><label for="mb">b</label><input type="range" id="mb" min="-3" max="3" step="0.1" value="0"><output id="ob"></output></div>
+          <div class="ctl"><label for="mc">c</label><input type="range" id="mc" min="-5" max="5" step="0.1" value="-3"><output id="oc"></output></div>
+          <div class="ctl"><label for="md">d</label><input type="range" id="md" min="-5" max="5" step="0.1" value="0"><output id="od"></output></div>
+        </div>
+        <div class="box"><h3>Biện luận f(x) = m</h3>
+          <label class="check"><input type="checkbox" id="mLine" checked> Hiện đường thẳng y = m</label>
+          <div class="ctl"><label for="mm">m</label><input type="range" id="mm" min="-6" max="6" step="0.1" value="1"><output id="om"></output></div>
+          <div class="verdict" id="mRoots"></div>
+        </div>
+        <div class="box"><h3>Kết quả khảo sát</h3><dl class="kv" id="mInfo"></dl><p class="note" id="mNote"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-quad" hidden>
+    <div class="lesson"><span class="chip">Toán 9 · 10</span><h2>Hàm số bậc hai và parabol</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cQuad" aria-label="Đồ thị parabol"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Hệ số</h3>
+          <div class="formula" id="qFormula"></div>
+          <div class="ctl"><label for="qa">a</label><input type="range" id="qa" min="-3" max="3" step="0.1" value="1"><output id="oqa"></output></div>
+          <div class="ctl"><label for="qb">b</label><input type="range" id="qb" min="-6" max="6" step="0.1" value="-2"><output id="oqb"></output></div>
+          <div class="ctl"><label for="qc">c</label><input type="range" id="qc" min="-6" max="6" step="0.1" value="-3"><output id="oqc"></output></div>
+        </div>
+        <div class="box"><h3>Đặc điểm</h3><dl class="kv" id="qInfo"></dl><p class="note" id="qNote"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-trig" hidden>
+    <div class="lesson"><span class="chip">Toán 11</span><h2>Đường tròn lượng giác và đồ thị sin, cos, tan</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cTrig" aria-label="Đường tròn lượng giác"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Góc lượng giác</h3>
+          <div class="ctl"><label for="trA">α</label><input type="range" id="trA" min="-360" max="720" step="1" value="30"><output id="otrA"></output></div>
+          <div class="row"><button class="btn" id="trPlay">Quay</button>
+            <button class="btn ghost sm" data-deg="30">30°</button><button class="btn ghost sm" data-deg="45">45°</button><button class="btn ghost sm" data-deg="60">60°</button><button class="btn ghost sm" data-deg="120">120°</button><button class="btn ghost sm" data-deg="210">210°</button></div>
+          <label class="check"><input type="checkbox" id="trSin" checked> sin α</label>
+          <label class="check"><input type="checkbox" id="trCos" checked> cos α</label>
+          <label class="check"><input type="checkbox" id="trTan"> tan α</label>
+        </div>
+        <div class="box"><h3>Giá trị</h3><dl class="kv" id="trInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-solid" hidden>
+    <div class="lesson"><span class="chip">Toán 8 · 9 · 11</span><h2>Hình khối trong không gian</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cSolid" class="dragc" aria-label="Hình khối 3D, kéo để xoay"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Hình</h3>
+          <select id="soShape" aria-label="Chọn hình"><option value="chop4">Hình chóp tứ giác đều S.ABCD</option><option value="chop3">Hình chóp tam giác đều S.ABC</option><option value="cube">Hình lập phương</option><option value="lt3">Lăng trụ tam giác đều</option><option value="tru">Hình trụ</option><option value="non">Hình nón</option></select>
+          <div class="ctl"><label for="soA" id="soAl">a</label><input type="range" id="soA" min="1" max="6" step="0.1" value="4"><output id="osoA"></output></div>
+          <div class="ctl" id="soHrow"><label for="soH">h</label><input type="range" id="soH" min="1" max="8" step="0.1" value="5"><output id="osoH"></output></div>
+          <select id="soCutMode" aria-label="Thiết diện"><option value="none">Không vẽ thiết diện</option><option value="par">Thiết diện song song với đáy</option><option value="mnp">Thiết diện qua ba điểm M, N, P</option></select>
+          <div class="ctl" id="soCutRow"><label for="soCut">z</label><input type="range" id="soCut" min="0.02" max="0.98" step="0.01" value="0.5"><output id="osoCut"></output></div>
+          <div class="mnp" id="soMNP" style="display:flex;flex-direction:column;gap:8px">
+            <div class="ctl"><label for="soE0">M</label><select id="soE0" aria-label="Cạnh chứa M"></select><input type="range" id="soT0" min="0.05" max="0.95" step="0.05" value="0.5" aria-label="Vị trí M trên cạnh"></div>
+            <div class="ctl"><label for="soE1">N</label><select id="soE1" aria-label="Cạnh chứa N"></select><input type="range" id="soT1" min="0.05" max="0.95" step="0.05" value="0.5" aria-label="Vị trí N trên cạnh"></div>
+            <div class="ctl"><label for="soE2">P</label><select id="soE2" aria-label="Cạnh chứa P"></select><input type="range" id="soT2" min="0.05" max="0.95" step="0.05" value="0.5" aria-label="Vị trí P trên cạnh"></div>
+          </div>
+          <label class="check"><input type="checkbox" id="soAng"> Góc giữa đường thẳng và mặt đáy</label>
+          <label class="check"><input type="checkbox" id="soAuto" checked> Tự xoay</label>
+          <p class="note">Kéo trên hình để xoay. Nét đứt là cạnh bị khuất.</p>
+        </div>
+        <div class="box"><h3>Công thức</h3><dl class="kv" id="soInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-prob" hidden>
+    <div class="lesson"><span class="chip">Toán 9 · 10</span><h2>Xác suất thực nghiệm và luật số lớn</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cProb" aria-label="Tần suất theo số lần thử"></canvas><div class="pad"><div class="bars" id="prBars"></div>
+        <div class="legend"><span><i style="background:var(--accent)"></i>Tần suất quan sát</span><span><i style="background:var(--ink);opacity:.55"></i>Xác suất lí thuyết</span></div></div></div>
+      <div class="drawer">
+        <div class="box"><h3>Phép thử</h3>
+          <select id="prExp" aria-label="Phép thử"><option value="coin">Tung một đồng xu</option><option value="die">Gieo một con xúc xắc</option><option value="sum">Gieo hai con xúc xắc, tính tổng</option></select>
+          <div class="row"><button class="btn sm" data-k="1">+1 lần</button><button class="btn sm" data-k="10">+10</button><button class="btn sm" data-k="100">+100</button><button class="btn sm" data-k="1000">+1000</button></div>
+          <div class="row"><button class="btn ghost" id="prAuto">Tự động</button><button class="btn ghost" id="prReset">Làm lại</button></div>
+          <div class="big" id="prLast" aria-live="polite"></div>
+        </div>
+        <div class="box"><h3>Thống kê</h3><dl class="kv" id="prInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== VẬT LÍ ===================== -->
+  <section class="panel" id="p-circuit" hidden>
+    <div class="lesson"><span class="chip">KHTN 9 · Vật lí</span><h2>Đoạn mạch nối tiếp và song song</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cCirc" aria-label="Sơ đồ mạch điện"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Sơ đồ</h3>
+          <select id="ciMode" aria-label="Kiểu mạch"><option value="nt">R₁ nối tiếp R₂</option><option value="ss">R₁ song song R₂</option><option value="hh">R₁ nối tiếp (R₂ // R₃)</option></select>
+          <div class="ctl"><label for="ciU">U</label><input type="range" id="ciU" min="0" max="24" step="0.5" value="12"><output id="ociU"></output></div>
+          <div class="ctl"><label for="ciR1">R₁</label><input type="range" id="ciR1" min="1" max="60" step="1" value="10"><output id="ociR1"></output></div>
+          <div class="ctl"><label for="ciR2">R₂</label><input type="range" id="ciR2" min="1" max="60" step="1" value="20"><output id="ociR2"></output></div>
+          <div class="ctl" id="ciR3row"><label for="ciR3">R₃</label><input type="range" id="ciR3" min="1" max="60" step="1" value="30"><output id="ociR3"></output></div>
+          <label class="check"><input type="checkbox" id="ciBulb"> Thay điện trở bằng bóng đèn</label>
+          <button class="btn ghost" id="ciK">Mở khoá K</button>
+        </div>
+        <div class="box"><h3>Số đo</h3><dl class="kv" id="ciInfo"></dl></div>
+        <div class="box"><h3>Công thức</h3><div class="formula pre" id="ciF"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-projectile" hidden>
+    <div class="lesson"><span class="chip">Vật lí 10</span><h2>Chuyển động ném xiên</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cPhys" aria-label="Quỹ đạo vật ném xiên"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thông số ném</h3>
+          <div class="ctl"><label for="pv">v₀</label><input type="range" id="pv" min="5" max="40" step="1" value="20"><output id="ov"></output></div>
+          <div class="ctl"><label for="pa">α</label><input type="range" id="pa" min="0" max="90" step="1" value="45"><output id="oal"></output></div>
+          <div class="ctl"><label for="pg">g</label><select id="pg"><option value="9.8">9,8 m/s²</option><option value="10">10 m/s²</option><option value="1.62">1,62 m/s² (Mặt Trăng)</option></select><span></span></div>
+          <div class="row"><button class="btn" id="pThrow">Ném</button><button class="btn ghost" id="pClear">Xoá quỹ đạo cũ</button></div>
+          <label class="check"><input type="checkbox" id="pVec" checked> Hiện véc-tơ vận tốc</label>
+        </div>
+        <div class="box"><h3>Công thức</h3><dl class="kv" id="pInfo"></dl></div>
+        <div class="box"><h3>Tức thời</h3><dl class="kv" id="pLive"></dl>
+          <div class="legend"><span><i style="background:var(--accent)"></i>v</span><span><i style="background:var(--green)"></i>vₓ</span><span><i style="background:var(--red)"></i>v_y</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-lens" hidden>
+    <div class="lesson"><span class="chip">KHTN 9 · Vật lí 11</span><h2>Ảnh của vật tạo bởi thấu kính</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cLens" class="dragc" aria-label="Đường truyền tia sáng qua thấu kính"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thấu kính và vật</h3>
+          <select id="lsType" aria-label="Loại thấu kính"><option value="ht">Thấu kính hội tụ</option><option value="pk">Thấu kính phân kì</option></select>
+          <div class="ctl"><label for="lsF">f</label><input type="range" id="lsF" min="4" max="20" step="0.5" value="10"><output id="olsF"></output></div>
+          <div class="ctl"><label for="lsD">d</label><input type="range" id="lsD" min="1" max="60" step="0.5" value="25"><output id="olsD"></output></div>
+          <div class="ctl"><label for="lsH">h</label><input type="range" id="lsH" min="1" max="6" step="0.5" value="3"><output id="olsH"></output></div>
+          <p class="note">Kéo vật AB trên hình để đổi khoảng cách d.</p>
+        </div>
+        <div class="box"><h3>Ảnh A′B′</h3><div class="verdict" id="lsNat"></div><dl class="kv" id="lsInfo"></dl>
+          <div class="formula">1/f = 1/d + 1/d′</div><p class="note">Quy ước: thấu kính phân kì f &lt; 0, ảnh ảo d′ &lt; 0.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-refr" hidden>
+    <div class="lesson"><span class="chip">KHTN 9 · Vật lí 11</span><h2>Khúc xạ và phản xạ toàn phần</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cRefr" class="dragc" aria-label="Tia sáng qua mặt phân cách"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Môi trường</h3>
+          <select id="rfN1" aria-label="Môi trường tới"><option value="1">Tới từ: Không khí (n = 1,00)</option><option value="1.33">Tới từ: Nước (n = 1,33)</option><option value="1.5">Tới từ: Thuỷ tinh (n = 1,50)</option><option value="2.42">Tới từ: Kim cương (n = 2,42)</option></select>
+          <select id="rfN2" aria-label="Môi trường khúc xạ"><option value="1">Sang: Không khí (n = 1,00)</option><option value="1.33" selected>Sang: Nước (n = 1,33)</option><option value="1.5">Sang: Thuỷ tinh (n = 1,50)</option><option value="2.42">Sang: Kim cương (n = 2,42)</option></select>
+          <div class="ctl"><label for="rfI">i</label><input type="range" id="rfI" min="0" max="89" step="1" value="40"><output id="orfI"></output></div>
+          <button class="btn ghost" id="rfSwap">Đổi chiều truyền ánh sáng</button>
+          <p class="note">Kéo tia tới trên hình để đổi góc tới.</p>
+        </div>
+        <div class="box"><h3>Định luật khúc xạ</h3><div class="formula">n₁·sin i = n₂·sin r</div><dl class="kv" id="rfInfo"></dl><div class="verdict" id="rfV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-pend" hidden>
+    <div class="lesson"><span class="chip">Vật lí 11</span><h2>Con lắc đơn và năng lượng dao động</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cPend" aria-label="Con lắc đơn và đồ thị li độ"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thông số</h3>
+          <div class="ctl"><label for="pdL">l</label><input type="range" id="pdL" min="0.2" max="2" step="0.05" value="1"><output id="opdL"></output></div>
+          <div class="ctl"><label for="pdA">α₀</label><input type="range" id="pdA" min="2" max="30" step="1" value="10"><output id="opdA"></output></div>
+          <div class="ctl"><label for="pdM">m</label><input type="range" id="pdM" min="0.1" max="1" step="0.05" value="0.2"><output id="opdM"></output></div>
+          <div class="ctl"><label for="pdG">g</label><select id="pdG"><option value="9.8">9,8 m/s²</option><option value="10">10 m/s²</option><option value="1.62">1,62 m/s² (Mặt Trăng)</option></select><span></span></div>
+          <label class="check"><input type="checkbox" id="pdDamp"> Có lực cản (dao động tắt dần)</label>
+          <div class="row"><button class="btn" id="pdPlay">Tạm dừng</button><button class="btn ghost" id="pdReset">Thả lại</button></div>
+        </div>
+        <div class="box"><h3>Chu kì</h3><div class="formula">T = 2π·√(l / g)</div><dl class="kv" id="pdInfo"></dl><p class="note">Đổi khối lượng m: chu kì không đổi, chỉ cơ năng thay đổi.</p></div>
+        <div class="box"><h3>Năng lượng</h3><div class="bars" id="pdE"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-wave" hidden>
+    <div class="lesson"><span class="chip">Vật lí 11</span><h2>Giao thoa sóng trên mặt nước</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cWave" aria-label="Vân giao thoa của hai nguồn sóng"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Hai nguồn kết hợp</h3>
+          <div class="ctl"><label for="wvD">S₁S₂</label><input type="range" id="wvD" min="2" max="10" step="0.5" value="6"><output id="owvD"></output></div>
+          <div class="ctl"><label for="wvL">λ</label><input type="range" id="wvL" min="0.6" max="3" step="0.1" value="1.5"><output id="owvL"></output></div>
+          <label class="check"><input type="checkbox" id="wvLines" checked> Hiện các vân cực đại</label>
+          <button class="btn ghost" id="wvPlay">Tạm dừng</button>
+        </div>
+        <div class="box"><h3>Điều kiện</h3><div class="formula pre">Cực đại:  d₂ − d₁ = kλ
+Cực tiểu: d₂ − d₁ = (k + ½)λ</div><dl class="kv" id="wvInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOÁ ===================== -->
+  <section class="panel" id="p-titration" hidden>
+    <div class="lesson"><span class="chip">Hoá học 11</span><h2>Chuẩn độ acid bằng dung dịch NaOH</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cChem" aria-label="Đường cong chuẩn độ"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Bình tam giác</h3>
+          <div class="beakerRow"><div class="beaker"><div class="liquid" id="liq"></div></div><div><div class="big" id="phVal"></div><div class="note" id="phStage"></div></div></div>
+          <div class="ctl"><label for="cvb">V<sub>NaOH</sub></label><input type="range" id="cvb" min="0" max="40" step="0.05" value="12"><output id="ovb"></output></div>
+          <div class="row"><button class="btn" id="cDrop">Nhỏ 1 giọt (0,05 mL)</button><button class="btn ghost" id="cReset">Làm lại</button></div>
+        </div>
+        <div class="box"><h3>Dung dịch</h3>
+          <select id="cAcid" aria-label="Loại acid"><option value="s">HCl (acid mạnh)</option><option value="w">CH₃COOH (acid yếu, Ka = 1,75·10⁻⁵)</option></select>
+          <div class="ctl"><label for="cca">C<sub>A</sub></label><input type="range" id="cca" min="0.01" max="0.2" step="0.01" value="0.1"><output id="oca"></output></div>
+          <div class="ctl"><label for="cva">V<sub>A</sub></label><input type="range" id="cva" min="10" max="25" step="1" value="20"><output id="ova"></output></div>
+          <div class="ctl"><label for="ccb">C<sub>B</sub></label><input type="range" id="ccb" min="0.05" max="0.2" step="0.01" value="0.1"><output id="ocb"></output></div>
+          <select id="cInd" aria-label="Chất chỉ thị"><option value="pp">Chỉ thị: phenolphthalein</option><option value="mo">Chỉ thị: methyl da cam</option><option value="bb">Chỉ thị: bromothymol xanh</option></select>
+          <p class="note" id="cEq"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-ptable" hidden>
+    <div class="lesson"><span class="chip">Hoá học 10</span><h2>Bảng tuần hoàn và cấu hình electron</h2></div>
+    <div class="bench">
+      <div class="stage"><div class="ptwrap"><div class="ptable" id="ptGrid"></div></div>
+        <div class="pad" style="padding-top:0"><div class="legend" id="ptLegend"></div></div></div>
+      <div class="drawer">
+        <div class="box"><h3>Tô màu theo</h3>
+          <select id="ptMode" aria-label="Tô màu theo"><option value="block">Khối nguyên tố s, p, d</option><option value="type">Kim loại, phi kim, khí hiếm</option><option value="en">Độ âm điện</option><option value="mass">Nguyên tử khối</option></select></div>
+        <div class="box"><h3 id="ptTitle">Nguyên tố</h3><canvas id="cBohr" class="small" aria-label="Mô hình lớp electron"></canvas><dl class="kv" id="ptInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-balance" hidden>
+    <div class="lesson"><span class="chip">KHTN 8 · Hoá 10</span><h2>Cân bằng phương trình hoá học</h2></div>
+    <div class="bench">
+      <div class="stage pad"><div class="eq" id="blEq"></div><div class="verdict" id="blV"></div>
+        <div class="atoms" id="blAtoms"></div></div>
+      <div class="drawer">
+        <div class="box"><h3>Phương trình</h3><select id="blSel" aria-label="Chọn phương trình"></select>
+          <div class="row"><button class="btn ghost" id="blReset">Đặt lại hệ số</button><button class="btn ghost" id="blAns">Xem đáp án</button></div>
+          <p class="note">Bấm + và − để chọn hệ số. Mỗi hàng bên dưới đếm số nguyên tử của một nguyên tố ở hai vế.</p></div>
+        <div class="box"><h3>Mẹo</h3><p class="note">Cân bằng nguyên tố xuất hiện ít chất nhất trước. Với O₂ và H₂, để cuối cùng. Khi số nguyên tử O một vế lẻ, một vế chẵn, thử nhân đôi chất có số O lẻ.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-rate" hidden>
+    <div class="lesson"><span class="chip">Hoá học 10</span><h2>Tốc độ phản ứng và va chạm hiệu quả</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cRate" aria-label="Mô phỏng hạt phản ứng A + B → C"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Điều kiện</h3>
+          <div class="ctl"><label for="rtT">T</label><input type="range" id="rtT" min="250" max="600" step="10" value="300"><output id="ortT"></output></div>
+          <div class="ctl"><label for="rtN">n</label><input type="range" id="rtN" min="10" max="60" step="2" value="30"><output id="ortN"></output></div>
+          <label class="check"><input type="checkbox" id="rtCat"> Thêm chất xúc tác (giảm năng lượng hoạt hoá)</label>
+          <div class="row"><button class="btn" id="rtRestart">Bắt đầu lại</button><button class="btn ghost" id="rtPause">Tạm dừng</button></div>
+          <div class="legend"><span><i style="background:var(--accent)"></i>A</span><span><i style="background:var(--red)"></i>B</span><span><i style="background:var(--green)"></i>C (sản phẩm)</span></div>
+        </div>
+        <div class="box"><h3>Theo dõi</h3><dl class="kv" id="rtInfo"></dl><p class="note">So sánh thời gian phản ứng hết một nửa A khi đổi nhiệt độ, nồng độ hoặc thêm xúc tác.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SINH ===================== -->
+  <section class="panel" id="p-mendel" hidden>
+    <div class="lesson"><span class="chip">Sinh học 9 · 12</span><h2>Lai Mendel ở đậu Hà Lan</h2></div>
+    <div class="bench">
+      <div class="stage pad">
+        <div class="formula" id="bCross"></div>
+        <div class="punnett" id="bTable"></div>
+        <div class="bars" id="bBars"></div>
+        <div class="legend"><span><i style="background:var(--accent)"></i>Quan sát (gieo ngẫu nhiên)</span><span><i style="background:var(--ink);opacity:.55"></i>Kì vọng theo lí thuyết</span></div>
+      </div>
+      <div class="drawer">
+        <div class="box"><h3>Bố mẹ (P)</h3>
+          <label class="check"><input type="checkbox" id="bDi" checked> Lai hai cặp tính trạng</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <select id="b1A" aria-label="Cây 1 gen A"><option>AA</option><option selected>Aa</option><option>aa</option></select>
+            <select id="b2A" aria-label="Cây 2 gen A"><option>AA</option><option selected>Aa</option><option>aa</option></select>
+            <select id="b1B" aria-label="Cây 1 gen B"><option>BB</option><option selected>Bb</option><option>bb</option></select>
+            <select id="b2B" aria-label="Cây 2 gen B"><option>BB</option><option selected>Bb</option><option>bb</option></select>
+          </div>
+          <p class="note">A: hạt vàng, trội so với a: hạt xanh. B: vỏ trơn, trội so với b: vỏ nhăn.</p>
+        </div>
+        <div class="box"><h3>Tỉ lệ đời con</h3><dl class="kv" id="bRatio"></dl></div>
+        <div class="box"><h3>Thực nghiệm</h3>
+          <div class="row"><button class="btn" id="bSow">Gieo 400 hạt</button><button class="btn ghost" id="bSow2">Gieo 8 000 hạt</button></div>
+          <p class="note" id="bSowNote"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-cell" hidden>
+    <div class="lesson"><span class="chip">Sinh học 10</span><h2>Nguyên phân và giảm phân</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cCell" aria-label="Các kì phân bào"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Quá trình</h3>
+          <select id="clMode" aria-label="Quá trình phân bào"><option value="mi">Nguyên phân</option><option value="me">Giảm phân</option></select>
+          <input type="range" id="clT" min="0" max="4" step="0.01" value="0" aria-label="Tiến trình">
+          <div class="row"><button class="btn ghost" id="clPrev">← Kì trước</button><button class="btn" id="clPlay">Chạy</button><button class="btn ghost" id="clNext">Kì sau →</button></div>
+          <div class="legend"><span><i style="background:var(--red)"></i>NST nguồn gốc từ mẹ</span><span><i style="background:var(--accent)"></i>NST nguồn gốc từ bố</span></div>
+        </div>
+        <div class="box"><h3 id="clName"></h3><p style="margin:0" id="clDesc"></p><dl class="kv" id="clInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-gene" hidden>
+    <div class="lesson"><span class="chip">KHTN 9 · Sinh học 12</span><h2>Phiên mã, dịch mã và đột biến gen</h2></div>
+    <div class="bench">
+      <div class="stage pad"><div class="gtrack"><div class="gwrap" id="gnView"></div></div>
+        <div class="box" style="border:none;padding:0"><h3>Chuỗi polypeptide</h3><div class="prot" id="gnProt"></div></div>
+        <div class="verdict" id="gnMut"></div></div>
+      <div class="drawer">
+        <div class="box"><h3>Trình tự gen</h3>
+          <select id="gnSide" aria-label="Loại mạch nhập vào"><option value="code">Nhập mạch bổ sung 5′ → 3′</option><option value="tpl">Nhập mạch mã gốc 3′ → 5′</option></select>
+          <input type="text" id="gnIn" value="ATGTTCGAACCGTGGAAATAA" aria-label="Trình tự nucleotide" spellcheck="false">
+          <div class="row"><button class="btn" id="gnApply">Cập nhật</button><button class="btn ghost" id="gnRun">Dịch mã từng bước</button></div>
+        </div>
+        <div class="box"><h3>Gây đột biến điểm</h3>
+          <div class="row"><button class="btn ghost sm" id="gnSub">Thay thế 1 cặp</button><button class="btn ghost sm" id="gnDel">Mất 1 cặp</button><button class="btn ghost sm" id="gnIns">Thêm 1 cặp</button></div>
+          <button class="btn ghost sm" id="gnReset">Khôi phục gen ban đầu</button></div>
+        <div class="box"><h3>Thông số gen</h3><dl class="kv" id="gnInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-eco" hidden>
+    <div class="lesson"><span class="chip">Sinh học 12</span><h2>Biến động số lượng thỏ và mèo rừng</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cEco" aria-label="Số lượng hai quần thể theo thời gian"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Tham số</h3>
+          <div class="ctl"><label for="ecA">r</label><input type="range" id="ecA" min="0.2" max="1.5" step="0.05" value="0.8"><output id="oecA"></output></div>
+          <div class="ctl"><label for="ecB">s</label><input type="range" id="ecB" min="0.005" max="0.05" step="0.001" value="0.02"><output id="oecB"></output></div>
+          <div class="ctl"><label for="ecE">e</label><input type="range" id="ecE" min="0.002" max="0.03" step="0.001" value="0.01"><output id="oecE"></output></div>
+          <div class="ctl"><label for="ecM">m</label><input type="range" id="ecM" min="0.1" max="1.2" step="0.05" value="0.5"><output id="oecM"></output></div>
+          <div class="ctl"><label for="ecN">N₀</label><input type="range" id="ecN" min="10" max="200" step="5" value="80"><output id="oecN"></output></div>
+          <div class="ctl"><label for="ecP">P₀</label><input type="range" id="ecP" min="2" max="80" step="1" value="20"><output id="oecP"></output></div>
+          <label class="check"><input type="checkbox" id="ecK"> Giới hạn sức chứa môi trường (K = 300 thỏ)</label>
+          <p class="note">r: tốc độ sinh sản của thỏ. s: hiệu quả săn mồi. e: hiệu suất chuyển thức ăn thành mèo rừng con. m: tỉ lệ tử vong của mèo rừng.</p>
+        </div>
+        <div class="box"><h3>Quỹ đạo pha</h3><canvas id="cPhase" class="small" aria-label="Quỹ đạo pha thỏ và mèo rừng"></canvas><dl class="kv" id="ecInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== THÊM: LÍ ===================== -->
+  <section class="panel" id="p-ohm" hidden>
+    <div class="lesson"><span class="chip">Vật lí 11</span><h2>Định luật Ohm cho toàn mạch</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cOhm" aria-label="Mạch kín có nguồn và biến trở"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Nguồn và mạch ngoài</h3>
+          <div class="ctl"><label for="ohE">ℰ</label><input type="range" id="ohE" min="1.5" max="24" step="0.5" value="12"><output id="oohE"></output></div>
+          <div class="ctl"><label for="ohr">r</label><input type="range" id="ohr" min="0" max="6" step="0.1" value="2"><output id="oohr"></output></div>
+          <div class="ctl"><label for="ohR">R</label><input type="range" id="ohR" min="0" max="30" step="0.2" value="6"><output id="oohR"></output></div>
+          <p class="note">Kéo R về 0 để thấy hiện tượng đoản mạch.</p>
+        </div>
+        <div class="box"><h3>Kết quả</h3><div class="formula pre">I = ℰ / (R + r)
+U = ℰ − I·r
+P = I²·R</div><dl class="kv" id="ohInfo"></dl><div class="verdict" id="ohV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-string" hidden>
+    <div class="lesson"><span class="chip">Vật lí 11</span><h2>Sóng cơ trên sợi dây và sóng dừng</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cStr" aria-label="Sợi dây dao động và đồ thị li độ của điểm M"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Kiểu sóng</h3>
+          <select id="stMode" aria-label="Kiểu sóng"><option value="run">Sóng truyền trên dây dài</option><option value="stand">Sóng dừng, hai đầu cố định</option></select>
+          <div class="ctl"><label for="stF">f</label><input type="range" id="stF" min="0.2" max="2" step="0.1" value="0.6"><output id="ostF"></output></div>
+          <div class="ctl" id="stLrow"><label for="stL">λ</label><input type="range" id="stL" min="0.2" max="1.2" step="0.05" value="0.6"><output id="ostL"></output></div>
+          <div class="ctl" id="stNrow"><label for="stN">bó</label><input type="range" id="stN" min="1" max="6" step="1" value="3"><output id="ostN"></output></div>
+          <div class="ctl"><label for="stM">x<sub>M</sub></label><input type="range" id="stM" min="0" max="1.2" step="0.01" value="0.45"><output id="ostM"></output></div>
+          <button class="btn ghost" id="stPlay">Tạm dừng</button>
+        </div>
+        <div class="box"><h3>Đại lượng</h3><dl class="kv" id="stInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== THÊM: HOÁ ===================== -->
+  <section class="panel" id="p-mol" hidden>
+    <div class="lesson"><span class="chip">Hoá học 10</span><h2>Hình học phân tử và lai hoá</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cMol" class="dragc" aria-label="Mô hình phân tử 3D, kéo để xoay"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Phân tử</h3><select id="molSel" aria-label="Chọn phân tử"></select>
+          <label class="check"><input type="checkbox" id="molAuto" checked> Tự xoay</label>
+          <p class="note">Kéo trên hình để xoay phân tử.</p></div>
+        <div class="box"><h3>Đặc điểm</h3><dl class="kv" id="molInfo"></dl><div class="legend" id="molLegend"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-metal" hidden>
+    <div class="lesson"><span class="chip">KHTN 9 · Hoá 12</span><h2>Kim loại tác dụng với nước và acid</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cMetal" aria-label="Cốc thí nghiệm"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thí nghiệm</h3>
+          <select id="mtMetal" aria-label="Kim loại"></select>
+          <select id="mtSol" aria-label="Dung dịch"><option value="w">Nước cất</option><option value="a">Dung dịch HCl loãng</option></select>
+          <label class="check"><input type="checkbox" id="mtPP" checked> Nhỏ sẵn phenolphthalein</label>
+          <div class="row"><button class="btn" id="mtDrop">Thả mẩu kim loại</button><button class="btn ghost" id="mtReset">Rửa cốc</button></div>
+        </div>
+        <div class="box"><h3>Hiện tượng</h3><div class="verdict" id="mtV"></div><div class="formula" id="mtEq"></div><p class="note" id="mtNote"></p></div>
+        <div class="box"><h3>Dãy hoạt động hoá học</h3><div class="row" id="mtSeries" style="gap:4px"></div>
+          <p class="note">Khi Nào Cần May Áo Giáp Sắt Phải Hỏi Cửa Hàng Á Phi Âu.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== THÊM: SINH ===================== -->
+  <section class="panel" id="p-pedigree" hidden>
+    <div class="lesson"><span class="chip">Sinh học 12</span><h2>Phân tích sơ đồ phả hệ</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cPed" aria-label="Sơ đồ phả hệ ba thế hệ"></canvas>
+        <div class="pad" style="padding-top:0"><div class="legend"><span>□ Nam bình thường</span><span>○ Nữ bình thường</span><span><i style="height:10px;width:10px;background:var(--red)"></i>Ô tô màu: người bị bệnh</span></div></div></div>
+      <div class="drawer">
+        <div class="box"><h3>Bệnh này di truyền theo quy luật nào?</h3>
+          <button class="btn ghost" data-g="AD">Gen trội trên NST thường</button>
+          <button class="btn ghost" data-g="AR">Gen lặn trên NST thường</button>
+          <button class="btn ghost" data-g="XR">Gen lặn trên NST X</button>
+          <div class="verdict" id="peV">Quan sát phả hệ rồi chọn một đáp án.</div>
+        </div>
+        <div class="box"><h3>Tuỳ chọn</h3>
+          <button class="btn" id="peNew">Tạo phả hệ mới</button>
+          <label class="check"><input type="checkbox" id="peGeno"> Hiện kiểu gen</label></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-foodweb" hidden>
+    <div class="lesson"><span class="chip">KHTN 8 · Sinh học 12</span><h2>Lưới thức ăn: bỏ một loài thì sao?</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cWeb" aria-label="Lưới thức ăn, bấm vào một loài để loại bỏ"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thao tác</h3><p class="note">Bấm vào một loài để loại bỏ khỏi hệ sinh thái. Bấm lại để đưa loài đó trở về.</p>
+          <button class="btn ghost" id="fwReset">Khôi phục hệ sinh thái</button>
+          <div class="legend"><span><i style="background:var(--green)"></i>Tăng</span><span><i style="background:var(--amber)"></i>Giảm</span><span><i style="background:var(--muted)"></i>Biến mất</span></div></div>
+        <div class="box"><h3>Dự đoán biến động</h3><div id="fwOut" class="note" style="color:var(--ink);display:flex;flex-direction:column;gap:6px"></div></div>
+        <div class="box"><h3>Chuỗi thức ăn</h3><dl class="kv" id="fwInfo"></dl><div id="fwChains" class="note"></div></div>
+      </div>
+    </div>
+  </section>
+  <!-- ===================== LÍ: TỰ LẮP MẠCH ===================== -->
+  <section class="panel" id="p-build" hidden>
+    <div class="lesson"><span class="chip">KHTN 9 · Vật lí 11</span><h2>Tự lắp mạch điện</h2></div>
+    <div class="bench">
+      <div class="stage"><div class="palette" id="bdPal" aria-label="Hộp linh kiện"></div><canvas id="cBuild" class="dragc" aria-label="Bảng lắp mạch"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Cách lắp</h3><p class="note">Chọn <b>Dây nối</b> rồi kéo trên bảng để nối các điểm. Kéo một linh kiện từ hộp linh kiện thả vào giữa hai điểm, hoặc chọn linh kiện rồi bấm vào chỗ cần đặt. Dùng <b>Chọn, sửa</b> để đổi giá trị hoặc bật tắt khoá K.</p>
+          <div class="row"><button class="btn ghost sm" id="bdS1">Mạch mẫu nối tiếp</button><button class="btn ghost sm" id="bdS2">Mạch mẫu song song</button><button class="btn ghost sm" id="bdClear">Xoá hết</button></div></div>
+        <div class="box"><h3>Linh kiện đang chọn</h3><div id="bdEdit" style="display:flex;flex-direction:column;gap:10px"></div></div>
+        <div class="box"><h3>Số đo</h3><div class="verdict" id="bdV"></div><dl class="kv" id="bdInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ĐỊA LÍ ===================== -->
+  <section class="panel" id="p-season" hidden>
+    <div class="lesson"><span class="chip">Địa lí 6 · 10</span><h2>Trái Đất quay quanh Mặt Trời: mùa và độ dài ngày đêm</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cSeason" aria-label="Quỹ đạo Trái Đất và chiếu sáng theo vĩ độ"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Ngày trong năm</h3>
+          <div class="ctl"><label for="seDay">Ngày</label><input type="range" id="seDay" min="1" max="365" step="1" value="172"><output id="oseDay"></output></div>
+          <div class="row"><button class="btn ghost sm" data-day="80">21/3</button><button class="btn ghost sm" data-day="173">22/6</button><button class="btn ghost sm" data-day="266">23/9</button><button class="btn ghost sm" data-day="356">22/12</button><button class="btn sm" id="sePlay">Chạy cả năm</button></div></div>
+        <div class="box"><h3>Vĩ độ quan sát</h3>
+          <div class="ctl"><label for="seLat">φ</label><input type="range" id="seLat" min="-80" max="80" step="0.5" value="21"><output id="oseLat"></output></div>
+          <div class="row"><button class="btn ghost sm" data-lat="21">Hà Nội</button><button class="btn ghost sm" data-lat="16.5">Huế</button><button class="btn ghost sm" data-lat="10.8">TP.HCM</button><button class="btn ghost sm" data-lat="0">Xích đạo</button><button class="btn ghost sm" data-lat="70">Vòng cực</button></div></div>
+        <div class="box"><h3>Kết quả</h3><div class="verdict" id="seV"></div><dl class="kv" id="seInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-daynight" hidden>
+    <div class="lesson"><span class="chip">Địa lí 6</span><h2>Ngày đêm và giờ trên Trái Đất</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cDN" aria-label="Bản đồ ngày đêm và múi giờ"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thời điểm</h3>
+          <div class="ctl"><label for="dnH">GMT</label><input type="range" id="dnH" min="0" max="23.75" step="0.25" value="5"><output id="odnH"></output></div>
+          <div class="ctl"><label for="dnDay">Ngày</label><input type="range" id="dnDay" min="1" max="365" step="1" value="172"><output id="odnDay"></output></div>
+          <button class="btn" id="dnPlay">Cho Trái Đất quay</button></div>
+        <div class="box"><h3>Giờ ở các thành phố</h3><dl class="kv" id="dnInfo"></dl>
+          <p class="note">Giờ khu vực = giờ GMT + số thứ tự múi giờ (phía đông) hoặc trừ đi (phía tây). Việt Nam thuộc múi giờ số 7. Bỏ qua giờ mùa hè.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-climate" hidden>
+    <div class="lesson"><span class="chip">Địa lí 8 · 12</span><h2>Biểu đồ nhiệt độ và lượng mưa</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cClim" aria-label="Biểu đồ khí hậu"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Địa điểm</h3><select id="clCity" aria-label="Địa điểm"></select><select id="clCmp" aria-label="So sánh với"></select></div>
+        <div class="box"><h3>Phân tích</h3><div class="verdict" id="clV"></div><dl class="kv" id="clInfo"></dl>
+          <p class="note">Số liệu trung bình nhiều năm, đã làm tròn, dùng để minh hoạ. Mùa mưa tính theo các tháng có lượng mưa từ 100 mm trở lên.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TIN HỌC ===================== -->
+  <section class="panel" id="p-sort" hidden>
+    <div class="lesson"><span class="chip">Tin học 7 · 11</span><h2>Thuật toán sắp xếp</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cSort" aria-label="Các cột giá trị của mảng"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thuật toán</h3>
+          <select id="srAlg" aria-label="Thuật toán"><option value="bubble">Sắp xếp nổi bọt</option><option value="sel">Sắp xếp chọn</option><option value="ins">Sắp xếp chèn</option></select>
+          <div class="ctl"><label for="srN">n</label><input type="range" id="srN" min="6" max="40" step="1" value="14"><output id="osrN"></output></div>
+          <div class="ctl"><label for="srSp">tốc độ</label><input type="range" id="srSp" min="1" max="40" step="1" value="5"><output id="osrSp"></output></div>
+          <div class="row"><button class="btn ghost" id="srStep">Bước tiếp</button><button class="btn" id="srPlay">Chạy</button><button class="btn ghost" id="srShuf">Trộn mảng</button></div></div>
+        <div class="box"><h3>Mã Python</h3><pre class="code" id="srCode"></pre></div>
+        <div class="box"><h3>Đếm thao tác</h3><dl class="kv" id="srInfo"></dl>
+          <div class="legend"><span><i style="background:var(--amber)"></i>Đang so sánh</span><span><i style="background:var(--rain)"></i>Đổi chỗ</span><span><i style="background:var(--green)"></i>Đã đúng vị trí</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-search" hidden>
+    <div class="lesson"><span class="chip">Tin học 7 · 11</span><h2>Tìm kiếm tuần tự và tìm kiếm nhị phân</h2></div>
+    <div class="bench">
+      <div class="stage pad"><div class="cells" id="scCells"></div><div class="verdict" id="scV"></div></div>
+      <div class="drawer">
+        <div class="box"><h3>Thiết lập</h3>
+          <select id="scAlg" aria-label="Thuật toán"><option value="seq">Tìm kiếm tuần tự</option><option value="bin">Tìm kiếm nhị phân</option></select>
+          <div class="ctl"><label for="scN">n</label><input type="range" id="scN" min="8" max="32" step="1" value="20"><output id="oscN"></output></div>
+          <div class="ctl"><label for="scX">x</label><input type="text" id="scX" inputmode="numeric" aria-label="Giá trị cần tìm"><span></span></div>
+          <div class="row"><button class="btn ghost" id="scStep">Bước tiếp</button><button class="btn" id="scPlay">Chạy</button><button class="btn ghost" id="scNew">Mảng mới</button></div></div>
+        <div class="box"><h3>Mã Python</h3><pre class="code" id="scCode"></pre></div>
+        <div class="box"><h3>Đếm thao tác</h3><dl class="kv" id="scInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-binary" hidden>
+    <div class="lesson"><span class="chip">Tin học 6 · 10</span><h2>Biểu diễn số trong máy tính</h2></div>
+    <div class="bench">
+      <div class="stage pad"><p class="note" style="text-align:center">Bấm vào từng bit để bật hoặc tắt.</p><div class="bits" id="bnBits"></div><div class="formula" id="bnSum" style="text-align:center"></div>
+        <div style="overflow-x:auto"><h3 class="note" style="margin:0 0 6px">Đổi thập phân sang nhị phân: chia liên tiếp cho 2, đọc số dư từ dưới lên</h3><table class="divtab" id="bnDiv"></table></div></div>
+      <div class="drawer">
+        <div class="box"><h3>Số bit</h3><select id="bnW" aria-label="Số bit"><option value="4">4 bit</option><option value="8" selected>8 bit (1 byte)</option><option value="16">16 bit</option></select>
+          <div class="ctl"><label for="bnDec">Số</label><input type="text" id="bnDec" inputmode="numeric" aria-label="Nhập số thập phân"><span></span></div>
+          <div class="row"><button class="btn ghost sm" id="bnInc">+1</button><button class="btn ghost sm" id="bnNot">Đảo tất cả bit</button><button class="btn ghost sm" id="bnZero">Về 0</button></div></div>
+        <div class="box"><h3>Cùng một dãy bit</h3><dl class="kv" id="bnInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
