@@ -82,6 +82,18 @@ canvas.tall{height:clamp(460px,78vh,800px)}
 .b3bar button{background:none;border:none;color:#e8ecf7;font:600 .82rem var(--f-body);padding:7px 10px;cursor:pointer;display:flex;align-items:center}
 .b3bar button:hover{background:rgba(255,255,255,.1)}
 .b3bar .sep{width:1px;background:rgba(255,255,255,.18);margin:4px 3px}
+.b3card{position:absolute;right:12px;top:64px;width:min(300px,46%);background:rgba(13,17,32,.92);color:#e8ecf7;border:1px solid rgba(255,255,255,.14);border-left:4px solid #ffd300;padding:12px 14px;font-size:.86rem;backdrop-filter:blur(6px);z-index:2}
+.b3card small{display:block;color:#aeb8d4;font-size:.74rem;text-transform:uppercase;letter-spacing:.05em}
+.b3card b{display:block;font-size:1.08rem;margin:2px 0 6px;padding-right:22px}
+.b3card p{margin:0 0 10px;line-height:1.45;color:#c9d1e6}
+.b3card .x{position:absolute;right:6px;top:2px;background:none;border:none;color:#aeb8d4;font-size:22px;cursor:pointer;line-height:1}
+.b3cbtn{display:flex;gap:6px;flex-wrap:wrap}
+.b3cbtn button,.b3show{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;font:600 .8rem var(--f-body);padding:6px 10px;cursor:pointer}
+.b3cbtn button:hover,.b3show:hover{background:rgba(255,255,255,.16)}
+.b3cbtn button[aria-pressed="true"]{background:#ffd300;color:#10162f;border-color:#ffd300}
+.b3show{margin-top:10px;width:100%}
+.b3search{z-index:3}
+@media (max-width:700px){.b3card{top:auto;bottom:64px;right:8px;width:calc(100% - 16px)}}
 .b3labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .b3lab{position:absolute;transform:translate(-50%,-50%);font:600 .74rem var(--f-body);color:#fff;background:rgba(11,15,30,.72);padding:2px 7px;border-left:3px solid;white-space:nowrap}
 .b3lab.on{background:#ffd300;color:#10162f;font-weight:700}
@@ -1291,14 +1303,16 @@ V = n · 24,79 L  (khí, 25 °C, 1 bar)</div><dl class="kv" id="moInfo"></dl></d
           <label class="b3chk"><input type="checkbox" id="b3Cut"> Mặt cắt dọc</label>
           <div class="b3sl" id="b3CutRow" hidden><label for="b3CutP">Vị trí</label><input type="range" id="b3CutP" min="-1" max="1" step="0.02" value="0"></div>
           <label class="b3chk"><input type="checkbox" id="b3Spin"> Tự xoay</label>
+          <button class="b3show" id="b3ShowAll" hidden>Hiện lại các phần đã ẩn</button>
         </details>
         <div class="b3search"><input type="text" id="b3Q" placeholder="Tìm: tim, gan, thuỳ trán, liver…" aria-label="Tìm bộ phận" autocomplete="off"><div id="b3Res"></div></div>
         <div class="b3labels" id="b3Labels"></div>
+        <div class="b3card" id="b3Card" hidden><button class="x" id="b3CardX" aria-label="Đóng">×</button><small id="b3CSys"></small><b id="b3CName"></b><p id="b3CDesc"></p><div class="b3cbtn"><button id="b3Iso" aria-pressed="false">Cô lập</button><button id="b3Hide">Ẩn đi</button><button id="b3Go">Phóng tới</button></div></div>
         <div class="b3bar" role="toolbar" aria-label="Điều khiển góc nhìn"><button data-v="front">Trước</button><button data-v="back">Sau</button><button data-v="left">Trái</button><button data-v="right">Phải</button><button data-v="top">Trên</button><button data-v="bottom">Dưới</button><span class="sep"></span><button id="b3Out" aria-label="Thu nhỏ">−</button><button id="b3In" aria-label="Phóng to">+</button><span class="sep"></span><button id="b3Home">Đặt lại</button><button id="b3Full" aria-label="Toàn màn hình"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></button></div>
       </div>
       <div class="drawer">
         <div class="box"><h3>Hệ cơ quan</h3>
-          <div class="row"><button class="btn ghost sm" data-b3="toan">Toàn thân</button><button class="btn ghost sm" data-b3="tim">Tim</button><button class="btn ghost sm" data-b3="nao">Não</button><button class="btn ghost sm" data-b3="hohap">Hệ hô hấp</button><button class="btn ghost sm" data-b3="tieuhoa">Hệ tiêu hoá</button></div>
+          <div class="row"><button class="btn ghost sm" data-b3="toan">Toàn thân</button><button class="btn ghost sm" data-b3="tim">Tim</button><button class="btn ghost sm" data-b3="nao">Não</button><button class="btn ghost sm" data-b3="hohap">Hệ hô hấp</button><button class="btn ghost sm" data-b3="tieuhoa">Hệ tiêu hoá</button><button class="btn ghost sm" data-b3="co">Hệ cơ</button><button class="btn ghost sm" data-b3="baitiet">Hệ bài tiết</button><button class="btn ghost sm" data-b3="noitiet">Nội tiết, miễn dịch</button></div>
           <p class="note">Kéo để xoay, cuộn hoặc chụm hai ngón để phóng to, rê chuột để đọc tên, bấm để xem chi tiết.</p></div>
         <div class="box"><h3 id="b3Name">Toàn thân</h3><p style="margin:0" id="b3Desc">Bấm vào một cơ quan trên mô hình, máy sẽ phóng to vào hệ cơ quan đó.</p><dl class="kv" id="b3Info"></dl></div>
         <div class="box"><h3>Các bộ phận</h3><div class="row" id="b3Parts"></div></div>
