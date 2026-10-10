@@ -37,12 +37,19 @@ const LABS=[
   {id:'circuit',subj:'ly',grade:'KHTN 9',name:'Mạch nối tiếp, song song'},
   {id:'build',subj:'ly',grade:'KHTN 9 · Lí 11',name:'Tự lắp mạch điện'},
   {id:'ohm',subj:'ly',grade:'Vật lí 11',name:'Định luật Ohm toàn mạch'},
+  {id:'kin',subj:'ly',grade:'Vật lí 10',name:'Chuyển động thẳng biến đổi đều'},
+  {id:'fall',subj:'ly',grade:'Vật lí 10',name:'Rơi tự do, ném ngang'},
   {id:'projectile',subj:'ly',grade:'Vật lí 10',name:'Ném xiên'},
+  {id:'force',subj:'ly',grade:'Vật lí 10',name:'Tổng hợp lực'},
+  {id:'collide',subj:'ly',grade:'Vật lí 10',name:'Va chạm, động lượng'},
   {id:'lens',subj:'ly',grade:'KHTN 9 · Lí 11',name:'Thấu kính'},
   {id:'refr',subj:'ly',grade:'KHTN 9 · Lí 11',name:'Khúc xạ ánh sáng'},
+  {id:'shm',subj:'ly',grade:'Vật lí 11',name:'Dao động điều hoà'},
   {id:'pend',subj:'ly',grade:'Vật lí 11',name:'Con lắc đơn'},
   {id:'string',subj:'ly',grade:'Vật lí 11',name:'Sóng trên dây, sóng dừng'},
   {id:'wave',subj:'ly',grade:'Vật lí 11',name:'Giao thoa sóng'},
+  {id:'efield',subj:'ly',grade:'Vật lí 11',name:'Điện trường'},
+  {id:'drift',subj:'ly',grade:'Vật lí 11',name:'Electron trong dây dẫn'},
   {id:'ptable',subj:'hoa',grade:'Hoá 10',name:'Bảng tuần hoàn'},
   {id:'mol',subj:'hoa',grade:'Hoá 10',name:'Phân tử 3D, lai hoá'},
   {id:'balance',subj:'hoa',grade:'KHTN 8',name:'Cân bằng phương trình'},
@@ -93,16 +100,24 @@ const owl=k=>`<svg class="owl" viewBox="0 0 112 100" aria-hidden="true">
   ${PROP[k]}</svg>`;
 const CHECK='<span class="seen" aria-label="đã xem"><svg viewBox="0 0 12 12" fill="none" stroke="#10162f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5"/></svg></span>';
 let SEEN=new Set();try{SEEN=new Set(JSON.parse(localStorage.getItem('lab-seen')||'[]'))}catch(e){}
-tabs.forEach(b=>{b.querySelector('.ic').innerHTML=SUBJ[b.dataset.t].icon;b.querySelector('small').textContent=LABS.filter(l=>l.subj===b.dataset.t).length;
-  b.onclick=()=>show(lastBySubj[b.dataset.t]||LABS.find(l=>l.subj===b.dataset.t).id)});
-function show(id){const L=LABS.find(l=>l.id===id)||LABS[0];cur=L.id;lastBySubj[L.subj]=L.id;
+// lọc theo khối lớp: lấy các số lớp trong nhãn, ví dụ "KHTN 9 · Lí 11" → [9, 11]
+LABS.forEach(l=>l.grades=(l.grade.match(/\d+/g)||[]).map(Number));
+let GRADE=0;try{GRADE=+localStorage.getItem('lab-grade')||0}catch(e){}
+const okG=l=>!GRADE||l.grades.includes(GRADE);
+$('gradeNav').innerHTML=[0,6,7,8,9,10,11,12].map(g=>`<button class="gbtn" data-g="${g}" aria-label="${g?'Lớp '+g:'Tất cả các lớp'}">${g||'Tất cả'}</button>`).join('');
+$('gradeNav').addEventListener('click',e=>{const b=e.target.closest('.gbtn');if(!b)return;GRADE=+b.dataset.g;try{localStorage.setItem('lab-grade',GRADE)}catch(e){}show(cur)});
+tabs.forEach(b=>{b.querySelector('.ic').innerHTML=SUBJ[b.dataset.t].icon;
+  b.onclick=()=>{const list=LABS.filter(l=>l.subj===b.dataset.t&&okG(l));if(!list.length)return;show(list.some(l=>l.id===lastBySubj[b.dataset.t])?lastBySubj[b.dataset.t]:list[0].id)}});
+function show(id){let L=LABS.find(l=>l.id===id)||LABS[0];if(!okG(L))L=LABS.find(l=>l.subj===L.subj&&okG(l))||LABS.find(okG)||L;cur=L.id;lastBySubj[L.subj]=L.id;
+  tabs.forEach(b=>{const n=LABS.filter(l=>l.subj===b.dataset.t&&okG(l)).length;b.querySelector('small').textContent=n;b.disabled=!n});
+  document.querySelectorAll('#gradeNav .gbtn').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.g===GRADE));
   document.documentElement.dataset.subj=L.subj;const SJ=SUBJ[L.subj];
   SEEN.add(L.id);try{localStorage.setItem('lab-seen',JSON.stringify([...SEEN]))}catch(e){}
-  const inSubj=LABS.filter(l=>l.subj===L.subj),nSeen=inSubj.filter(l=>SEEN.has(l.id)).length;
+  const inSubj=LABS.filter(l=>l.subj===L.subj&&okG(l)),nSeen=inSubj.filter(l=>SEEN.has(l.id)).length;
   $('bandIcon').innerHTML=owl(L.subj);$('bandName').textContent=SJ.name;$('bandDesc').textContent=SJ.desc;
-  $('progTxt').textContent=`Đã mở ${nSeen}/${inSubj.length} bài`;$('progBar').style.width=Math.round(nSeen/inSubj.length*100)+'%';
+  $('progTxt').textContent=(GRADE?`Lớp ${GRADE} · `:'')+`Đã mở ${nSeen}/${inSubj.length} bài`;$('progBar').style.width=Math.round(nSeen/inSubj.length*100)+'%';
   tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.t===L.subj));
-  $('labNav').innerHTML=LABS.filter(l=>l.subj===L.subj).map(l=>`<button class="labbtn" data-id="${l.id}" aria-current="${l.id===L.id}">${SEEN.has(l.id)?CHECK:''}${l.name}</button>`).join('');
+  $('labNav').innerHTML=inSubj.map(l=>`<button class="labbtn" data-id="${l.id}" aria-current="${l.id===L.id}">${SEEN.has(l.id)?CHECK:''}${l.name}</button>`).join('');
   document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!=='p-'+L.id);
   try{localStorage.setItem('lab-cur',L.id)}catch(e){}
   try{history.replaceState(null,'','#'+L.id)}catch(e){}
