@@ -12,7 +12,7 @@ HEAD_END=$(grep -n '</style>' src/1-page.html | head -1 | cut -d: -f1)
   echo '<head>'
   echo '<meta charset="utf-8">'
   echo '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
-  echo '<meta name="description" content="Phòng Lab Ảo: mô phỏng tương tác cho giáo viên Toán, Lí, Hoá, Sinh, Địa, Tin cấp 2 và cấp 3.">'
+  echo '<meta name="description" content="VirLabs: mô phỏng tương tác cho giáo viên Toán, Lí, Hoá, Sinh, Địa, Tin cấp 2 và cấp 3.">'
   head -n "$HEAD_END" src/1-page.html
   echo '</head>'
   echo '<body>'

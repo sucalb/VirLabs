@@ -1,4 +1,6 @@
-# Phòng Lab Ảo
+# VirLabs
+
+Phát triển bởi thầy Bùi Đức Hoàng.
 
 Bộ mô phỏng tương tác để giáo viên cấp 2 và cấp 3 trình chiếu trên lớp: 53 bài lab cho 6 môn, bám theo chương trình GDPT 2018, lọc được theo lớp 6 đến 12.
 

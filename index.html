@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Phòng Lab Ảo: mô phỏng tương tác cho giáo viên Toán, Lí, Hoá, Sinh, Địa, Tin cấp 2 và cấp 3.">
-<title>Phòng Lab Ảo</title>
+<meta name="description" content="VirLabs: mô phỏng tương tác cho giáo viên Toán, Lí, Hoá, Sinh, Địa, Tin cấp 2 và cấp 3.">
+<title>VirLabs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
 <style>
@@ -52,6 +52,9 @@ button:focus-visible,select:focus-visible,input:focus-visible,.el:focus-visible{
 .gbtn{min-width:42px;padding:6px 10px;border:1px solid var(--navy);background:var(--surface);color:var(--navy);font:600 .88rem var(--f-mono);cursor:pointer;border-radius:2px}
 .gbtn:hover{box-shadow:-3px 3px 0 var(--navy);transform:translate(1px,-1px)}
 .gbtn[aria-pressed="true"]{background:var(--navy);color:#fff}
+.credit{max-width:1320px;margin:0 auto;padding-inline:16px;padding-block:0 28px;font-size:.82rem;color:var(--muted);text-align:center}
+.credit b{color:var(--ink);font-weight:600}
+body.present .credit{display:none}
 .tipcard{border:1px solid var(--navy);border-radius:14px;background:var(--surface);padding:18px;display:flex;flex-direction:column;gap:8px}
 .tipcard h2{font:700 1.05rem var(--f-display);margin:0}
 .tipcard p{margin:0;font-size:.9rem}
@@ -223,7 +226,7 @@ body.present canvas:not(.small){height:clamp(360px,72vh,760px)}
 <body>
 
 <div class="top"><div class="topin">
-    <h1 class="logo"><b>Lab</b>ảo</h1><span class="topnote">Mô phỏng trình chiếu cho giáo viên cấp 2 và cấp 3</span>
+    <h1 class="logo"><b>Vir</b>Labs</h1><span class="topnote">Mô phỏng trình chiếu cho giáo viên cấp 2 và cấp 3</span>
     <button class="btn" id="present">Chế độ trình chiếu</button></div></div>
 <div class="wrap">
   <aside class="side">
@@ -1137,6 +1140,7 @@ P = I²·R</div><dl class="kv" id="ohInfo"></dl><div class="verdict" id="ohV"></
   </section>
 </main>
 </div>
+<footer class="credit">VirLabs · Phát triển bởi thầy <b>Bùi Đức Hoàng</b></footer>
 <script>
 (()=>{
 'use strict';
