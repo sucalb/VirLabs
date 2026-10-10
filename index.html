@@ -3503,7 +3503,7 @@ const loadScript=src=>new Promise((res,rej)=>{if(document.querySelector(`script[
 async function init(){if(B.state!=='idle')return;B.state='loading';
   try{await loadScript('https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js');await loadScript('https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js')}
   catch(e){B.state='idle';$('b3load').textContent='Không tải được thư viện 3D. Hãy kiểm tra kết nối mạng rồi mở lại bài này.';return}
-  let meta,buf;try{[meta,buf]=await Promise.all([fetch('models/body.json').then(r=>{if(!r.ok)throw 0;return r.json()}),fetch('models/body.bin').then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()})])}
+  let meta,buf;try{[meta,buf]=await Promise.all([fetch('models/body.json').then(r=>{if(!r.ok)throw 0;return r.json()}),fetch('models/body.bin').then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}).catch(()=>fetch('models/body.b64.txt').then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{const b=atob(t.trim()),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u.buffer}))])}
   catch(e){B.state='idle';$('b3load').textContent='Không tải được dữ liệu mô hình (models/body.bin).';return}
   build(meta,buf);B.state='ready';$('b3load').hidden=true;setView('toan',true)}
 function build(meta,buf){const T=THREE,cv=$('cBody');
