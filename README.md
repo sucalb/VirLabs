@@ -2,14 +2,14 @@
 
 Phát triển bởi thầy Bùi Đức Hoàng.
 
-Bộ mô phỏng tương tác để giáo viên cấp 2 và cấp 3 trình chiếu trên lớp: 53 bài lab cho 6 môn, bám theo chương trình GDPT 2018, lọc được theo lớp 6 đến 12.
+Bộ mô phỏng tương tác để giáo viên cấp 2 và cấp 3 trình chiếu trên lớp: 61 bài lab cho 6 môn, bám theo Chương trình giáo dục phổ thông 2018 (đã sửa đổi, bổ sung theo Thông tư 17/2025/TT-BGDĐT), lọc được theo lớp 6 đến 12.
 
 | Môn | Bài lab |
 |---|---|
 | Toán | Số nguyên trên trục số, phân số (lớp 6); tổng ba góc tam giác (7); định lí Pythagore (8); góc nội tiếp, parabol (9); xác suất thực nghiệm; đường tròn lượng giác, hình khối và thiết diện (11); hàm số bậc ba, tích phân (12) |
 | Vật lí | Gương phẳng, âm thanh (KHTN 7); lực đẩy Archimedes, đòn bẩy (KHTN 8); mạch nối tiếp và song song, tự lắp mạch điện, thấu kính, khúc xạ (lớp 9); chuyển động thẳng biến đổi đều, rơi tự do và ném ngang, ném xiên, tổng hợp lực, va chạm và động lượng (lớp 10); dao động điều hoà, con lắc đơn, sóng trên dây, giao thoa sóng, điện trường, electron trong dây dẫn, định luật Ohm toàn mạch (lớp 11) |
-| Hoá học | Bảng tuần hoàn, phân tử 3D, cân bằng phương trình, tốc độ phản ứng, kim loại tác dụng với nước và acid, chuẩn độ acid – base, pin điện hoá |
-| Sinh học | Quang hợp, nguyên phân và giảm phân, lai Mendel, phả hệ, phiên mã và dịch mã, lưới thức ăn, quần thể thỏ – mèo rừng |
+| Hoá học | Bảng tuần hoàn, phân tử 3D, cân bằng phương trình, tốc độ phản ứng, lắp ráp nguyên tử, thang pH và chất chỉ thị, mol và khối lượng mol, cân bằng hoá học, kim loại tác dụng với nước và acid, chuẩn độ acid – base, pin điện hoá |
+| Sinh học | Cấu tạo tế bào, thẩm thấu, tuần hoàn máu, xác định giới tính, quang hợp, nguyên phân và giảm phân, lai Mendel, phả hệ, phiên mã và dịch mã, lưới thức ăn, quần thể thỏ – mèo rừng |
 | Địa lí | Tỉ lệ bản đồ, mùa và độ dài ngày đêm, ngày đêm và múi giờ, biểu đồ khí hậu |
 | Tin học | Thuật toán sắp xếp, tìm kiếm tuần tự và nhị phân, hệ nhị phân, mã màu RGB |
 
@@ -25,6 +25,8 @@ Mã nguồn nằm trong `src/`, chia theo môn:
 - `6-build.js`: bài tự lắp mạch điện
 - `10-ly2.js`: các bài Vật lí lớp 10 và 11 bổ sung
 - `11-more.js`, `12-more2.js`: các bài bổ sung theo chương trình GDPT 2018
+- `2b-art.js`: bộ minh hoạ tự vẽ (con vật, đồ vật, toà nhà) dùng chung
+- `13-hoasinh.js`: các bài Hoá và Sinh bổ sung
 - `9-boot.js`: ô chọn (dropdown) đồng bộ giao diện và khởi động trang
 
 Sau khi sửa, chạy lệnh sau để tạo lại `index.html`:

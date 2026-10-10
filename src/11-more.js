@@ -23,7 +23,7 @@ const draw=canvasOf($('cInt'),(c,w,h)=>{const v=val(),R=Math.max(12,Math.abs(v.a
     if(p>0){c.lineWidth=3;c.beginPath();for(let i=0;i<=40;i++){const q=pt(i/40*p);i?c.lineTo(...q):c.moveTo(...q)}c.stroke();if(p>=1&&x1!==x2){c.fillStyle=col;arrowHead(c,X(x2),y0-2,Math.atan2(2*H,X(x2)-mx),10)}}
     c.fillStyle=col;c.font=font(700,14,'f-mono');c.textAlign='center';c.textBaseline='bottom';c.fillText(lab,mx,y0-H-8);return pt};
   const p1=hop(0,v.a,css('accent'),(v.a>0?'+':'')+neg(v.a),Math.min(1,I.t)),p2=hop(v.a,v.r,css('red'),(v.step>0?'+':'')+neg(v.step),Math.max(0,Math.min(1,I.t-1)));
-  const fp=I.t<1?p1(I.t):p2(Math.min(1,I.t-1));c.font=`34px ${EMOJI}`;c.textAlign='center';c.textBaseline='bottom';c.fillText('🐸',fp[0],fp[1]+6);
+  const fp=I.t<1?p1(I.t):p2(Math.min(1,I.t-1));drawArt(c,'frog',fp[0],fp[1]-14,44);
   if(I.t>=2){c.fillStyle=css('ink');c.beginPath();c.arc(X(v.r),y0,6,0,7);c.fill();c.font=font(700,13);c.textBaseline='top';c.fillText('kết quả '+neg(v.r),X(v.r),y0+50)}});
 document.querySelectorAll('#p-intline [data-op]').forEach(b=>b.onclick=()=>{I.op=+b.dataset.op;up(true)});
 $('inGo').onclick=()=>{I.t=0;I.play=true};['inA','inB'].forEach(id=>$(id).addEventListener('input',()=>up(true)));

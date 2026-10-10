@@ -3,7 +3,7 @@
 set -e
 cd "$(dirname "$0")"
 JS=$(mktemp -t lab).js
-{ echo '(()=>{'; cat src/2-core-toan.js src/3-ly.js src/4-hoa.js src/5-sinh.js src/6-build.js src/7-dia.js src/8-tin.js src/10-ly2.js src/11-more.js src/12-more2.js src/9-boot.js; echo '})();'; } > "$JS"
+{ echo '(()=>{'; cat src/2-core-toan.js src/2b-art.js src/3-ly.js src/4-hoa.js src/5-sinh.js src/6-build.js src/7-dia.js src/8-tin.js src/10-ly2.js src/11-more.js src/12-more2.js src/13-hoasinh.js src/9-boot.js; echo '})();'; } > "$JS"
 if command -v node >/dev/null 2>&1; then node --check "$JS"; fi
 HEAD_END=$(grep -n '</style>' src/1-page.html | head -1 | cut -d: -f1)
 {

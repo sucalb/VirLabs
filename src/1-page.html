@@ -50,6 +50,10 @@ button:focus-visible,select:focus-visible,input:focus-visible,.el:focus-visible{
 .credit{max-width:1320px;margin:0 auto;padding-inline:16px;padding-block:0 28px;font-size:.82rem;color:var(--muted);text-align:center}
 .credit b{color:var(--ink);font-weight:600}
 body.present .credit{display:none}
+.counter{display:grid;grid-template-columns:1fr auto 44px auto;align-items:center;gap:8px}
+.counter .cl{font-size:.92rem}
+.counter .cl i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+.counter b{font:700 1.2rem var(--f-mono);text-align:center}
 .tipcard{border:1px solid var(--navy);border-radius:14px;background:var(--surface);padding:18px;display:flex;flex-direction:column;gap:8px}
 .tipcard h2{font:700 1.05rem var(--f-display);margin:0}
 .tipcard p{margin:0;font-size:.9rem}
@@ -219,7 +223,7 @@ body.present canvas:not(.small){height:clamp(360px,72vh,760px)}
 </style>
 
 <div class="top"><div class="topin">
-    <h1 class="logo"><b>Vir</b>Labs</h1><span class="topnote">Mô phỏng trình chiếu cho giáo viên cấp 2 và cấp 3</span>
+    <h1 class="logo"><b>Vir</b>Labs</h1><span class="topnote">Mô phỏng cho giáo viên cấp 2, cấp 3 · Theo Chương trình GDPT 2018 (sửa đổi theo Thông tư 17/2025)</span>
     <button class="btn" id="present">Chế độ trình chiếu</button></div></div>
 <div class="wrap">
   <aside class="side">
@@ -754,7 +758,7 @@ P = I²·R</div><dl class="kv" id="ohInfo"></dl><div class="verdict" id="ohV"></
       <div class="stage"><canvas id="cClim" aria-label="Biểu đồ khí hậu"></canvas></div>
       <div class="drawer">
         <div class="box"><h3>Địa điểm</h3><select id="clCity" aria-label="Địa điểm"></select><select id="clCmp" aria-label="So sánh với"></select></div>
-        <div class="box"><h3>Phân tích</h3><div class="verdict" id="clV"></div><dl class="kv" id="clInfo"></dl>
+        <div class="box"><h3>Phân tích</h3><div class="verdict" id="clV"></div><dl class="kv" id="cmInfo"></dl>
           <p class="note">Số liệu trung bình nhiều năm, đã làm tròn, dùng để minh hoạ. Mùa mưa tính theo các tháng có lượng mưa từ 100 mm trở lên.</p></div>
       </div>
     </div>
@@ -1128,6 +1132,114 @@ P = I²·R</div><dl class="kv" id="ohInfo"></dl><div class="verdict" id="ohV"></
           <p class="note">Kéo hai đầu thước đỏ trên bản đồ. Đầu thước tự bám vào địa điểm khi kéo lại gần.</p>
           <div class="row"><button class="btn ghost sm" data-ms="0,1">Nhà → Trường</button><button class="btn ghost sm" data-ms="0,2">Nhà → Chợ</button><button class="btn ghost sm" data-ms="3,4">Bưu điện → Bệnh viện</button></div></div>
         <div class="box"><h3>Khoảng cách</h3><dl class="kv" id="msInfo"></dl><div class="verdict" id="msV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOÁ, SINH BỔ SUNG ===================== -->
+  <section class="panel" id="p-atom" hidden>
+    <div class="lesson"><span class="chip">KHTN 7 · Hoá học 10</span><h2>Lắp ráp nguyên tử</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cAtom" aria-label="Mô hình nguyên tử với hạt nhân và các lớp electron"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Số hạt</h3>
+          <div class="counter"><span class="cl"><i style="background:var(--red)"></i>Proton (p)</span><button class="btn ghost sm" data-ad="p,-1" aria-label="Bớt proton">−</button><b id="atP"></b><button class="btn ghost sm" data-ad="p,1" aria-label="Thêm proton">+</button></div>
+          <div class="counter"><span class="cl"><i style="background:var(--muted)"></i>Neutron (n)</span><button class="btn ghost sm" data-ad="n,-1" aria-label="Bớt neutron">−</button><b id="atN"></b><button class="btn ghost sm" data-ad="n,1" aria-label="Thêm neutron">+</button></div>
+          <div class="counter"><span class="cl"><i style="background:var(--rain)"></i>Electron (e)</span><button class="btn ghost sm" data-ad="e,-1" aria-label="Bớt electron">−</button><b id="atE"></b><button class="btn ghost sm" data-ad="e,1" aria-label="Thêm electron">+</button></div>
+          <div class="row"><button class="btn ghost sm" data-at="1,0,1">H</button><button class="btn ghost sm" data-at="6,6,6">C</button><button class="btn ghost sm" data-at="6,8,6">¹⁴C</button><button class="btn ghost sm" data-at="8,8,8">O</button><button class="btn ghost sm" data-at="11,12,10">Na⁺</button><button class="btn ghost sm" data-at="17,18,18">Cl⁻</button></div></div>
+        <div class="box"><h3>Nguyên tử tạo thành</h3><div class="big" id="atSym" style="text-align:center"></div><dl class="kv" id="atInfo"></dl><div class="verdict" id="atV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-ph" hidden>
+    <div class="lesson"><span class="chip">KHTN 8 · Hoá học 11</span><h2>Thang pH và chất chỉ thị</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cPh" aria-label="Thang pH và ống nghiệm có chất chỉ thị"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Dung dịch</h3><select id="phSub" aria-label="Dung dịch"></select>
+          <div class="row"><span class="note">Chất chỉ thị:</span><button class="btn ghost sm" data-pi="quy">Quỳ tím</button><button class="btn ghost sm" data-pi="pp">Phenolphthalein</button><button class="btn ghost sm" data-pi="un">Chỉ thị vạn năng</button></div></div>
+        <div class="box"><h3>Kết quả</h3><dl class="kv" id="phInfo2"></dl><div class="verdict" id="phV2"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-equil" hidden>
+    <div class="lesson"><span class="chip">Hoá học 11</span><h2>Cân bằng hoá học và nguyên lí Le Chatelier</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cEqb" aria-label="Xi lanh chứa hỗn hợp NO₂ và N₂O₄"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Điều kiện</h3><div class="formula">2NO₂ (nâu đỏ) ⇌ N₂O₄ (không màu)   ΔH &lt; 0</div>
+          <div class="ctl"><label for="eqT">T</label><input type="range" id="eqT" min="273" max="373" step="1" value="298"><output id="oeqT"></output></div>
+          <div class="ctl"><label for="eqP">P</label><input type="range" id="eqP" min="0.5" max="4" step="0.1" value="1"><output id="oeqP"></output></div>
+          <div class="row"><button class="btn ghost sm" id="eqHot">Ngâm nước nóng</button><button class="btn ghost sm" id="eqCold">Ngâm nước đá</button><button class="btn ghost sm" id="eqPush">Nén pít-tông</button></div></div>
+        <div class="box"><h3>Trạng thái cân bằng</h3><dl class="kv" id="eqInfo"></dl><div class="verdict" id="eqV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-mole" hidden>
+    <div class="lesson"><span class="chip">KHTN 8</span><h2>Mol, khối lượng mol và thể tích chất khí</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cMole" aria-label="Cân, số hạt và bóng khí ứng với lượng chất"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Chất và lượng chất</h3><select id="moSub" aria-label="Chất"></select>
+          <div class="ctl"><label for="moN">n</label><input type="range" id="moN" min="0.1" max="5" step="0.1" value="1"><output id="omoN"></output></div></div>
+        <div class="box"><h3>Công thức</h3><div class="formula pre">m = n · M
+N = n · 6,022·10²³
+V = n · 24,79 L  (khí, 25 °C, 1 bar)</div><dl class="kv" id="moInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-cellstruct" hidden>
+    <div class="lesson"><span class="chip">KHTN 6 · Sinh học 10</span><h2>Cấu tạo tế bào động vật và tế bào thực vật</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cCs" aria-label="Sơ đồ tế bào, bấm vào bào quan để xem chức năng"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Loại tế bào</h3><div class="row"><button class="btn ghost sm" data-ct2="dv">Tế bào động vật</button><button class="btn ghost sm" data-ct2="tv">Tế bào thực vật</button></div>
+          <label class="check"><input type="checkbox" id="csLab" checked> Hiện tên các bào quan</label><p class="note">Bấm vào một bào quan trên hình để xem chức năng.</p></div>
+        <div class="box"><h3 id="csName">Bào quan</h3><p style="margin:0" id="csDesc"></p></div>
+        <div class="box"><h3>So sánh</h3><dl class="kv" id="csCmp"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-osmosis" hidden>
+    <div class="lesson"><span class="chip">Sinh học 10</span><h2>Thẩm thấu: tế bào trong các môi trường</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cOs" aria-label="Tế bào đặt trong dung dịch muối"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thí nghiệm</h3><div class="row"><button class="btn ghost sm" data-oc="hc">Tế bào hồng cầu</button><button class="btn ghost sm" data-oc="tv">Tế bào thực vật</button></div>
+          <div class="ctl"><label for="osC">NaCl</label><input type="range" id="osC" min="0" max="3" step="0.1" value="0.9"><output id="oosC"></output></div>
+          <div class="row"><button class="btn ghost sm" data-ov="0">Nước cất</button><button class="btn ghost sm" data-ov="0.9">0,9 % (sinh lí)</button><button class="btn ghost sm" data-ov="3">3 %</button></div></div>
+        <div class="box"><h3>Hiện tượng</h3><dl class="kv" id="osInfo"></dl><div class="verdict" id="osV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-heart" hidden>
+    <div class="lesson"><span class="chip">KHTN 8</span><h2>Tim và hai vòng tuần hoàn máu</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cHeart" aria-label="Sơ đồ tim, phổi, cơ thể và dòng máu"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Nhịp tim</h3>
+          <div class="ctl"><label for="htR">nhịp</label><input type="range" id="htR" min="50" max="160" step="5" value="75"><output id="ohtR"></output></div>
+          <div class="row"><button class="btn ghost sm" data-hr="60">Nghỉ ngơi</button><button class="btn ghost sm" data-hr="75">Bình thường</button><button class="btn ghost sm" data-hr="140">Chạy bộ</button></div>
+          <button class="btn" id="htPlay">Tạm dừng</button></div>
+        <div class="box"><h3>Chu kì tim</h3><dl class="kv" id="htInfo"></dl><div class="verdict" id="htV"></div>
+          <div class="legend"><span><i style="background:var(--red)"></i>Máu đỏ tươi (giàu O₂)</span><span><i style="background:var(--rain)"></i>Máu đỏ thẫm (nhiều CO₂)</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-sexdet" hidden>
+    <div class="lesson"><span class="chip">Sinh học 9 · 12</span><h2>Cơ chế xác định giới tính ở người</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cSex" aria-label="Sơ đồ lai XX × XY và các em bé được sinh ra"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thực nghiệm</h3><div class="row"><button class="btn" data-sb="1">Sinh 1 bé</button><button class="btn ghost" data-sb="10">+10</button><button class="btn ghost" data-sb="100">+100</button><button class="btn ghost" id="sxReset">Làm lại</button></div></div>
+        <div class="box"><h3>Tỉ lệ</h3><dl class="kv" id="sxInfo"></dl><div class="verdict" id="sxV"></div></div>
       </div>
     </div>
   </section>

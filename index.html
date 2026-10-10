@@ -56,6 +56,10 @@ button:focus-visible,select:focus-visible,input:focus-visible,.el:focus-visible{
 .credit{max-width:1320px;margin:0 auto;padding-inline:16px;padding-block:0 28px;font-size:.82rem;color:var(--muted);text-align:center}
 .credit b{color:var(--ink);font-weight:600}
 body.present .credit{display:none}
+.counter{display:grid;grid-template-columns:1fr auto 44px auto;align-items:center;gap:8px}
+.counter .cl{font-size:.92rem}
+.counter .cl i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+.counter b{font:700 1.2rem var(--f-mono);text-align:center}
 .tipcard{border:1px solid var(--navy);border-radius:14px;background:var(--surface);padding:18px;display:flex;flex-direction:column;gap:8px}
 .tipcard h2{font:700 1.05rem var(--f-display);margin:0}
 .tipcard p{margin:0;font-size:.9rem}
@@ -227,7 +231,7 @@ body.present canvas:not(.small){height:clamp(360px,72vh,760px)}
 <body>
 
 <div class="top"><div class="topin">
-    <h1 class="logo"><b>Vir</b>Labs</h1><span class="topnote">Mô phỏng trình chiếu cho giáo viên cấp 2 và cấp 3</span>
+    <h1 class="logo"><b>Vir</b>Labs</h1><span class="topnote">Mô phỏng cho giáo viên cấp 2, cấp 3 · Theo Chương trình GDPT 2018 (sửa đổi theo Thông tư 17/2025)</span>
     <button class="btn" id="present">Chế độ trình chiếu</button></div></div>
 <div class="wrap">
   <aside class="side">
@@ -762,7 +766,7 @@ P = I²·R</div><dl class="kv" id="ohInfo"></dl><div class="verdict" id="ohV"></
       <div class="stage"><canvas id="cClim" aria-label="Biểu đồ khí hậu"></canvas></div>
       <div class="drawer">
         <div class="box"><h3>Địa điểm</h3><select id="clCity" aria-label="Địa điểm"></select><select id="clCmp" aria-label="So sánh với"></select></div>
-        <div class="box"><h3>Phân tích</h3><div class="verdict" id="clV"></div><dl class="kv" id="clInfo"></dl>
+        <div class="box"><h3>Phân tích</h3><div class="verdict" id="clV"></div><dl class="kv" id="cmInfo"></dl>
           <p class="note">Số liệu trung bình nhiều năm, đã làm tròn, dùng để minh hoạ. Mùa mưa tính theo các tháng có lượng mưa từ 100 mm trở lên.</p></div>
       </div>
     </div>
@@ -1139,6 +1143,114 @@ P = I²·R</div><dl class="kv" id="ohInfo"></dl><div class="verdict" id="ohV"></
       </div>
     </div>
   </section>
+
+  <!-- ===================== HOÁ, SINH BỔ SUNG ===================== -->
+  <section class="panel" id="p-atom" hidden>
+    <div class="lesson"><span class="chip">KHTN 7 · Hoá học 10</span><h2>Lắp ráp nguyên tử</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cAtom" aria-label="Mô hình nguyên tử với hạt nhân và các lớp electron"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Số hạt</h3>
+          <div class="counter"><span class="cl"><i style="background:var(--red)"></i>Proton (p)</span><button class="btn ghost sm" data-ad="p,-1" aria-label="Bớt proton">−</button><b id="atP"></b><button class="btn ghost sm" data-ad="p,1" aria-label="Thêm proton">+</button></div>
+          <div class="counter"><span class="cl"><i style="background:var(--muted)"></i>Neutron (n)</span><button class="btn ghost sm" data-ad="n,-1" aria-label="Bớt neutron">−</button><b id="atN"></b><button class="btn ghost sm" data-ad="n,1" aria-label="Thêm neutron">+</button></div>
+          <div class="counter"><span class="cl"><i style="background:var(--rain)"></i>Electron (e)</span><button class="btn ghost sm" data-ad="e,-1" aria-label="Bớt electron">−</button><b id="atE"></b><button class="btn ghost sm" data-ad="e,1" aria-label="Thêm electron">+</button></div>
+          <div class="row"><button class="btn ghost sm" data-at="1,0,1">H</button><button class="btn ghost sm" data-at="6,6,6">C</button><button class="btn ghost sm" data-at="6,8,6">¹⁴C</button><button class="btn ghost sm" data-at="8,8,8">O</button><button class="btn ghost sm" data-at="11,12,10">Na⁺</button><button class="btn ghost sm" data-at="17,18,18">Cl⁻</button></div></div>
+        <div class="box"><h3>Nguyên tử tạo thành</h3><div class="big" id="atSym" style="text-align:center"></div><dl class="kv" id="atInfo"></dl><div class="verdict" id="atV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-ph" hidden>
+    <div class="lesson"><span class="chip">KHTN 8 · Hoá học 11</span><h2>Thang pH và chất chỉ thị</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cPh" aria-label="Thang pH và ống nghiệm có chất chỉ thị"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Dung dịch</h3><select id="phSub" aria-label="Dung dịch"></select>
+          <div class="row"><span class="note">Chất chỉ thị:</span><button class="btn ghost sm" data-pi="quy">Quỳ tím</button><button class="btn ghost sm" data-pi="pp">Phenolphthalein</button><button class="btn ghost sm" data-pi="un">Chỉ thị vạn năng</button></div></div>
+        <div class="box"><h3>Kết quả</h3><dl class="kv" id="phInfo2"></dl><div class="verdict" id="phV2"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-equil" hidden>
+    <div class="lesson"><span class="chip">Hoá học 11</span><h2>Cân bằng hoá học và nguyên lí Le Chatelier</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cEqb" aria-label="Xi lanh chứa hỗn hợp NO₂ và N₂O₄"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Điều kiện</h3><div class="formula">2NO₂ (nâu đỏ) ⇌ N₂O₄ (không màu)   ΔH &lt; 0</div>
+          <div class="ctl"><label for="eqT">T</label><input type="range" id="eqT" min="273" max="373" step="1" value="298"><output id="oeqT"></output></div>
+          <div class="ctl"><label for="eqP">P</label><input type="range" id="eqP" min="0.5" max="4" step="0.1" value="1"><output id="oeqP"></output></div>
+          <div class="row"><button class="btn ghost sm" id="eqHot">Ngâm nước nóng</button><button class="btn ghost sm" id="eqCold">Ngâm nước đá</button><button class="btn ghost sm" id="eqPush">Nén pít-tông</button></div></div>
+        <div class="box"><h3>Trạng thái cân bằng</h3><dl class="kv" id="eqInfo"></dl><div class="verdict" id="eqV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-mole" hidden>
+    <div class="lesson"><span class="chip">KHTN 8</span><h2>Mol, khối lượng mol và thể tích chất khí</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cMole" aria-label="Cân, số hạt và bóng khí ứng với lượng chất"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Chất và lượng chất</h3><select id="moSub" aria-label="Chất"></select>
+          <div class="ctl"><label for="moN">n</label><input type="range" id="moN" min="0.1" max="5" step="0.1" value="1"><output id="omoN"></output></div></div>
+        <div class="box"><h3>Công thức</h3><div class="formula pre">m = n · M
+N = n · 6,022·10²³
+V = n · 24,79 L  (khí, 25 °C, 1 bar)</div><dl class="kv" id="moInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-cellstruct" hidden>
+    <div class="lesson"><span class="chip">KHTN 6 · Sinh học 10</span><h2>Cấu tạo tế bào động vật và tế bào thực vật</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cCs" aria-label="Sơ đồ tế bào, bấm vào bào quan để xem chức năng"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Loại tế bào</h3><div class="row"><button class="btn ghost sm" data-ct2="dv">Tế bào động vật</button><button class="btn ghost sm" data-ct2="tv">Tế bào thực vật</button></div>
+          <label class="check"><input type="checkbox" id="csLab" checked> Hiện tên các bào quan</label><p class="note">Bấm vào một bào quan trên hình để xem chức năng.</p></div>
+        <div class="box"><h3 id="csName">Bào quan</h3><p style="margin:0" id="csDesc"></p></div>
+        <div class="box"><h3>So sánh</h3><dl class="kv" id="csCmp"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-osmosis" hidden>
+    <div class="lesson"><span class="chip">Sinh học 10</span><h2>Thẩm thấu: tế bào trong các môi trường</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cOs" aria-label="Tế bào đặt trong dung dịch muối"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thí nghiệm</h3><div class="row"><button class="btn ghost sm" data-oc="hc">Tế bào hồng cầu</button><button class="btn ghost sm" data-oc="tv">Tế bào thực vật</button></div>
+          <div class="ctl"><label for="osC">NaCl</label><input type="range" id="osC" min="0" max="3" step="0.1" value="0.9"><output id="oosC"></output></div>
+          <div class="row"><button class="btn ghost sm" data-ov="0">Nước cất</button><button class="btn ghost sm" data-ov="0.9">0,9 % (sinh lí)</button><button class="btn ghost sm" data-ov="3">3 %</button></div></div>
+        <div class="box"><h3>Hiện tượng</h3><dl class="kv" id="osInfo"></dl><div class="verdict" id="osV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-heart" hidden>
+    <div class="lesson"><span class="chip">KHTN 8</span><h2>Tim và hai vòng tuần hoàn máu</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cHeart" aria-label="Sơ đồ tim, phổi, cơ thể và dòng máu"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Nhịp tim</h3>
+          <div class="ctl"><label for="htR">nhịp</label><input type="range" id="htR" min="50" max="160" step="5" value="75"><output id="ohtR"></output></div>
+          <div class="row"><button class="btn ghost sm" data-hr="60">Nghỉ ngơi</button><button class="btn ghost sm" data-hr="75">Bình thường</button><button class="btn ghost sm" data-hr="140">Chạy bộ</button></div>
+          <button class="btn" id="htPlay">Tạm dừng</button></div>
+        <div class="box"><h3>Chu kì tim</h3><dl class="kv" id="htInfo"></dl><div class="verdict" id="htV"></div>
+          <div class="legend"><span><i style="background:var(--red)"></i>Máu đỏ tươi (giàu O₂)</span><span><i style="background:var(--rain)"></i>Máu đỏ thẫm (nhiều CO₂)</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-sexdet" hidden>
+    <div class="lesson"><span class="chip">Sinh học 9 · 12</span><h2>Cơ chế xác định giới tính ở người</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cSex" aria-label="Sơ đồ lai XX × XY và các em bé được sinh ra"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thực nghiệm</h3><div class="row"><button class="btn" data-sb="1">Sinh 1 bé</button><button class="btn ghost" data-sb="10">+10</button><button class="btn ghost" data-sb="100">+100</button><button class="btn ghost" id="sxReset">Làm lại</button></div></div>
+        <div class="box"><h3>Tỉ lệ</h3><dl class="kv" id="sxInfo"></dl><div class="verdict" id="sxV"></div></div>
+      </div>
+    </div>
+  </section>
 </main>
 </div>
 <footer class="credit">VirLabs · Phát triển bởi thầy <b>Bùi Đức Hoàng</b></footer>
@@ -1211,9 +1323,17 @@ const LABS=[
   {id:'balance',subj:'hoa',grade:'KHTN 8',name:'Cân bằng phương trình'},
   {id:'rate',subj:'hoa',grade:'Hoá 10',name:'Tốc độ phản ứng'},
   {id:'metal',subj:'hoa',grade:'KHTN 9 · Hoá 12',name:'Kim loại + nước, acid'},
+  {id:'atom',subj:'hoa',grade:'KHTN 7 · Hoá 10',name:'Lắp ráp nguyên tử'},
+  {id:'ph',subj:'hoa',grade:'KHTN 8 · Hoá 11',name:'Thang pH, chất chỉ thị'},
+  {id:'mole',subj:'hoa',grade:'KHTN 8',name:'Mol, khối lượng mol'},
+  {id:'equil',subj:'hoa',grade:'Hoá 11',name:'Cân bằng hoá học'},
   {id:'titration',subj:'hoa',grade:'Hoá 11',name:'Chuẩn độ acid – base'},
   {id:'galvanic',subj:'hoa',grade:'Hoá 12',name:'Pin điện hoá'},
   {id:'photo',subj:'sinh',grade:'KHTN 7 · Sinh 11',name:'Quang hợp'},
+  {id:'cellstruct',subj:'sinh',grade:'KHTN 6 · Sinh 10',name:'Cấu tạo tế bào'},
+  {id:'osmosis',subj:'sinh',grade:'Sinh 10',name:'Thẩm thấu'},
+  {id:'heart',subj:'sinh',grade:'KHTN 8',name:'Tuần hoàn máu'},
+  {id:'sexdet',subj:'sinh',grade:'Sinh 9 · 12',name:'Xác định giới tính'},
   {id:'cell',subj:'sinh',grade:'Sinh 10',name:'Nguyên phân, giảm phân'},
   {id:'mendel',subj:'sinh',grade:'Sinh 9 · 12',name:'Lai Mendel'},
   {id:'pedigree',subj:'sinh',grade:'Sinh 12',name:'Sơ đồ phả hệ'},
@@ -1539,6 +1659,41 @@ document.querySelectorAll('#p-prob [data-k]').forEach(b=>b.onclick=()=>add(+b.da
 $('prReset').onclick=reset;$('prExp').onchange=reset;
 $('prAuto').onclick=()=>{R.auto=!R.auto;$('prAuto').textContent=R.auto?'Dừng':'Tự động'};
 TICK.prob=()=>{if(R.auto)add(R.n<200?1:R.n<5000?20:200)};reset()}
+
+/* ================= BỘ MINH HOẠ TỰ VẼ =================
+   Cùng phong cách với linh vật cú: viền xanh than 2,4, màu phẳng, nét bo tròn, khung 64 × 64.
+   Vẽ lên canvas bằng drawArt(c, tên, x, y, cỡ). */
+const ART=(()=>{const N='#10162f',Sw=w=>`stroke="${N}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`,S=Sw(2.4),eye=(x,y)=>`<circle cx="${x}" cy="${y}" r="1.9" fill="${N}"/>`;return{
+grass:`<path d="M6 56h52" ${S} fill="none"/><path d="M14 56c1-14 5-24 11-32-2 12-2 22-1 32z" fill="#69db7c" ${S}/><path d="M27 56c0-18 4-31 10-41 0 15-2 29-1 41z" fill="#40c057" ${S}/><path d="M40 56c2-12 8-22 15-26-4 9-6 18-6 26z" fill="#69db7c" ${S}/>`,
+grasshopper:`<path d="M25 37 17 21 9 48" fill="none" ${Sw(3)}/><ellipse cx="33" cy="36" rx="18" ry="7" fill="#94d82d" ${S}/><path d="M21 32q11-7 23 0" fill="none" ${S}/><circle cx="51" cy="32" r="7" fill="#94d82d" ${S}/>${eye(53,30.5)}<path d="M54 26q3-9 8-12M50 26q0-9 3-13M38 42l-3 9M44 41l2 9" fill="none" ${S}/>`,
+mouse:`<path d="M15 45c-9 0-11 8-5 12" fill="none" ${S}/><ellipse cx="31" cy="43" rx="17" ry="11" fill="#ced4da" ${S}/><circle cx="44" cy="27" r="6.5" fill="#ffc9c9" ${S}/><circle cx="48" cy="37" r="9" fill="#ced4da" ${S}/><circle cx="57" cy="38.5" r="2.6" fill="#f783ac"/>${eye(50.5,35)}<path d="M25 53v4M37 53v4" ${S}/>`,
+rabbit:`<ellipse cx="41" cy="15" rx="4.6" ry="12" transform="rotate(-12 41 15)" fill="#f8f9fa" ${S}/><ellipse cx="49" cy="15" rx="4.6" ry="12" transform="rotate(8 49 15)" fill="#f8f9fa" ${S}/><ellipse cx="49" cy="15" rx="1.8" ry="8" transform="rotate(8 49 15)" fill="#ffc9c9"/><circle cx="13" cy="41" r="5" fill="#f8f9fa" ${S}/><ellipse cx="29" cy="43" rx="16" ry="12" fill="#f8f9fa" ${S}/><circle cx="45" cy="33" r="10" fill="#f8f9fa" ${S}/>${eye(48,31)}<circle cx="54.6" cy="35" r="2" fill="#f783ac"/><ellipse cx="36" cy="55" rx="7" ry="3" fill="#f8f9fa" ${S}/>`,
+frog:`<ellipse cx="32" cy="42" rx="23" ry="14" fill="#69db7c" ${S}/><circle cx="21" cy="27" r="8" fill="#69db7c" ${S}/><circle cx="43" cy="27" r="8" fill="#69db7c" ${S}/><circle cx="21" cy="26" r="4.5" fill="#fff"/><circle cx="43" cy="26" r="4.5" fill="#fff"/><circle cx="22" cy="26.5" r="2.2" fill="${N}"/><circle cx="44" cy="26.5" r="2.2" fill="${N}"/><path d="M20 44q12 7 24 0M12 54q-4 3-7 1M52 54q4 3 7 1" fill="none" ${S}/><circle cx="27" cy="36" r="1.3" fill="#2b8a3e"/><circle cx="37" cy="36" r="1.3" fill="#2b8a3e"/>`,
+bird:`<path d="M17 38 5 33l4 10z" fill="#fab005" ${S}/><circle cx="30" cy="38" r="14" fill="#ffd43b" ${S}/><circle cx="44" cy="27" r="9" fill="#ffd43b" ${S}/><path d="M52 25l9 3-9 3z" fill="#f08c00" ${S}/>${eye(46,25)}<path d="M21 36q9-8 18 1-9 7-18-1z" fill="#fab005" ${S}/><path d="M27 52l-2 6M34 52l2 6" ${S}/>`,
+snake:`<path d="M8 50c11 0 10-15 22-15s11 15 21 2" fill="none" stroke="${N}" stroke-width="12" stroke-linecap="round"/><path d="M8 50c11 0 10-15 22-15s11 15 21 2" fill="none" stroke="#40c057" stroke-width="7" stroke-linecap="round"/><path d="M13 48c5-2 7-5 9-9M32 37c5 1 7 5 10 8" fill="none" stroke="#2b8a3e" stroke-width="2" stroke-dasharray="2 4"/><ellipse cx="53" cy="32" rx="8" ry="6" fill="#40c057" ${S}/>${eye(55,30)}<path d="M60.5 33h3l2-2M63.5 33l2 2" stroke="#e03131" stroke-width="1.8" fill="none" stroke-linecap="round"/>`,
+fox:`<path d="M17 40C5 34 2 46 8 53c5 4 12 1 12-5z" fill="#f76707" ${S}/><path d="M8.5 52c2-4 5-6 8-6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><ellipse cx="30" cy="42" rx="15" ry="10" fill="#f76707" ${S}/><path d="M39 25l2-11 7 8zM48 23l6-10 2 11z" fill="#f76707" ${S}/><circle cx="47" cy="32" r="10" fill="#f76707" ${S}/><path d="M53 30l10 5-10 5z" fill="#fff" ${S}/><circle cx="62" cy="35" r="1.7" fill="${N}"/>${eye(49,29)}<path d="M24 51v6M36 51v6" ${S}/>`,
+eagle:`<path d="M3 28l22 5 7-9 7 9 22-5-13 13H16z" fill="#8d5524" ${S}/><path d="M11 31l8 3M53 31l-8 3" stroke="#6f3f16" stroke-width="2" stroke-linecap="round"/><ellipse cx="32" cy="41" rx="8" ry="12" fill="#8d5524" ${S}/><path d="M27 51l5 9 5-9z" fill="#8d5524" ${S}/><circle cx="32" cy="24" r="7.5" fill="#fff" ${S}/><path d="M35 24l7 3-7 3z" fill="#fcc419" ${S}/>${eye(33.5,22)}`,
+elephant:`<path d="M55 36c5 7 3 15-2 17" fill="none" stroke="${N}" stroke-width="8.5" stroke-linecap="round"/><path d="M55 36c5 7 3 15-2 17" fill="none" stroke="#adb5bd" stroke-width="4" stroke-linecap="round"/><ellipse cx="27" cy="38" rx="19" ry="14" fill="#adb5bd" ${S}/><rect x="13" y="46" width="7" height="11" rx="2" fill="#adb5bd" ${S}/><rect x="31" y="46" width="7" height="11" rx="2" fill="#adb5bd" ${S}/><circle cx="46" cy="30" r="11" fill="#adb5bd" ${S}/><ellipse cx="39" cy="31" rx="7.5" ry="10" fill="#ced4da" ${S}/>${eye(50,27)}<path d="M53 38q4 1 6-2" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>`,
+person:`<path d="M18 60c0-12 6-20 14-20s14 8 14 20z" fill="#4c6ef5" ${S}/><circle cx="32" cy="26" r="11" fill="#ffd8a8" ${S}/><path d="M21 25c0-9 7-13 12-12 6 1 10 5 10 10-6-1-10-4-12-7-2 4-5 7-10 9z" fill="${N}"/><circle cx="28" cy="28" r="1.5" fill="${N}"/><circle cx="36" cy="28" r="1.5" fill="${N}"/><path d="M29 33q3 2 6 0" fill="none" ${Sw(1.8)}/>`,
+girl:`<path d="M15 61l7-21h20l7 21z" fill="#f783ac" ${S}/><path d="M19 30c-3 10 0 16 3 18h20c3-2 6-8 3-18z" fill="${N}"/><circle cx="32" cy="27" r="11" fill="#ffd8a8" ${S}/><path d="M21 26c0-9 7-13 11-13 7 0 11 5 11 11-7 0-12-3-14-7-2 4-4 7-8 9z" fill="${N}"/><path d="M43 14l6-4v8zM43 14l-6-4v8z" fill="#e64980" ${Sw(1.5)}/><circle cx="28" cy="29" r="1.5" fill="${N}"/><circle cx="36" cy="29" r="1.5" fill="${N}"/><path d="M29 34q3 2 6 0" fill="none" ${Sw(1.8)}/>`,
+dog:`<path d="M14 36c-6-6-6-12-3-14" fill="none" ${Sw(3)}/><ellipse cx="28" cy="42" rx="16" ry="10" fill="#e8b27a" ${S}/><path d="M18 50v7M36 50v7" ${Sw(3)}/><circle cx="46" cy="31" r="10" fill="#e8b27a" ${S}/><ellipse cx="55" cy="35" rx="7" ry="5" fill="#f3d2a8" ${S}/><circle cx="60.5" cy="33" r="2.3" fill="${N}"/><ellipse cx="41" cy="32" rx="4.5" ry="9" transform="rotate(20 41 32)" fill="#a0632d" ${S}/>${eye(49,28)}`,
+cat:`<path d="M14 44c-8-2-10-10-6-16" fill="none" stroke="${N}" stroke-width="6.5" stroke-linecap="round"/><path d="M14 44c-8-2-10-10-6-16" fill="none" stroke="#ffa94d" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="29" cy="43" rx="15" ry="10" fill="#ffa94d" ${S}/><path d="M38 25l1-11 8 8zM50 22l6-9 1 12z" fill="#ffa94d" ${S}/><circle cx="47" cy="31" r="10" fill="#ffa94d" ${S}/>${eye(43.5,30)}${eye(50.5,30)}<path d="M41 35l-7-1M41 37l-7 2M53 35l7-1M53 37l7 2" stroke="${N}" stroke-width="1.2" fill="none"/><path d="M22 52v5M35 52v5" ${S}/>`,
+lynx:`<path d="M15 40l-7-3" stroke="${N}" stroke-width="6.5" stroke-linecap="round"/><path d="M15 40l-7-3" stroke="#c9a46b" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="29" cy="42" rx="16" ry="11" fill="#c9a46b" ${S}/><circle cx="23" cy="40" r="1.7" fill="#8d6b3a"/><circle cx="30" cy="46" r="1.7" fill="#8d6b3a"/><circle cx="35" cy="38" r="1.7" fill="#8d6b3a"/><path d="M39 25l1-10 7 8zM50 22l5-9 2 11z" fill="#c9a46b" ${S}/><path d="M40 15l-1-6M55 13l1-6" stroke="${N}" stroke-width="2.2" stroke-linecap="round"/><circle cx="47" cy="31" r="10" fill="#c9a46b" ${S}/><path d="M38 34l-3 6 6-2zM56 34l3 6-6-2z" fill="#f1e3c8" ${Sw(1.5)}/>${eye(44,30)}${eye(51,30)}<path d="M46 34h3l-1.5 2z" fill="${N}"/><path d="M22 52v5M36 52v5" ${S}/>`,
+bat:`<path d="M32 30c-6-9-18-11-28-6 4 2 6 6 6 10 4-2 8-2 10 2 2-4 6-6 12-6zM32 30c6-9 18-11 28-6-4 2-6 6-6 10-4-2-8-2-10 2-2-4-6-6-12-6z" fill="#7048e8" ${S}/><path d="M27 23l2-7 3 6 3-6 2 7z" fill="#5f3dc4" ${S}/><ellipse cx="32" cy="32" rx="6.5" ry="10" fill="#5f3dc4" ${S}/><circle cx="29.5" cy="28" r="1.5" fill="#fff"/><circle cx="34.5" cy="28" r="1.5" fill="#fff"/>`,
+speaker:`<path d="M8 24h10l12-10v36L18 40H8z" fill="#ced4da" ${S}/><path d="M38 24q6 8 0 16M44 18q11 14 0 28M50 12q16 20 0 40" fill="none" ${S}/>`,
+candle:`<path d="M32 6c5 7 7 11 7 15a7 7 0 0 1-14 0c0-4 2-8 7-15z" fill="#ffd43b" ${S}/><path d="M32 13c2 4 3 6 3 8a3 3 0 0 1-6 0c0-2 1-4 3-8z" fill="#ff922b"/><path d="M32 28v4" ${S}/><rect x="24" y="32" width="16" height="26" rx="2" fill="#fff4e6" ${S}/><path d="M24 38q4 3 8 0" fill="none" stroke="#ffc078" stroke-width="2"/>`,
+eye:`<path d="M4 32q28-26 56 0-28 26-56 0z" fill="#fff" ${S}/><circle cx="32" cy="32" r="11" fill="#4dabf7" ${S}/><circle cx="32" cy="32" r="5.5" fill="${N}"/><circle cx="35" cy="29" r="2" fill="#fff"/>`,
+lamp:`<path d="M32 6a17 17 0 0 0-10 31c2 2 3 5 3 8h14c0-3 1-6 3-8A17 17 0 0 0 32 6z" fill="#ffe066" ${S}/><path d="M27 35l5-9 5 9" fill="none" stroke="#f59f00" stroke-width="2" stroke-linejoin="round"/><rect x="24" y="45" width="16" height="10" rx="2" fill="#adb5bd" ${S}/><path d="M24 50h16M28 58h8" ${S}/>`,
+house:`<path d="M6 32 32 9l26 23z" fill="#e8590c" ${S}/><rect x="13" y="30" width="38" height="26" fill="#fff4e6" ${S}/><rect x="27" y="40" width="10" height="16" fill="#a0632d" ${S}/><rect x="17" y="36" width="7" height="7" fill="#a5d8ff" ${S}/><rect x="41" y="36" width="7" height="7" fill="#a5d8ff" ${S}/>`,
+school:`<path d="M30 4v12" ${S}/><path d="M30 5h10l-3 3 3 3H30z" fill="#e03131" ${S}/><path d="M4 28 32 15l28 13z" fill="#4c6ef5" ${S}/><rect x="8" y="28" width="48" height="28" fill="#fff9db" ${S}/><rect x="28" y="40" width="8" height="16" fill="#a0632d" ${S}/><path d="M13 34h8v6h-8zM43 34h8v6h-8z" fill="#a5d8ff" ${S}/>`,
+market:`<rect x="8" y="30" width="48" height="26" fill="#fff4e6" ${S}/><path d="M6 18h52l-3 14H9z" fill="#fff"/><path d="M15 18l-2 14M25 18l-.5 14M35 18v14M45 18l.5 14M54 18l1 14" stroke="#e03131" stroke-width="5"/><path d="M6 18h52l-3 14H9z" fill="none" ${S}/><circle cx="20" cy="45" r="5" fill="#ff922b" ${S}/><circle cx="32" cy="45" r="5" fill="#51cf66" ${S}/><circle cx="44" cy="45" r="5" fill="#ffd43b" ${S}/>`,
+post:`<rect x="8" y="22" width="48" height="34" fill="#ffe8cc" ${S}/><path d="M4 24 32 8l28 16z" fill="#f08c00" ${S}/><rect x="18" y="30" width="28" height="18" fill="#fff" ${S}/><path d="M18 30l14 11 14-11" fill="none" ${S}/>`,
+hospital:`<rect x="10" y="14" width="44" height="42" fill="#fff" ${S}/><path d="M27 20h10v8h7v10h-7v8H27v-8h-7V28h7z" fill="#e03131"/><rect x="26" y="46" width="12" height="10" fill="#a5d8ff" ${S}/>`}})();
+const ARTIMG={};
+function artImg(name){if(ARTIMG[name])return ARTIMG[name];const img=new Image();ARTIMG[name]=img;img.onload=()=>redrawAll();
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="160" height="160">${ART[name]}</svg>`);return img}
+Object.keys(ART).forEach(artImg);
+function drawArt(c,name,x,y,size,o={}){const img=artImg(name);if(!img.complete||!img.naturalWidth)return;c.save();if(o.alpha!=null)c.globalAlpha=o.alpha;c.translate(x,y);if(o.flipX)c.scale(-1,1);if(o.flipY)c.scale(1,-1);c.drawImage(img,-size/2,-size/2,size,size);c.restore()}
 
 /* ================= LÍ: mạch nối tiếp / song song ================= */
 {const CI={K:true,ph:[]};const SUBN=['','₁','₂','₃'];
@@ -2180,7 +2335,7 @@ TICK.gene=dt=>{if(G.step===Infinity)return;G.acc+=dt;if(G.acc<.7)return;G.acc=0;
 /* ================= SINH: lưới thức ăn ================= */
 {const SP={'Cỏ':[.5,.9],'Châu chấu':[.2,.66],'Chuột':[.5,.66],'Thỏ':[.8,.66],'Ếch':[.1,.42],'Chim sâu':[.34,.42],'Rắn':[.6,.36],'Cáo':[.88,.4],'Đại bàng':[.42,.1]};
 const EAT={'Châu chấu':['Cỏ'],'Thỏ':['Cỏ'],'Chuột':['Cỏ'],'Ếch':['Châu chấu'],'Chim sâu':['Châu chấu'],'Cáo':['Thỏ','Chuột'],'Rắn':['Ếch','Chuột'],'Đại bàng':['Rắn','Thỏ','Chim sâu']};
-const EMO={'Cỏ':'🌿','Châu chấu':'🦗','Chuột':'🐭','Thỏ':'🐇','Ếch':'🐸','Chim sâu':'🐦','Rắn':'🐍','Cáo':'🦊','Đại bàng':'🦅'};
+const EMO={'Cỏ':'grass','Châu chấu':'grasshopper','Chuột':'mouse','Thỏ':'rabbit','Ếch':'frog','Chim sâu':'bird','Rắn':'snake','Cáo':'fox','Đại bàng':'eagle'};
 const names=Object.keys(SP),preds=n=>names.filter(p=>(EAT[p]||[]).includes(n)),preyOf=n=>EAT[n]||[];
 const W={removed:new Set(),eff:{},why:[]};
 function compute(){const eff={},why=[],q=[];W.removed.forEach(n=>{eff[n]='x';why.push([n,'x','bị loại bỏ khỏi hệ sinh thái']);q.push([n,0])});
@@ -2202,7 +2357,7 @@ const draw=canvasOf($('cWeb'),(c,w,h)=>{const r=Math.max(22,Math.min(34,w/22)),X
     c.strokeStyle=c.fillStyle=dead?rgba('muted',.25):css('muted');c.lineWidth=1.6;c.setLineDash(dead?[4,4]:[]);c.beginPath();c.moveTo(a[0]+ux*r,a[1]+uy*r);c.lineTo(b[0]-ux*(r+3),b[1]-uy*(r+3));c.stroke();c.setLineDash([]);arrowHead(c,b[0]-ux*(r+3),b[1]-uy*(r+3),Math.atan2(uy,ux),9)}));
   names.forEach(n=>{const x=X(SP[n][0]),y=Y(SP[n][1]),s=W.eff[n],col=s==='+'?css('green'):s==='-'?css('amber'):s==='x'?css('muted'):css('ink');
     c.fillStyle=s==='x'?css('paper'):css('surface');c.beginPath();c.arc(x,y,r,0,7);c.fill();c.strokeStyle=col;c.lineWidth=s?3.5:2;c.stroke();
-    c.globalAlpha=s==='x'?.3:1;c.font=`${Math.round(r*1.05)}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillText(EMO[n],x,y+2);c.globalAlpha=1;c.font=font(700,12);c.lineWidth=4;c.strokeStyle=css('surface');c.strokeText(n,x,y+r+11);c.fillStyle=s==='x'?css('muted'):css('ink');c.fillText(n,x,y+r+11);
+    drawArt(c,EMO[n],x,y+1,r*1.55,{alpha:s==='x'?.3:1});c.font=font(700,12);c.lineWidth=4;c.strokeStyle=css('surface');c.strokeText(n,x,y+r+11);c.fillStyle=s==='x'?css('muted'):css('ink');c.fillText(n,x,y+r+11);
     if(s){c.fillStyle=col;c.font=font(700,14);c.fillText(s==='+'?'▲':s==='-'?'▼':'✕',x+r*.75,y-r*.75)}
     if(W.removed.has(n)){c.strokeStyle=css('red');c.lineWidth=2.5;c.beginPath();c.moveTo(x-r*.6,y-r*.6);c.lineTo(x+r*.6,y+r*.6);c.stroke()}});
   c.fillStyle=css('muted');c.font=font(500,12);c.textAlign='left';c.textBaseline='bottom';c.fillText('Mũi tên chỉ từ thức ăn đến sinh vật ăn nó',10,h-6)});
@@ -2226,7 +2381,7 @@ const draw=canvasOf($('cEco'),(c,w,h)=>{if(!S)return;const ml=46,mr=16,mt=30,mb=
   for(let t=0;t<=T;t+=10){c.beginPath();c.moveTo(X(t),mt);c.lineTo(X(t),h-mb);c.stroke();c.textAlign='center';c.textBaseline='top';c.fillText(t,X(t),h-mb+5)}
   const ys=niceStep(Ym,5);for(let v=0;v<=Ym;v+=ys){c.beginPath();c.moveTo(ml,Y(v));c.lineTo(w-mr,Y(v));c.stroke();c.textAlign='right';c.textBaseline='middle';c.fillText(Math.round(v),ml-5,Y(v))}
   c.textAlign='right';c.textBaseline='bottom';c.fillText('Thời gian (năm)',w-mr,h-mb-3);c.textAlign='left';c.textBaseline='top';c.fillText('Số cá thể',ml+4,mt-18);
-  [[1,'accent','🐇 Thỏ'],[2,'red','🐈 Mèo rừng']].forEach(([k,t,n],j)=>{c.strokeStyle=css(t);c.lineWidth=2.4;c.beginPath();S.out.forEach((p,i)=>i?c.lineTo(X(p[0]),Y(p[k])):c.moveTo(X(p[0]),Y(p[k])));c.stroke();{const L=S.out[S.out.length-1];c.font='22px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';c.textAlign='right';c.textBaseline='middle';c.fillText(k===1?'🐇':'🐈',X(L[0])-2,Y(L[k])-14)}
+  [[1,'accent','Thỏ'],[2,'red','Mèo rừng']].forEach(([k,t,n],j)=>{c.strokeStyle=css(t);c.lineWidth=2.4;c.beginPath();S.out.forEach((p,i)=>i?c.lineTo(X(p[0]),Y(p[k])):c.moveTo(X(p[0]),Y(p[k])));c.stroke();{const L=S.out[S.out.length-1];drawArt(c,k===1?'rabbit':'lynx',X(L[0])-18,Y(L[k])-18,34)}
     c.fillStyle=css(t);c.fillRect(w-mr-190+j*96,mt-20,14,4);c.font=font(600,12);c.textAlign='left';c.textBaseline='middle';c.fillText(n,w-mr-172+j*96,mt-18)})});
 const drawP=canvasOf($('cPhase'),(c,w,h)=>{if(!S)return;const m=28,Nm=Math.max(...S.out.map(p=>p[1]))*1.08||1,Pm=Math.max(...S.out.map(p=>p[2]))*1.08||1,X=v=>m+v/Nm*(w-m-8),Y=v=>h-m+4-v/Pm*(h-m-8);
   c.strokeStyle=css('muted');c.lineWidth=1;c.beginPath();c.moveTo(m,8);c.lineTo(m,h-m+4);c.lineTo(w-8,h-m+4);c.stroke();
@@ -2472,7 +2627,7 @@ const names=Object.keys(DATA);$('clCity').innerHTML=names.map(n=>`<option>${n}</
 function rainSeason(r){const m=r.map(v=>v>=100);if(m.every(Boolean))return'quanh năm';if(!m.some(Boolean))return'không có tháng nào ≥ 100 mm';
   let s=m.findIndex((v,i)=>v&&!m[(i+11)%12]);const out=[];let i=s;do{if(m[i]){let j=i;while(m[(j+1)%12]&&(j+1)%12!==s)j=(j+1)%12;out.push(`tháng ${i+1}${j!==i?' – '+(j+1):''}`);i=j}i=(i+1)%12}while(i!==s);return out.join(', ')}
 function up(){const n=$('clCity').value,d=DATA[n],mean=d.t.reduce((a,b)=>a+b)/12,mx=Math.max(...d.t),mn=Math.min(...d.t),tot=d.r.reduce((a,b)=>a+b),peak=d.r.indexOf(Math.max(...d.r));
-  $('clInfo').innerHTML=kv([['Độ cao',d.alt],['Nhiệt độ trung bình năm',fmt(mean,1)+' °C'],['Tháng nóng nhất',`tháng ${d.t.indexOf(mx)+1}: ${fmt(mx,1)} °C`],['Tháng lạnh nhất',`tháng ${d.t.indexOf(mn)+1}: ${fmt(mn,1)} °C`],['Biên độ nhiệt năm',fmt(mx-mn,1)+' °C'],['Tổng lượng mưa năm',tot.toLocaleString('vi-VN')+' mm'],['Mùa mưa',rainSeason(d.r)],['Tháng mưa nhiều nhất',`tháng ${peak+1}: ${d.r[peak]} mm`]]);
+  $('cmInfo').innerHTML=kv([['Độ cao',d.alt],['Nhiệt độ trung bình năm',fmt(mean,1)+' °C'],['Tháng nóng nhất',`tháng ${d.t.indexOf(mx)+1}: ${fmt(mx,1)} °C`],['Tháng lạnh nhất',`tháng ${d.t.indexOf(mn)+1}: ${fmt(mn,1)} °C`],['Biên độ nhiệt năm',fmt(mx-mn,1)+' °C'],['Tổng lượng mưa năm',tot.toLocaleString('vi-VN')+' mm'],['Mùa mưa',rainSeason(d.r)],['Tháng mưa nhiều nhất',`tháng ${peak+1}: ${d.r[peak]} mm`]]);
   const notes=[];if(mean<20)notes.push('Mát mẻ quanh năm do ảnh hưởng của độ cao địa hình.');else if(mx-mn>9)notes.push('Có mùa đông lạnh rõ rệt (biên độ nhiệt năm lớn) do ảnh hưởng của gió mùa Đông Bắc.');else notes.push('Nóng quanh năm, biên độ nhiệt năm nhỏ, mang tính chất cận xích đạo.');
   notes.push(peak>=8&&peak<=11?'Mưa nhiều vào thu đông, đặc trưng của vùng duyên hải miền Trung.':'Mưa tập trung vào mùa hạ (gió mùa Tây Nam).');$('clV').textContent=notes.join(' ');draw()}
 const draw=canvasOf($('cClim'),(c,w,h)=>{const n=$('clCity').value,d=DATA[n],cmp=$('clCmp').value&&$('clCmp').value!==n?DATA[$('clCmp').value]:null;
@@ -2794,7 +2949,7 @@ const draw=canvasOf($('cInt'),(c,w,h)=>{const v=val(),R=Math.max(12,Math.abs(v.a
     if(p>0){c.lineWidth=3;c.beginPath();for(let i=0;i<=40;i++){const q=pt(i/40*p);i?c.lineTo(...q):c.moveTo(...q)}c.stroke();if(p>=1&&x1!==x2){c.fillStyle=col;arrowHead(c,X(x2),y0-2,Math.atan2(2*H,X(x2)-mx),10)}}
     c.fillStyle=col;c.font=font(700,14,'f-mono');c.textAlign='center';c.textBaseline='bottom';c.fillText(lab,mx,y0-H-8);return pt};
   const p1=hop(0,v.a,css('accent'),(v.a>0?'+':'')+neg(v.a),Math.min(1,I.t)),p2=hop(v.a,v.r,css('red'),(v.step>0?'+':'')+neg(v.step),Math.max(0,Math.min(1,I.t-1)));
-  const fp=I.t<1?p1(I.t):p2(Math.min(1,I.t-1));c.font=`34px ${EMOJI}`;c.textAlign='center';c.textBaseline='bottom';c.fillText('🐸',fp[0],fp[1]+6);
+  const fp=I.t<1?p1(I.t):p2(Math.min(1,I.t-1));drawArt(c,'frog',fp[0],fp[1]-14,44);
   if(I.t>=2){c.fillStyle=css('ink');c.beginPath();c.arc(X(v.r),y0,6,0,7);c.fill();c.font=font(700,13);c.textBaseline='top';c.fillText('kết quả '+neg(v.r),X(v.r),y0+50)}});
 document.querySelectorAll('#p-intline [data-op]').forEach(b=>b.onclick=()=>{I.op=+b.dataset.op;up(true)});
 $('inGo').onclick=()=>{I.t=0;I.play=true};['inA','inB'].forEach(id=>$(id).addEventListener('input',()=>up(true)));
@@ -2923,15 +3078,14 @@ const draw=canvasOf($('cMir'),(c,w,h)=>{M.W=w;M.H=h;const g=geo(),x0=w*.08,x1=w*
     c.strokeStyle=c.fillStyle=css('amber');c.lineWidth=3;c.beginPath();c.moveTo(...g.S);c.lineTo(...g.I);c.lineTo(...g.E);c.stroke();arrowHead(c,(g.S[0]+g.I[0])/2,(g.S[1]+g.I[1])/2,Math.atan2(g.I[1]-g.S[1],g.I[0]-g.S[0]),10);arrowHead(c,(g.I[0]+g.E[0])/2,(g.I[1]+g.E[1])/2,Math.atan2(g.E[1]-g.I[1],g.E[0]-g.I[0]),10);
     const up_=-Math.PI/2,aS=Math.atan2(g.S[1]-g.y,g.S[0]-g.I[0]),aE=Math.atan2(g.E[1]-g.y,g.E[0]-g.I[0]);c.lineWidth=1.6;c.strokeStyle=css('accent');c.beginPath();c.arc(g.I[0],g.y,34,Math.min(aS,up_),Math.max(aS,up_));c.stroke();c.beginPath();c.arc(g.I[0],g.y,40,Math.min(aE,up_),Math.max(aE,up_));c.stroke();
     c.fillStyle=css('accent');c.font=font(700,13);c.textAlign='center';c.textBaseline='middle';c.fillText('i',g.I[0]+50*Math.cos((aS+up_)/2),g.y+50*Math.sin((aS+up_)/2));c.fillText('i′',g.I[0]+56*Math.cos((aE+up_)/2),g.y+56*Math.sin((aE+up_)/2));c.fillStyle=css('ink');c.fillText('I',g.I[0],g.y+14)}
-  c.globalAlpha=.35;c.font=`34px ${EMOJI}`;c.textAlign='center';c.textBaseline='middle';c.save();c.translate(g.S2[0],g.S2[1]);c.scale(1,-1);c.fillText('🕯️',0,0);c.restore();c.globalAlpha=1;
-  c.font=`34px ${EMOJI}`;c.fillText('🕯️',...g.S);c.fillText('👁️',...g.E);c.fillStyle=css('ink');c.font=font(700,14);c.fillText('S',g.S[0]+24,g.S[1]-14);c.fillStyle=css('red');c.fillText('S′ (ảnh ảo)',g.S2[0]+44,g.S2[1]+14)});
+  drawArt(c,'candle',g.S2[0],g.S2[1],46,{alpha:.35,flipY:true});drawArt(c,'candle',g.S[0],g.S[1],46);drawArt(c,'eye',g.E[0],g.E[1],46);c.textAlign='center';c.textBaseline='middle';c.fillStyle=css('ink');c.font=font(700,14);c.fillText('S',g.S[0]+24,g.S[1]-14);c.fillStyle=css('red');c.fillText('S′ (ảnh ảo)',g.S2[0]+44,g.S2[1]+14)});
 drag($('cMir'),(x,y,dx,dy,t)=>{const g=geo();if(t==='down'){M.drag=Math.hypot(x-g.S[0],y-g.S[1])<30?'S':Math.hypot(x-g.E[0],y-g.E[1])<30?'E':null;return}if(t==='up'){M.drag=null;return}
   if(M.drag){M[M.drag]=[Math.max(.05,Math.min(.95,x/M.W)),Math.max(.06,Math.min((g.y-20)/M.H,y/M.H))];up()}});
 $('mrFan').addEventListener('change',draw);up()}
 
 /* ---------- KHTN 7: âm thanh ---------- */
 {const fOf=v=>10**(.7+3.8*v/100),vOf=f=>(Math.log10(f)-.7)/3.8*100;let ctx=null;
-const ANI=[['🐘','Voi',14,12000],['🧑','Người',20,20000],['🐕','Chó',67,45000],['🐈','Mèo',45,64000],['🦇','Dơi',2000,110000]];
+const ANI=[['elephant','Voi',14,12000],['person','Người',20,20000],['dog','Chó',67,45000],['cat','Mèo',45,64000],['bat','Dơi',2000,110000]];
 const cls=f=>f<20?'hạ âm':f>20000?'siêu âm':'âm nghe được';
 function up(){const f=fOf(+$('snF').value),A=+$('snA').value;$('osnF').textContent=f>=1000?fmt(f/1000,2)+' kHz':fmt(f,0)+' Hz';$('osnA').textContent=A+' %';
   presetSync('#p-sound [data-sf]','sf',[...document.querySelectorAll('#p-sound [data-sf]')].map(b=>b.dataset.sf).find(x=>Math.abs(vOf(+x)-+$('snF').value)<.6)||'');
@@ -2941,11 +3095,11 @@ const draw=canvasOf($('cSnd'),(c,w,h)=>{const f=fOf(+$('snF').value),A=+$('snA')
   c.strokeStyle=css('grid');c.lineWidth=1;c.beginPath();c.moveTo(ml,Y(0));c.lineTo(w-mr,Y(0));c.stroke();c.fillStyle=css('muted');c.font=font(400,11,'f-mono');c.textAlign='right';c.textBaseline='middle';c.fillText('0',ml-6,Y(0));
   c.textAlign='left';c.textBaseline='top';c.fillText(`Dạng sóng trong ${win>=.01?fmt(win*1000,0):fmt(win*1000,1)} ms`,ml,gy+gh+4);
   c.strokeStyle=css('accent');c.lineWidth=2.2;c.beginPath();const N=Math.min(4000,Math.max(400,(w-ml)*2));for(let i=0;i<=N;i++){const t=win*i/N,y=A*Math.sin(2*Math.PI*f*t);i?c.lineTo(X(t),Y(y)):c.moveTo(X(t),Y(y))}c.stroke();
-  c.font=`28px ${EMOJI}`;c.textAlign='center';c.textBaseline='middle';c.fillText('🔊',26,Y(0));
+  drawArt(c,'speaker',28,Y(0),40);
   const by=h*.6,bh=h-by-30,lx=ml+60,LX=fq=>lx+(Math.log10(fq)-Math.log10(5))/(Math.log10(150000)-Math.log10(5))*(w-lx-mr);
   c.fillStyle=rgba('rain',.12);c.fillRect(LX(5),by,LX(20)-LX(5),bh);c.fillStyle=rgba('green',.12);c.fillRect(LX(20),by,LX(20000)-LX(20),bh);c.fillStyle=rgba('red',.1);c.fillRect(LX(20000),by,LX(150000)-LX(20000),bh);
   c.fillStyle=css('ink');c.font=font(700,11);c.textAlign='center';c.textBaseline='bottom';c.fillText('Hạ âm',(LX(5)+LX(20))/2,by-3);c.fillText('Âm nghe được',(LX(20)+LX(20000))/2,by-3);c.fillText('Siêu âm',(LX(20000)+LX(150000))/2,by-3);
-  const rh=bh/ANI.length;ANI.forEach(([e,n,a,b],i)=>{const y=by+i*rh+rh/2;c.font=`${Math.min(20,rh*.8)}px ${EMOJI}`;c.textAlign='right';c.textBaseline='middle';c.fillText(e,ml+22,y);c.fillStyle=css('ink');c.font=font(600,11);c.textAlign='left';c.fillText(n,ml+26,y);
+  const rh=bh/ANI.length;ANI.forEach(([e,n,a,b],i)=>{const y=by+i*rh+rh/2;drawArt(c,e,ml+8,y,Math.min(30,rh*.95));c.textBaseline='middle';c.fillStyle=css('ink');c.font=font(600,11);c.textAlign='left';c.fillText(n,ml+26,y);
     c.strokeStyle=css('accent');c.lineWidth=Math.max(4,rh*.35);c.lineCap='round';c.beginPath();c.moveTo(LX(a),y);c.lineTo(LX(Math.min(b,150000)),y);c.stroke()});
   c.fillStyle=css('muted');c.font=font(400,10,'f-mono');c.textAlign='center';c.textBaseline='top';[10,100,1000,10000,100000].forEach(q=>c.fillText(q>=1000?q/1000+' kHz':q+' Hz',LX(q),by+bh+4));
   c.strokeStyle=css('red');c.lineWidth=2.4;c.beginPath();c.moveTo(LX(f),by-2);c.lineTo(LX(f),by+bh+2);c.stroke();c.fillStyle=css('red');c.beginPath();c.arc(LX(f),by-2,4,0,7);c.fill()});
@@ -3024,7 +3178,7 @@ function up(){const r=rate();$('ophL').textContent=r.L+' %';$('ophC').textConten
   $('phV').textContent=r.L===0?'Không có ánh sáng: cây không quang hợp, không có bọt khí oxygen.':r.T>40?'Nhiệt độ quá cao làm enzyme bị ảnh hưởng, quang hợp giảm mạnh.':`Tăng ${lim[0]} sẽ làm quang hợp tăng rõ nhất. Khi ánh sáng đủ mạnh, tăng thêm ánh sáng không làm quang hợp tăng nữa (điểm bão hoà ánh sáng).`;draw()}
 const draw=canvasOf($('cPho'),(c,w,h)=>{const r=rate(),wide=w>=640,pw=wide?w*.55:w,ph=wide?h:h*.58,bx=pw*.58,bw=Math.min(pw*.5,240),bh=ph*.62,by=ph-bh-20;
   const lx=pw*.16,ly=by+bh*.35,g=c.createRadialGradient(lx,ly,4,lx,ly,40+r.L*1.4);g.addColorStop(0,`rgba(255,220,80,${.2+r.L/120})`);g.addColorStop(1,'rgba(255,220,80,0)');c.fillStyle=g;c.beginPath();c.arc(lx,ly,40+r.L*1.4,0,7);c.fill();
-  c.font=`40px ${EMOJI}`;c.textAlign='center';c.textBaseline='middle';c.fillText('💡',lx,ly);c.fillStyle=css('ink');c.font=font(600,11);c.fillText('Đèn '+r.L+'%',lx,ly+34);
+  drawArt(c,'lamp',lx,ly,52);c.textAlign='center';c.textBaseline='middle';c.fillStyle=css('ink');c.font=font(600,11);c.fillText('Đèn '+r.L+'%',lx,ly+34);
   c.fillStyle='rgba(116,192,252,.35)';c.fillRect(bx-bw/2,by+16,bw,bh-16);c.strokeStyle=css('ink');c.lineWidth=3;c.beginPath();c.moveTo(bx-bw/2,by);c.lineTo(bx-bw/2,by+bh);c.lineTo(bx+bw/2,by+bh);c.lineTo(bx+bw/2,by);c.stroke();
   const tx=bx,ttop=by+26,tw=34;c.strokeStyle=css('ink');c.lineWidth=2;c.beginPath();c.moveTo(tx-tw/2,by+bh*.55);c.lineTo(tx-tw/2,ttop+tw/2);c.arc(tx,ttop+tw/2,tw/2,Math.PI,0);c.lineTo(tx+tw/2,by+bh*.55);c.stroke();
   const gas=Math.min(1,Q.acc/400);c.fillStyle='rgba(255,255,255,.75)';c.fillRect(tx-tw/2+2,ttop+4,tw-4,gas*(bh*.55-ttop+by-6));c.fillStyle=css('muted');c.font=font(600,10);c.textAlign='left';c.fillText('khí O₂',tx+tw/2+4,ttop+12);
@@ -3054,7 +3208,7 @@ const draw=canvasOf($('cRgb'),(c,w,h)=>{const R=+$('rgR').value,G=+$('rgG').valu
 document.querySelectorAll('#p-rgb [data-rgb]').forEach(b=>b.onclick=()=>{const[r,g,bb]=b.dataset.rgb.split(',');$('rgR').value=r;$('rgG').value=g;$('rgB').value=bb;up()});['rgR','rgG','rgB'].forEach(id=>$(id).addEventListener('input',up));up()}
 
 /* ---------- Địa 6: tỉ lệ bản đồ ---------- */
-{const PL=[['🏠','Nhà em',.46,.5],['🏫','Trường học',.16,.26],['🏪','Chợ',.78,.2],['📮','Bưu điện',.3,.78],['🏥','Bệnh viện',.82,.74]];
+{const PL=[['house','Nhà em',.46,.5],['school','Trường học',.16,.26],['market','Chợ',.78,.2],['post','Bưu điện',.3,.78],['hospital','Bệnh viện',.82,.74]];
 const S={a:[.46,.5],b:[.16,.26],drag:null,W:1,H:1};const CM=()=>S.W/16;
 function up(){const d=Math.hypot((S.a[0]-S.b[0])*S.W,(S.a[1]-S.b[1])*S.H)/CM(),k=+$('msScale').value,real=d*k/100;
   const nm=p=>{const q=PL.find(q=>Math.hypot(q[2]-p[0],q[3]-p[1])<.005);return q?q[1]:'điểm đã chọn'};
@@ -3065,7 +3219,7 @@ const draw=canvasOf($('cMap'),(c,w,h)=>{S.W=w;S.H=h;const k=+$('msScale').value;
   c.fillStyle='#1971c2';c.font='italic 600 12px '+css('f-body');c.textAlign='left';c.fillText('Sông Xanh',w*.04,h*.55);
   c.strokeStyle='#ced4da';c.lineWidth=9;[[[.05,.36],[.95,.36]],[[.38,.05],[.38,.95]],[[.62,.1],[.7,.95]]].forEach(([a,b])=>{c.beginPath();c.moveTo(a[0]*w,a[1]*h);c.lineTo(b[0]*w,b[1]*h);c.stroke()});
   c.strokeStyle='#fff';c.lineWidth=1.5;c.setLineDash([8,8]);[[[.05,.36],[.95,.36]],[[.38,.05],[.38,.95]],[[.62,.1],[.7,.95]]].forEach(([a,b])=>{c.beginPath();c.moveTo(a[0]*w,a[1]*h);c.lineTo(b[0]*w,b[1]*h);c.stroke()});c.setLineDash([]);
-  PL.forEach(([e,n,x,y])=>{c.font=`30px ${EMOJI}`;c.textAlign='center';c.textBaseline='middle';c.fillText(e,x*w,y*h);c.font=font(700,12);c.lineWidth=4;c.strokeStyle='#fff';c.strokeText(n,x*w,y*h+26);c.fillStyle='#10162f';c.fillText(n,x*w,y*h+26)});
+  PL.forEach(([e,n,x,y])=>{drawArt(c,e,x*w,y*h,40);c.textAlign='center';c.textBaseline='middle';c.font=font(700,12);c.lineWidth=4;c.strokeStyle='#fff';c.strokeText(n,x*w,y*h+26);c.fillStyle='#10162f';c.fillText(n,x*w,y*h+26)});
   const nx=w-36,ny=40;c.fillStyle='#10162f';c.beginPath();c.moveTo(nx,ny-22);c.lineTo(nx-9,ny+6);c.lineTo(nx,ny);c.lineTo(nx+9,ny+6);c.closePath();c.fill();c.font=font(700,14);c.textAlign='center';c.fillText('B',nx,ny+20);
   const sx=18,sy=h-26,cm=CM();c.fillStyle='#fff';c.fillRect(sx-6,sy-30,cm*3+60,42);c.strokeStyle='#10162f';c.lineWidth=1;c.strokeRect(sx-6,sy-30,cm*3+60,42);
   for(let i=0;i<3;i++){c.fillStyle=i%2?'#fff':'#10162f';c.fillRect(sx+i*cm,sy-8,cm,7);c.strokeRect(sx+i*cm,sy-8,cm,7)}c.fillStyle='#10162f';c.font=font(600,10,'f-mono');c.textAlign='center';c.textBaseline='bottom';
@@ -3078,6 +3232,200 @@ drag($('cMap'),(x,y,dx,dy,t)=>{if(t==='down'){const A=[S.a[0]*S.W,S.a[1]*S.H],B=
   if(S.drag){let p=[Math.max(0,Math.min(1,x/S.W)),Math.max(0,Math.min(1,y/S.H))];const q=PL.find(q=>Math.hypot((q[2]-p[0])*S.W,(q[3]-p[1])*S.H)<22);if(q)p=[q[2],q[3]];S[S.drag]=p;up()}});
 document.querySelectorAll('#p-mapscale [data-ms]').forEach(b=>b.onclick=()=>{const[i,j]=b.dataset.ms.split(',').map(Number);S.a=[PL[i][2],PL[i][3]];S.b=[PL[j][2],PL[j][3]];up()});
 $('msScale').addEventListener('change',up);up()}
+
+/* ================= HOÁ, SINH BỔ SUNG ================= */
+const sciE=(v,d=2)=>{if(!v)return'0';const[a,b]=v.toExponential(d).split('e');return a.replace('.',',')+'·10'+sup(Math.abs(+b)).replace(/^/,+b<0?'⁻':'')};
+
+/* ---------- Hoá: lắp ráp nguyên tử ---------- */
+{const A={p:6,n:6,e:6,spin:0},LIM={p:20,n:30,e:22};
+const EL=['','H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca'],NM=['','Hydrogen','Helium','Lithium','Beryllium','Boron','Carbon','Nitrogen','Oxygen','Fluorine','Neon','Sodium (natri)','Magnesium','Aluminium','Silicon','Phosphorus','Sulfur','Chlorine','Argon','Potassium (kali)','Calcium'];
+const STABLE={1:[0,1],2:[1,2],3:[3,4],4:[5],5:[5,6],6:[6,7],7:[7,8],8:[8,9,10],9:[10],10:[10,11,12],11:[12],12:[12,13,14],13:[14],14:[14,15,16],15:[16],16:[16,17,18,20],17:[18,20],18:[18,20,22],19:[20,22],20:[20,22,23,24,26,28]};
+const shells=e=>{const cap=[2,8,8,8],o=[];let r=e;for(const c of cap){if(r<=0)break;o.push(Math.min(c,r));r-=c}if(r>0)o[o.length-1]+=r;return o};
+const chg=q=>q===0?'':(Math.abs(q)>1?sup(Math.abs(q)):'')+(q>0?'⁺':'⁻');
+function up(){$('atP').textContent=A.p;$('atN').textContent=A.n;$('atE').textContent=A.e;const q=A.p-A.e,M=A.p+A.n;
+  presetSync('#p-atom [data-at]','at',`${A.p},${A.n},${A.e}`);
+  $('atSym').textContent=A.p?`${sup(M)}${sub(A.p)}${EL[A.p]}${chg(q)}`:'?';
+  $('atInfo').innerHTML=kv([['Nguyên tố',A.p?NM[A.p]:'chưa xác định'],['Số hiệu nguyên tử Z = p',A.p],['Số khối A = p + n',M],['Điện tích',q===0?'0 (nguyên tử trung hoà)':(q>0?'+':'−')+Math.abs(q)+(q>0?' (ion dương)':' (ion âm)')],['Khối lượng ≈',M+' amu'],['Số e mỗi lớp',shells(A.e).join(', ')||'—']]);
+  const V=$('atV'),ok=A.p&&(STABLE[A.p]||[]).includes(A.n);V.className='verdict'+(A.p?(ok?' ok':' bad'):'');
+  V.textContent=!A.p?'Chưa có proton thì chưa tạo thành nguyên tố hoá học. Số proton quyết định tên nguyên tố.':ok?`Hạt nhân bền. Các nguyên tử cùng số proton nhưng khác số neutron là đồng vị của ${EL[A.p]}.`:`Hạt nhân không bền với ${A.n} neutron: đồng vị phóng xạ hoặc không tồn tại trong tự nhiên.`;draw()}
+const draw=canvasOf($('cAtom'),(c,w,h)=>{const cx=w/2,cy=h/2,sh=shells(A.e),R0=Math.max(30,7*Math.sqrt(A.p+A.n)+10),gap=Math.min((Math.min(w,h)/2-R0-16)/Math.max(1,sh.length),46);
+  sh.forEach((k,i)=>{const r=R0+gap*(i+1);c.strokeStyle=css('gridStrong');c.lineWidth=1.4;c.beginPath();c.arc(cx,cy,r,0,7);c.stroke();
+    for(let j=0;j<k;j++){const a=A.spin*(.9/(i+1))+j*2*Math.PI/k;c.fillStyle=css('rain');c.beginPath();c.arc(cx+r*Math.cos(a),cy+r*Math.sin(a),6,0,7);c.fill();c.strokeStyle='#10162f';c.lineWidth=1.2;c.stroke()}});
+  const tot=A.p+A.n,parts=[];for(let i=0;i<tot;i++)parts.push(i%2===0&&parts.filter(x=>x).length<A.p||parts.filter(x=>!x).length>=A.n);
+  parts.forEach((isP,i)=>{const r=5.6*Math.sqrt(i),a=i*2.39996;c.fillStyle=isP?css('red'):'#adb5bd';c.beginPath();c.arc(cx+r*Math.cos(a),cy+r*Math.sin(a),7,0,7);c.fill();c.strokeStyle='#10162f';c.lineWidth=1.2;c.stroke()});
+  if(!tot){c.fillStyle=css('muted');c.font=font(500,14);c.textAlign='center';c.textBaseline='middle';c.fillText('Thêm proton để bắt đầu',cx,cy)}});
+document.querySelectorAll('#p-atom [data-ad]').forEach(b=>b.onclick=()=>{const[k,d]=b.dataset.ad.split(',');A[k]=Math.max(0,Math.min(LIM[k],A[k]+ +d));up()});
+document.querySelectorAll('#p-atom [data-at]').forEach(b=>b.onclick=()=>{[A.p,A.n,A.e]=b.dataset.at.split(',').map(Number);up()});
+TICK.atom=dt=>{if(reduced)return;A.spin+=dt;draw()};up()}
+
+/* ---------- Hoá: thang pH ---------- */
+{const SUBS=[['Dịch vị dạ dày',1.5],['Nước chanh',2.3],['Giấm ăn',2.9],['Nước cam',3.6],['Cà phê',5],['Sữa bò',6.6],['Nước cất',7],['Máu người',7.4],['Nước biển',8.1],['Dung dịch baking soda',8.4],['Nước xà phòng',10],['Nước vôi trong',12.4],['Dung dịch NaOH 0,1 M',13]];
+const STOP=[[0,[215,38,61]],[3,[244,96,54]],[5,[249,200,14]],[7,[76,175,80]],[9,[30,136,229]],[11,[63,81,181]],[14,[106,27,154]]];
+const uni=p=>{for(let i=1;i<STOP.length;i++)if(p<=STOP[i][0]){const[a,ca]=STOP[i-1],[b,cb]=STOP[i],t=(p-a)/(b-a);return`rgb(${ca.map((v,k)=>Math.round(v+(cb[k]-v)*t)).join(',')})`}return'rgb(106,27,154)'};
+const IND={quy:p=>p<6?['#e03131','đỏ']:p<=8?['#9c36b5','tím']:['#1c7ed6','xanh'],pp:p=>p<8.2?['rgba(225,235,245,.6)','không màu']:p<10?['#f06595','hồng']:['#c2255c','hồng đậm'],un:p=>[uni(p),'màu theo thang pH']};
+const S={ind:'quy'};$('phSub').innerHTML=SUBS.map((s,i)=>`<option value="${i}">${s[0]} (pH ≈ ${fmt(s[1],1)})</option>`).join('');$('phSub').value=1;
+function up(){const[n,p]=SUBS[+$('phSub').value],[,cl]=IND[S.ind](p);presetSync('#p-ph [data-pi]','pi',S.ind);
+  $('phInfo2').innerHTML=kv([['pH',fmt(p,1)],['Môi trường',p<6.95?'acid':p>7.05?'base':'trung tính'],['[H⁺] = 10⁻ᵖᴴ',sciE(10**-p,1)+' mol/L'],['Màu chất chỉ thị',cl]]);
+  $('phV2').textContent=p<7?'pH < 7: môi trường acid, pH càng nhỏ tính acid càng mạnh. Quỳ tím hoá đỏ.':p>7?'pH > 7: môi trường base, pH càng lớn tính base càng mạnh. Quỳ tím hoá xanh, phenolphthalein hoá hồng khi pH > 8,2.':'pH = 7: môi trường trung tính, quỳ tím giữ màu tím.';draw()}
+const draw=canvasOf($('cPh'),(c,w,h)=>{const sel=+$('phSub').value,ml=30,mr=30,by=h*.16,bh=34,X=p=>ml+p/14*(w-ml-mr);
+  for(let i=0;i<=200;i++){const p=14*i/200;c.fillStyle=uni(p);c.fillRect(X(p),by,(w-ml-mr)/200+1,bh)}c.strokeStyle='#10162f';c.lineWidth=1.5;c.strokeRect(ml,by,w-ml-mr,bh);
+  c.fillStyle=css('ink');c.font=font(700,12,'f-mono');c.textAlign='center';c.textBaseline='bottom';for(let p=0;p<=14;p++)c.fillText(p,X(p),by-4);
+  c.font=font(600,12);c.textAlign='left';c.fillStyle=css('red');c.fillText('← acid mạnh dần',ml,by-20);c.textAlign='right';c.fillStyle=css('accent');c.fillText('base mạnh dần →',w-mr,by-20);c.textAlign='center';c.fillStyle=css('green');c.fillText('trung tính',X(7),by-20);
+  SUBS.forEach(([n,p],i)=>{const y0=by+bh,lvl=y0+18+(i%4)*20,on=i===sel;c.strokeStyle=on?css('ink'):css('gridStrong');c.lineWidth=on?2:1;c.beginPath();c.moveTo(X(p),y0);c.lineTo(X(p),lvl-6);c.stroke();
+    c.fillStyle=on?css('ink'):css('muted');c.font=font(on?700:500,11);c.textBaseline='top';c.textAlign=X(p)<90?'left':X(p)>w-90?'right':'center';c.fillText(n,X(p),lvl-4)});
+  const p=SUBS[sel][1],tx=w/2,ty=by+bh+110,th=Math.min(h-ty-30,170),tw=46,[col]=IND[S.ind](p);
+  c.fillStyle=col;c.beginPath();c.moveTo(tx-tw/2,ty+th*.3);c.lineTo(tx-tw/2,ty+th-tw/2);c.arc(tx,ty+th-tw/2,tw/2,Math.PI,0,true);c.lineTo(tx+tw/2,ty+th*.3);c.closePath();c.fill();
+  c.strokeStyle='#10162f';c.lineWidth=2.4;c.beginPath();c.moveTo(tx-tw/2-4,ty);c.lineTo(tx-tw/2,ty);c.lineTo(tx-tw/2,ty+th-tw/2);c.arc(tx,ty+th-tw/2,tw/2,Math.PI,0,true);c.lineTo(tx+tw/2,ty);c.lineTo(tx+tw/2+4,ty);c.stroke();
+  c.fillStyle=css('ink');c.font=font(700,14);c.textAlign='left';c.textBaseline='middle';c.fillText(SUBS[sel][0],tx+tw/2+16,ty+th*.45);c.font=font(500,12);c.fillStyle=css('muted');
+  c.fillText('+ '+({quy:'giấy quỳ tím',pp:'phenolphthalein',un:'chỉ thị vạn năng'})[S.ind]+': '+IND[S.ind](p)[1],tx+tw/2+16,ty+th*.45+20)});
+document.querySelectorAll('#p-ph [data-pi]').forEach(b=>b.onclick=()=>{S.ind=b.dataset.pi;up()});$('phSub').addEventListener('change',up);up()}
+
+/* ---------- Hoá: cân bằng hoá học ---------- */
+{const Q={mol:[],prevA:null,msg:'Thay đổi nhiệt độ hoặc áp suất để xem cân bằng chuyển dịch.',why:''},n0=18;
+const Kp=T=>Math.exp(-(57200-175.8*T)/(8.314*T)),alpha=(T,P)=>Math.sqrt(Kp(T)/(Kp(T)+4*P));
+function sync(){const T=+$('eqT').value,P=+$('eqP').value,a=alpha(T,P),nNO2=Math.round(2*a*n0),nN=n0-Math.round(nNO2/2);let cur2=Q.mol.filter(m=>m.t===2).length,cur1=Q.mol.length-cur2;
+  while(cur1>nN&&Q.mol.some(m=>m.t===1)){const m=Q.mol.find(m=>m.t===1);m.t=2;Q.mol.push({t:2,x:m.x+.02,y:m.y,vx:-m.vx,vy:m.vy});cur1--;cur2+=2}
+  while(cur1<nN&&Q.mol.filter(m=>m.t===2).length>=2){const i=Q.mol.findIndex(m=>m.t===2);Q.mol[i].t=1;const j=Q.mol.findIndex((m,k)=>m.t===2&&k!==i);Q.mol.splice(j,1);cur1++}
+  while(Q.mol.length<1)Q.mol.push({t:1,x:Math.random(),y:Math.random(),vx:.3,vy:.2})}
+for(let i=0;i<n0;i++)Q.mol.push({t:1,x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.6,vy:(Math.random()-.5)*.6});
+function up(cause){const T=+$('eqT').value,P=+$('eqP').value,a=alpha(T,P),x=2*a/(1+a);$('oeqT').textContent=T+' K ('+(T-273)+' °C)';$('oeqP').textContent=fmt(P,1)+' bar';
+  if(Q.prevA!=null&&Math.abs(a-Q.prevA)>1e-4){Q.msg=a>Q.prevA?'Cân bằng chuyển dịch theo chiều nghịch: tạo thêm NO₂, hỗn hợp đậm màu nâu hơn.':'Cân bằng chuyển dịch theo chiều thuận: tạo thêm N₂O₄, hỗn hợp nhạt màu đi.';
+    Q.why=cause==='T'?(a>Q.prevA?' Lí do: tăng nhiệt độ, cân bằng chuyển dịch theo chiều thu nhiệt (chiều nghịch).':' Lí do: giảm nhiệt độ, cân bằng chuyển dịch theo chiều toả nhiệt (chiều thuận).'):(a<Q.prevA?' Lí do: tăng áp suất, cân bằng chuyển dịch về phía ít phân tử khí hơn (N₂O₄).':' Lí do: giảm áp suất, cân bằng chuyển dịch về phía nhiều phân tử khí hơn (NO₂).')}
+  Q.prevA=a;sync();
+  $('eqInfo').innerHTML=kv([['Hằng số cân bằng K_P (N₂O₄ ⇌ 2NO₂)',fmt(Kp(T),3)],['Phần trăm N₂O₄ bị phân li',fmt(a*100,1)+' %'],['Phần mol NO₂ trong hỗn hợp',fmt(x*100,1)+' %'],['Số phân tử trong hình',`${Q.mol.filter(m=>m.t===2).length} NO₂, ${Q.mol.filter(m=>m.t===1).length} N₂O₄`]]);
+  $('eqV').textContent=Q.msg+Q.why;draw()}
+const draw=canvasOf($('cEqb'),(c,w,h)=>{const T=+$('eqT').value,P=+$('eqP').value,a=alpha(T,P),x=2*a/(1+a),conc=x*P*298/T,x0=50,cy=h/2,ch=Math.min(h*.5,220),Lmax=w-150,L=Lmax*Math.min(1,1/P)*.95+30,y0=cy-ch/2;
+  if(T>318||T<285){c.fillStyle=T>318?'rgba(255,135,135,.25)':'rgba(116,192,252,.3)';c.fillRect(x0-24,y0-24,L+48,ch+48);c.fillStyle=css('muted');c.font=font(600,12);c.textAlign='left';c.textBaseline='bottom';c.fillText(T>318?'Cốc nước nóng':'Cốc nước đá',x0-20,y0-28)}
+  c.fillStyle=`rgba(150,60,20,${Math.min(.75,conc*1.4)})`;c.fillRect(x0,y0,L,ch);
+  c.strokeStyle='#10162f';c.lineWidth=3;c.beginPath();c.moveTo(x0+L,y0);c.lineTo(x0,y0);c.lineTo(x0,y0+ch);c.lineTo(x0+L,y0+ch);c.stroke();
+  c.fillStyle='#adb5bd';c.fillRect(x0+L,y0-6,14,ch+12);c.strokeRect(x0+L,y0-6,14,ch+12);c.fillRect(x0+L+14,cy-6,w-x0-L-30,12);c.strokeRect(x0+L+14,cy-6,w-x0-L-30,12);
+  Q.mol.forEach(m=>{const px=x0+12+m.x*(L-24),py=y0+12+m.y*(ch-24);c.strokeStyle='#10162f';c.lineWidth=1.2;
+    if(m.t===2){c.fillStyle='#c0582f';c.beginPath();c.arc(px,py,7,0,7);c.fill();c.stroke()}else{c.fillStyle='#f1f3f5';[-5,5].forEach(d=>{c.beginPath();c.arc(px+d,py,6,0,7);c.fill();c.stroke()})}});
+  c.font=font(600,12);c.textAlign='left';c.textBaseline='top';c.fillStyle=css('ink');c.fillText('● NO₂ (nâu đỏ)   ●● N₂O₄ (không màu)',x0,y0+ch+12)});
+TICK.equil=dt=>{const k=reduced?.2:1,T=+$('eqT').value,sp=Math.sqrt(T/298)*k;Q.mol.forEach(m=>{m.x+=m.vx*dt*sp;m.y+=m.vy*dt*sp;if(m.x<0){m.x=0;m.vx=Math.abs(m.vx)}if(m.x>1){m.x=1;m.vx=-Math.abs(m.vx)}if(m.y<0){m.y=0;m.vy=Math.abs(m.vy)}if(m.y>1){m.y=1;m.vy=-Math.abs(m.vy)}});draw()};
+$('eqT').addEventListener('input',()=>up('T'));$('eqP').addEventListener('input',()=>up('P'));
+$('eqHot').onclick=()=>{$('eqT').value=353;up('T')};$('eqCold').onclick=()=>{$('eqT').value=273;up('T')};$('eqPush').onclick=()=>{$('eqP').value=Math.min(4,+$('eqP').value*2);up('P')};
+Q.prevA=null;up()}
+
+/* ---------- Hoá: mol ---------- */
+{const SUB=[['H₂O (nước)',18,'lỏng'],['NaCl (muối ăn)',58.5,'rắn'],['C₆H₁₂O₆ (glucose)',180,'rắn'],['Fe (sắt)',56,'rắn'],['CaCO₃ (đá vôi)',100,'rắn'],['O₂ (oxygen)',32,'khí'],['CO₂ (carbon dioxide)',44,'khí'],['H₂ (hydrogen)',2,'khí']];
+$('moSub').innerHTML=SUB.map((s,i)=>`<option value="${i}">${s[0]}, M = ${fmt(s[1],s[1]%1?1:0)} g/mol</option>`).join('');
+function up(){const[nm,M,st]=SUB[+$('moSub').value],n=+$('moN').value;$('omoN').textContent=fmt(n,1)+' mol';
+  $('moInfo').innerHTML=kv([['Khối lượng mol M',fmt(M,M%1?1:0)+' g/mol'],['Khối lượng m',fmt(n*M,1)+' g'],['Số phân tử, nguyên tử N',sciE(n*6.022e23,3)],['Thể tích ở 25 °C, 1 bar',st==='khí'?fmt(n*24.79,2)+' L':'không áp dụng ('+st+')']]);draw()}
+const draw=canvasOf($('cMole'),(c,w,h)=>{const[nm,M,st]=SUB[+$('moSub').value],n=+$('moN').value,pw=w/3,cy=h*.55;
+  const title=(i,t)=>{c.fillStyle=css('ink');c.font=font(700,13);c.textAlign='center';c.textBaseline='top';c.fillText(t,pw*i+pw/2,16)};title(0,'Khối lượng');title(1,'Số hạt');title(2,'Thể tích khí');
+  let x=pw/2;c.fillStyle='#dee2e6';c.strokeStyle='#10162f';c.lineWidth=2;c.fillRect(x-60,cy+30,120,40);c.strokeRect(x-60,cy+30,120,40);c.fillStyle='#10162f';c.fillRect(x-44,cy+40,88,22);c.fillStyle='#69db7c';c.font=font(700,15,'f-mono');c.textBaseline='middle';c.fillText(fmt(n*M,1)+' g',x,cy+51);
+  c.fillStyle='#adb5bd';c.fillRect(x-56,cy+24,112,6);c.strokeRect(x-56,cy+24,112,6);const hp=Math.min(80,8+Math.sqrt(n*M)*3.2);c.fillStyle=st==='lỏng'?'rgba(116,192,252,.8)':st==='khí'?'rgba(206,212,218,.4)':'#f1e3c8';
+  c.beginPath();c.moveTo(x-hp*.9,cy+24);c.quadraticCurveTo(x,cy+24-hp*1.2,x+hp*.9,cy+24);c.closePath();c.fill();c.stroke();
+  x=pw*1.5;const bags=Math.ceil(n),cols=Math.min(5,bags),bw=Math.min(40,pw/6);for(let i=0;i<bags;i++){const bx=x-(cols*bw*1.2)/2+(i%cols)*bw*1.2+bw*.1,byy=cy-40+Math.floor(i/cols)*bw*1.4,f=Math.min(1,n-i);
+    c.fillStyle=css('accentSoft');c.fillRect(bx,byy,bw,bw*1.2);c.fillStyle=css('accent');c.fillRect(bx,byy+bw*1.2*(1-f),bw,bw*1.2*f);c.strokeStyle='#10162f';c.lineWidth=1.5;c.strokeRect(bx,byy,bw,bw*1.2)}
+  c.fillStyle=css('muted');c.font=font(500,11);c.textAlign='center';c.textBaseline='top';c.fillText('Mỗi túi = 1 mol = 6,022·10²³ hạt',x,h-40);
+  x=pw*2.5;if(st==='khí'){const V=n*24.79,r=Math.min(pw*.4,14*Math.cbrt(V));c.fillStyle=css('accentSoft');c.strokeStyle='#10162f';c.lineWidth=2;c.beginPath();c.ellipse(x,cy-10,r*.9,r,0,0,7);c.fill();c.stroke();c.beginPath();c.moveTo(x,cy-10+r);c.lineTo(x-5,cy+r);c.lineTo(x+5,cy+r);c.closePath();c.fill();c.stroke();
+    c.beginPath();c.moveTo(x,cy+r);c.quadraticCurveTo(x+10,cy+r+20,x,cy+r+40);c.stroke();c.fillStyle=css('ink');c.font=font(700,15,'f-mono');c.textBaseline='middle';c.fillText(fmt(V,1)+' L',x,cy-10)}
+  else{c.fillStyle=css('muted');c.font=font(500,12);c.textBaseline='middle';c.fillText('Chất '+st+': không dùng',x,cy-10);c.fillText('công thức V = n · 24,79',x,cy+8)}});
+$('moSub').addEventListener('change',up);$('moN').addEventListener('input',up);up()}
+
+/* ---------- Sinh: cấu tạo tế bào ---------- */
+{const ORG={mang:['Màng sinh chất','Bao bọc tế bào, kiểm soát các chất đi vào và đi ra khỏi tế bào.'],thanh:['Thành tế bào','Lớp cellulose cứng bên ngoài màng sinh chất, giúp tế bào thực vật có hình dạng ổn định. Tế bào động vật không có.'],
+  nhan:['Nhân','Chứa vật chất di truyền (DNA), điều khiển mọi hoạt động sống của tế bào.'],tbc:['Tế bào chất','Chất keo lỏng trong tế bào, nơi diễn ra phần lớn các phản ứng hoá học.'],ti:['Ti thể','Nơi diễn ra hô hấp tế bào, tạo năng lượng (ATP) cho tế bào hoạt động.'],
+  luc:['Lục lạp','Chứa diệp lục, thực hiện quang hợp tạo chất hữu cơ từ ánh sáng. Chỉ có ở tế bào thực vật.'],khong:['Không bào','Chứa nước, muối khoáng và chất dự trữ. Ở tế bào thực vật trưởng thành có không bào trung tâm rất lớn.'],
+  luoi:['Lưới nội chất','Hệ thống màng thông nhau, tổng hợp và vận chuyển protein, lipid.'],golgi:['Bộ máy Golgi','Thu nhận, biến đổi, đóng gói và phân phối các sản phẩm của tế bào.'],ribo:['Ribosome','Hạt rất nhỏ, nơi tổng hợp protein.'],
+  lyso:['Lysosome','Chứa enzyme phân giải các chất và bào quan già. Có chủ yếu ở tế bào động vật.'],trung:['Trung thể','Tham gia hình thành thoi phân bào khi tế bào động vật phân chia.']};
+const C={type:'dv',sel:'nhan',G:{x:0,y:0,s:1}};
+const LAY={dv:[['ti','e',.68,.33,.07,.035,.4],['ti','e',.3,.7,.07,.035,-.3],['ti','e',.72,.67,.07,.035,.2],['lyso','c',.28,.33,.03],['lyso','c',.6,.78,.025],['trung','c',.57,.3,.03],['golgi','c',.64,.52,.06],['khong','c',.8,.48,.035],['luoi','c',.36,.5,.05],['ribo','c',.5,.72,.03],['nhan','c',.46,.48,.12],['tbc','c',.5,.5,.32],['mang','c',.5,.5,.38]],
+  tv:[['luc','e',.25,.25,.06,.03,.3],['luc','e',.78,.3,.06,.03,-.4],['luc','e',.3,.78,.06,.03,.1],['luc','e',.76,.78,.06,.03,-.2],['ti','e',.5,.2,.06,.03,0],['golgi','c',.22,.55,.05],['ribo','c',.82,.55,.03],['luoi','c',.38,.2,.04],['nhan','c',.24,.38,.09],['khong','r',.58,.54,.22,.22],['tbc','r',.5,.5,.34,.34],['mang','r',.5,.5,.37,.37],['thanh','r',.5,.5,.42,.42]]};
+const hit=(o,u,v)=>o[1]==='c'?Math.hypot(u-o[2],v-o[3])<=o[4]:o[1]==='e'?((u-o[2])/o[4])**2+((v-o[3])/o[5])**2<=1.3:Math.abs(u-o[2])<=o[4]&&Math.abs(v-o[3])<=o[5];
+function up(){presetSync('#p-cellstruct [data-ct2]','ct2',C.type);if(!LAY[C.type].some(o=>o[0]===C.sel))C.sel='nhan';const[nm,ds]=ORG[C.sel];$('csName').textContent=nm;$('csDesc').textContent=ds;
+  $('csCmp').innerHTML=kv([['Bào quan','Động vật / Thực vật'],['Thành tế bào','không / có'],['Lục lạp','không / có'],['Không bào','nhỏ / rất lớn'],['Lysosome, trung thể','có / thường không'],['Nhân, ti thể, màng','có / có']]);draw()}
+const draw=canvasOf($('cCs'),(c,w,h)=>{const S=Math.min(h-20,w-(w>600?260:20)),ox=(w-S)/2,oy=(h-S)/2;C.G={x:ox,y:oy,s:S};const P=(u,v)=>[ox+u*S,oy+v*S],N='#10162f';
+  const lay=[...LAY[C.type]].reverse(),dv=C.type==='dv';
+  lay.forEach(o=>{const[k,sh,u,v,a,b,rot]=o,[x,y]=P(u,v);c.lineWidth=2;c.strokeStyle=N;c.save();
+    if(k==='thanh'){c.fillStyle='#b2f2bb';c.fillRect(x-a*S,y-b*S,2*a*S,2*b*S);c.lineWidth=3;c.strokeRect(x-a*S,y-b*S,2*a*S,2*b*S)}
+    else if(k==='mang'){c.fillStyle=dv?'#ffe3e3':'#ebfbee';c.beginPath();dv?c.ellipse(x,y,a*S,a*S*.86,0,0,7):c.roundRect(x-a*S,y-b*S,2*a*S,2*b*S,12);c.fill();c.stroke()}
+    else if(k==='tbc'){}
+    else if(k==='nhan'){c.fillStyle='#d0bfff';c.beginPath();c.arc(x,y,a*S,0,7);c.fill();c.stroke();c.fillStyle='#7950f2';c.beginPath();c.arc(x+a*S*.25,y-a*S*.15,a*S*.32,0,7);c.fill()}
+    else if(k==='khong'){c.fillStyle='rgba(165,216,255,.75)';c.beginPath();sh==='r'?c.roundRect(x-a*S,y-b*S,2*a*S,2*b*S,20):c.arc(x,y,a*S,0,7);c.fill();c.stroke()}
+    else if(k==='ti'){c.translate(x,y);c.rotate(rot);c.fillStyle='#ffa94d';c.beginPath();c.ellipse(0,0,a*S,b*S,0,0,7);c.fill();c.stroke();c.lineWidth=1.4;c.beginPath();for(let i=-3;i<=3;i++){const xx=i*a*S/4;c.moveTo(xx,-b*S*.7);c.lineTo(xx+a*S/8,b*S*.7)}c.stroke()}
+    else if(k==='luc'){c.translate(x,y);c.rotate(rot);c.fillStyle='#51cf66';c.beginPath();c.ellipse(0,0,a*S,b*S,0,0,7);c.fill();c.stroke();c.fillStyle='#2b8a3e';for(let i=-2;i<=2;i++){c.fillRect(i*a*S/3-2,-b*S*.5,4,b*S)}}
+    else if(k==='golgi'){c.strokeStyle='#e64980';c.lineWidth=3.2;for(let i=0;i<4;i++){c.beginPath();c.arc(x,y+a*S*1.4,a*S*(.9+i*.28),Math.PI*1.2,Math.PI*1.8);c.stroke()}}
+    else if(k==='luoi'){c.strokeStyle='#4c6ef5';c.lineWidth=2.4;for(let i=0;i<3;i++){c.beginPath();for(let t=0;t<=20;t++){const yy=y-a*S+i*a*S*.8+Math.sin(t*.9)*4,xx=x-a*S*1.2+t*a*S*2.4/20;t?c.lineTo(xx,yy):c.moveTo(xx,yy)}c.stroke()}}
+    else if(k==='ribo'){c.fillStyle=N;for(let i=0;i<9;i++){c.beginPath();c.arc(x+Math.cos(i*2.4)*a*S*(.3+i%3*.3),y+Math.sin(i*2.4)*a*S*(.3+i%3*.3),2.2,0,7);c.fill()}}
+    else if(k==='lyso'){c.fillStyle='#94d82d';c.beginPath();c.arc(x,y,a*S,0,7);c.fill();c.stroke()}
+    else if(k==='trung'){c.fillStyle='#868e96';c.fillRect(x-a*S,y-a*S*.35,a*S*1.1,a*S*.7);c.strokeRect(x-a*S,y-a*S*.35,a*S*1.1,a*S*.7);c.fillRect(x+a*S*.1,y-a*S,a*S*.7,a*S*1.1);c.strokeRect(x+a*S*.1,y-a*S,a*S*.7,a*S*1.1)}
+    c.restore();
+    if(k===C.sel&&k!=='tbc'){c.save();c.strokeStyle='#ffd300';c.lineWidth=5;c.globalAlpha=.9;c.beginPath();if(sh==='r')c.rect(x-a*S-4,y-b*S-4,2*a*S+8,2*b*S+8);else if(sh==='e')c.ellipse(x,y,a*S+6,a*S*.7+6,rot||0,0,7);else c.arc(x,y,a*S+5,0,7);c.stroke();c.restore()}});
+  if($('csLab').checked&&w>600){const seen=new Set(),items=LAY[C.type].filter(o=>{if(seen.has(o[0]))return false;seen.add(o[0]);return true});
+    items.forEach((o,i)=>{const[k,sh,u,v,a]=o,[x,y]=P(u,v),left=u<.5,lx=left?ox-14:ox+S+14,ly=oy+20+i*(S-40)/(items.length-1||1),ax=k==='mang'||k==='thanh'||k==='tbc'?x+(left?-1:1)*(sh==='r'?a*S:a*S*.95)*(k==='tbc'?.6:1):x;
+      c.strokeStyle=k===C.sel?'#10162f':'rgba(16,22,47,.4)';c.lineWidth=1;c.beginPath();c.moveTo(ax,y);c.lineTo(lx+(left?4:-4),ly);c.stroke();c.fillStyle=k===C.sel?css('accent'):css('ink');c.font=font(k===C.sel?700:500,12);c.textAlign=left?'right':'left';c.textBaseline='middle';c.fillText(ORG[k][0],lx,ly)})}});
+$('cCs').addEventListener('click',e=>{const r=$('cCs').getBoundingClientRect(),u=(e.clientX-r.left-C.G.x)/C.G.s,v=(e.clientY-r.top-C.G.y)/C.G.s,o=LAY[C.type].find(o=>hit(o,u,v));if(o){C.sel=o[0];up()}});$('cCs').style.cursor='pointer';
+document.querySelectorAll('#p-cellstruct [data-ct2]').forEach(b=>b.onclick=()=>{C.type=b.dataset.ct2;up()});$('csLab').addEventListener('change',draw);up()}
+
+/* ---------- Sinh: thẩm thấu ---------- */
+{const O={type:'hc',vol:1,t:0,dots:Array.from({length:240},()=>[Math.random(),Math.random()])};
+function target(){const C=+$('osC').value,r=Math.sqrt((0.9+.15)/(C+.15));return O.type==='hc'?Math.max(.55,Math.min(1.75,r)):Math.min(1,Math.max(.45,r))}
+function env(C){return C<.8?'nhược trương':C>1?'ưu trương':'đẳng trương'}
+function up(){const C=+$('osC').value;presetSync('#p-osmosis [data-oc]','oc',O.type);presetSync('#p-osmosis [data-ov]','ov',String(C));$('oosC').textContent=fmt(C,1)+' %';const e=env(C);
+  $('osInfo').innerHTML=kv([['Môi trường ngoài tế bào',e],['Nước di chuyển',e==='nhược trương'?'từ ngoài vào trong tế bào':e==='ưu trương'?'từ trong tế bào ra ngoài':'vào và ra cân bằng'],['Thể tích tế bào',fmt(O.vol*100,0)+' %']]);
+  const V=$('osV'),lys=O.type==='hc'&&O.vol>1.6;V.className='verdict'+(lys||O.vol<.8?' bad':' ok');
+  V.textContent=O.type==='hc'?(lys?'Hồng cầu hút nước, trương lên rồi vỡ (tan máu). Vì vậy không truyền nước cất vào máu.':e==='ưu trương'?'Hồng cầu mất nước, co lại và nhăn nheo.':e==='nhược trương'?'Hồng cầu hút nước và trương lên.':'Dung dịch NaCl 0,9 % đẳng trương với máu: hồng cầu giữ nguyên hình dạng.')
+    :(e==='ưu trương'?'Tế bào mất nước, chất nguyên sinh co lại tách khỏi thành tế bào: hiện tượng co nguyên sinh.':e==='nhược trương'?'Tế bào hút nước, trương lên nhưng không vỡ nhờ thành tế bào cứng.':'Tế bào ở trạng thái bình thường.')}
+const draw=canvasOf($('cOs'),(c,w,h)=>{const C=+$('osC').value,cx=w/2,cy=h/2,R=Math.min(w,h)*.22,N='#10162f';
+  c.fillStyle='rgba(165,216,255,.25)';c.fillRect(0,0,w,h);c.fillStyle='rgba(16,22,47,.35)';const nd=Math.round(C/3*240);for(let i=0;i<nd;i++){const[x,y]=O.dots[i];if(Math.hypot(x*w-cx,y*h-cy)<R*1.6)continue;c.beginPath();c.arc(x*w,y*h,1.8,0,7);c.fill()}
+  if(O.type==='hc'){const s=Math.sqrt(O.vol),r=R*s,lys=O.vol>1.6;
+    if(lys){c.fillStyle='rgba(224,49,49,.18)';c.beginPath();c.arc(cx,cy,r*1.3,0,7);c.fill();c.strokeStyle='#c92a2a';c.lineWidth=3;for(let i=0;i<6;i++){const a=i*1.05+.3;c.beginPath();c.arc(cx,cy,r,a,a+.6);c.stroke()}}
+    else{c.fillStyle='#e03131';c.strokeStyle=N;c.lineWidth=2;c.beginPath();for(let i=0;i<=120;i++){const a=i/120*2*Math.PI,k=O.vol<.85?1+.09*Math.sin(a*18):1,rr=r*k;i?c.lineTo(cx+rr*Math.cos(a),cy+rr*Math.sin(a)*.82):c.moveTo(cx+rr,cy)}c.closePath();c.fill();c.stroke();
+      if(O.vol>=.85){c.fillStyle='#ff8787';c.beginPath();c.ellipse(cx,cy,r*.45,r*.36,0,0,7);c.fill()}}}
+  else{const W=R*2.6,H=R*1.9;c.fillStyle='#b2f2bb';c.strokeStyle=N;c.lineWidth=4;c.strokeRect(cx-W/2,cy-H/2,W,H);c.fillStyle='rgba(165,216,255,.25)';c.fillRect(cx-W/2+3,cy-H/2+3,W-6,H-6);
+    const s=Math.sqrt(O.vol),pw=(W-14)*s,ph=(H-14)*s;c.fillStyle='#d3f9d8';c.lineWidth=2;c.beginPath();c.roundRect(cx-pw/2,cy-ph/2,pw,ph,Math.min(40,(1-s)*120+6));c.fill();c.stroke();
+    c.fillStyle='rgba(116,192,252,.7)';c.beginPath();c.roundRect(cx-pw*.32,cy-ph*.3,pw*.64,ph*.6,10);c.fill();c.fillStyle='#51cf66';for(let i=0;i<8;i++){const a=i*.8;c.beginPath();c.ellipse(cx+pw*.42*Math.cos(a),cy+ph*.4*Math.sin(a),7,4,a,0,7);c.fill()}}
+  const e=env(C),dir=e==='nhược trương'?-1:e==='ưu trương'?1:0;c.strokeStyle=c.fillStyle=css('accent');c.lineWidth=2.4;
+  for(let i=0;i<8;i++){const a=i/8*2*Math.PI+.2,r0=R*1.35,r1=R*1.75,o=(O.t*.6%1)*14*(dir||1),d=dir||(i%2?1:-1),ra=d<0?r1:r0,rb=d<0?r0:r1;
+    c.beginPath();c.moveTo(cx+(ra+o*d)*Math.cos(a),cy+(ra+o*d)*Math.sin(a));c.lineTo(cx+(rb+o*d)*Math.cos(a),cy+(rb+o*d)*Math.sin(a));c.stroke();arrowHead(c,cx+(rb+o*d)*Math.cos(a),cy+(rb+o*d)*Math.sin(a),d<0?a+Math.PI:a,8)}
+  c.fillStyle=css('ink');c.font=font(600,12);c.textAlign='left';c.textBaseline='top';c.fillText('Mũi tên: hướng nước di chuyển · Chấm đen: phân tử muối',12,10)});
+TICK.osmosis=dt=>{O.t+=dt;const tg=target();O.vol+=(tg-O.vol)*Math.min(1,dt*(reduced?5:1.2));up();draw()};
+document.querySelectorAll('#p-osmosis [data-oc]').forEach(b=>b.onclick=()=>{O.type=b.dataset.oc;O.vol=1;up()});document.querySelectorAll('#p-osmosis [data-ov]').forEach(b=>b.onclick=()=>{$('osC').value=b.dataset.ov;up()});
+$('osC').addEventListener('input',up);up()}
+
+/* ---------- Sinh: tuần hoàn máu ---------- */
+{const H={t:0,ph:0,play:!reduced,cells:Array.from({length:46},(_,i)=>i/46)};
+const PATH=[[.42,.43],[.42,.58],[.3,.58],[.3,.15],[.7,.15],[.7,.43],[.58,.43],[.58,.58],[.74,.58],[.74,.88],[.26,.88],[.26,.43],[.42,.43]];
+let LEN=[],TOT=0;function lens(w,h){LEN=[];TOT=0;for(let i=1;i<PATH.length;i++){const l=Math.hypot((PATH[i][0]-PATH[i-1][0])*w,(PATH[i][1]-PATH[i-1][1])*h);LEN.push(l);TOT+=l}}
+function at(f,w,h){let d=f*TOT,k=0;while(k<LEN.length-1&&d>LEN[k]){d-=LEN[k];k++}const t=d/LEN[k],a=PATH[k],b=PATH[k+1];return{x:(a[0]+(b[0]-a[0])*t)*w,y:(a[1]+(b[1]-a[1])*t)*h,seg:k,t}}
+const oxy=p=>(p.seg>3&&p.seg<9)||(p.seg===3&&p.t>.5)||(p.seg===9&&p.t<.5);
+const phase=f=>f<.125?['Tâm nhĩ co','Máu từ tâm nhĩ được đẩy xuống tâm thất.']:f<.5?['Tâm thất co','Máu từ tâm thất phải lên phổi, từ tâm thất trái vào động mạch chủ đi nuôi cơ thể.']:['Dãn chung','Tim nghỉ, máu từ tĩnh mạch chảy về tâm nhĩ.'];
+function up(){const r=+$('htR').value;$('ohtR').textContent=r+' lần/phút';presetSync('#p-heart [data-hr]','hr',r);const Tc=60/r,[pn,pd]=phase(H.ph);
+  $('htInfo').innerHTML=kv([['Thời gian một chu kì',fmt(Tc,2)+' s'],['Tâm nhĩ co',fmt(Tc*.125,2)+' s'],['Tâm thất co',fmt(Tc*.375,2)+' s'],['Dãn chung',fmt(Tc*.5,2)+' s'],['Pha hiện tại',pn]]);$('htV').textContent=pd}
+const draw=canvasOf($('cHeart'),(c,w,h)=>{lens(w,h);const N='#10162f',P=(u,v)=>[u*w,v*h],f=H.ph,sa=f<.125?.9:1,sv=f>=.125&&f<.5?.88:1;
+  c.fillStyle='#ffe3e3';c.strokeStyle=N;c.lineWidth=2;[[.38,.11],[.62,.11]].forEach(([u,v])=>{const[x,y]=P(u,v);c.beginPath();c.ellipse(x,y,w*.1,h*.07,0,0,7);c.fill();c.stroke()});
+  c.fillStyle=N;c.font=font(700,13);c.textAlign='center';c.textBaseline='middle';c.fillText('Phổi',w/2,h*.05);
+  c.fillStyle='#fff4e6';c.beginPath();c.roundRect(w*.2,h*.84,w*.6,h*.09,12);c.fill();c.stroke();c.fillStyle=N;c.fillText('Các cơ quan trong cơ thể',w/2,h*.885);
+  c.strokeStyle='#ced4da';c.lineWidth=10;c.beginPath();PATH.forEach((p,i)=>i?c.lineTo(...P(...p)):c.moveTo(...P(...p)));c.stroke();
+  const ch=(u,v,s,col,lab)=>{const[x,y]=P(u,v),W=w*.12*s,Hh=h*.12*s;c.fillStyle=col;c.strokeStyle=N;c.lineWidth=2;c.beginPath();c.roundRect(x-W/2,y-Hh/2,W,Hh,10);c.fill();c.stroke();c.fillStyle='#fff';c.font=font(700,11);c.fillText(lab,x,y)};
+  ch(.42,.43,sa,'#4dabf7','Nhĩ phải');ch(.42,.58,sv,'#339af0','Thất phải');ch(.58,.43,sa,'#ff6b6b','Nhĩ trái');ch(.58,.58,sv,'#fa5252','Thất trái');
+  H.cells.forEach(f=>{const p=at(f,w,h);c.fillStyle=oxy(p)?'#e03131':'#1c7ed6';c.beginPath();c.arc(p.x,p.y,4.5,0,7);c.fill()});
+  c.fillStyle=css('muted');c.font=font(600,11);c.textAlign='right';c.fillText('Động mạch phổi',w*.29,h*.36);c.textAlign='left';c.fillText('Tĩnh mạch phổi',w*.71,h*.3);c.fillText('Động mạch chủ',w*.75,h*.72);c.textAlign='right';c.fillText('Tĩnh mạch chủ',w*.25,h*.66);
+  c.fillStyle=css('accent');c.font=font(700,12);c.textAlign='center';c.fillText('Vòng tuần hoàn nhỏ',w/2,h*.21);c.fillText('Vòng tuần hoàn lớn',w/2,h*.8);
+  c.fillStyle=N;c.font=font(700,14);c.textAlign='left';c.textBaseline='top';c.fillText(phase(f)[0],12,10)});
+TICK.heart=dt=>{if(!H.play)return;const r=+$('htR').value,Tc=60/r;H.ph=(H.ph+dt/Tc)%1;const sp=(H.ph>=.125&&H.ph<.5?2:.6)*r/75*.035;H.cells=H.cells.map(f=>(f+sp*dt)%1);up();draw()};
+$('htPlay').textContent=H.play?'Tạm dừng':'Chạy';$('htPlay').onclick=()=>{H.play=!H.play;$('htPlay').textContent=H.play?'Tạm dừng':'Chạy'};
+document.querySelectorAll('#p-heart [data-hr]').forEach(b=>b.onclick=()=>{$('htR').value=b.dataset.hr;up()});$('htR').addEventListener('input',up);up()}
+
+/* ---------- Sinh: xác định giới tính ---------- */
+{const X={kids:[]};
+function up(){const b=X.kids.filter(k=>k).length,g=X.kids.length-b,n=X.kids.length;
+  $('sxInfo').innerHTML=kv([['Số em bé',n],['Con trai (XY)',b+(n?` (${fmt(b/n*100,1)} %)`:'')],['Con gái (XX)',g+(n?` (${fmt(g/n*100,1)} %)`:'')],['Tỉ lệ lí thuyết','1 trai : 1 gái']]);
+  $('sxV').textContent='Mẹ chỉ cho một loại trứng mang X. Bố cho hai loại tinh trùng X và Y với tỉ lệ ngang nhau, nên giới tính của con do tinh trùng của bố quyết định.';draw()}
+const draw=canvasOf($('cSex'),(c,w,h)=>{const N='#10162f',top=h*.36;c.fillStyle=css('ink');c.font=font(700,13);c.textAlign='center';c.textBaseline='top';
+  drawArt(c,'person',w*.2,52,64);c.fillText('Bố (44A + XY)',w*.2,88);drawArt(c,'girl',w*.8,52,64);c.fillText('Mẹ (44A + XX)',w*.8,88);
+  const gam=(x,y,t,col)=>{c.fillStyle=col;c.beginPath();c.arc(x,y,16,0,7);c.fill();c.strokeStyle=N;c.lineWidth=2;c.stroke();c.fillStyle='#fff';c.font=font(700,13);c.textBaseline='middle';c.fillText(t,x,y)};
+  gam(w*.14,top-14,'X','#f783ac');gam(w*.26,top-14,'Y','#4c6ef5');gam(w*.8,top-14,'X','#f783ac');c.fillStyle=css('muted');c.font=font(500,11);c.textBaseline='top';c.fillText('Tinh trùng (50 % X, 50 % Y)',w*.2,top+6);c.fillText('Trứng (100 % X)',w*.8,top+6);
+  const bx=w*.38,bw=w*.24,cy2=top-36;c.strokeStyle=N;c.lineWidth=1.5;c.strokeRect(bx,cy2,bw,44);c.beginPath();c.moveTo(bx+bw/2,cy2);c.lineTo(bx+bw/2,cy2+44);c.stroke();
+  c.fillStyle='#fcc2d7';c.fillRect(bx+1,cy2+1,bw/2-2,42);c.fillStyle='#d0ebff';c.fillRect(bx+bw/2+1,cy2+1,bw/2-2,42);c.fillStyle=N;c.font=font(700,13);c.textBaseline='middle';c.fillText('XX: gái',bx+bw/4,cy2+22);c.fillText('XY: trai',bx+bw*.75,cy2+22);
+  const gy=top+34,cell=Math.max(18,Math.min(34,Math.sqrt((w-40)*(h-gy-10)/100))),cols=Math.floor((w-24)/cell),shown=X.kids.slice(-cols*Math.floor((h-gy)/cell));
+  shown.forEach((b,i)=>drawArt(c,b?'person':'girl',16+cell/2+(i%cols)*cell,gy+cell/2+Math.floor(i/cols)*cell,cell*.95));
+  if(!X.kids.length){c.fillStyle=css('muted');c.font=font(500,13);c.textBaseline='top';c.fillText('Bấm "Sinh 1 bé" để bắt đầu',w/2,gy+20)}});
+document.querySelectorAll('#p-sexdet [data-sb]').forEach(b=>b.onclick=()=>{for(let i=0;i<+b.dataset.sb;i++)X.kids.push(Math.random()<.5);if(X.kids.length>3000)X.kids=X.kids.slice(-3000);up()});
+$('sxReset').onclick=()=>{X.kids=[];up()};up()}
 /* ================= Ô CHỌN (DROPDOWN) ĐỒNG BỘ GIAO DIỆN =================
    Thay giao diện menu mặc định của hệ điều hành bằng danh sách riêng.
    Thẻ <select> gốc vẫn nằm trong trang (ẩn) nên mọi đoạn mã đọc .value vẫn chạy như cũ. */

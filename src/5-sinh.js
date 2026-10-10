@@ -167,7 +167,7 @@ TICK.gene=dt=>{if(G.step===Infinity)return;G.acc+=dt;if(G.acc<.7)return;G.acc=0;
 /* ================= SINH: lưới thức ăn ================= */
 {const SP={'Cỏ':[.5,.9],'Châu chấu':[.2,.66],'Chuột':[.5,.66],'Thỏ':[.8,.66],'Ếch':[.1,.42],'Chim sâu':[.34,.42],'Rắn':[.6,.36],'Cáo':[.88,.4],'Đại bàng':[.42,.1]};
 const EAT={'Châu chấu':['Cỏ'],'Thỏ':['Cỏ'],'Chuột':['Cỏ'],'Ếch':['Châu chấu'],'Chim sâu':['Châu chấu'],'Cáo':['Thỏ','Chuột'],'Rắn':['Ếch','Chuột'],'Đại bàng':['Rắn','Thỏ','Chim sâu']};
-const EMO={'Cỏ':'🌿','Châu chấu':'🦗','Chuột':'🐭','Thỏ':'🐇','Ếch':'🐸','Chim sâu':'🐦','Rắn':'🐍','Cáo':'🦊','Đại bàng':'🦅'};
+const EMO={'Cỏ':'grass','Châu chấu':'grasshopper','Chuột':'mouse','Thỏ':'rabbit','Ếch':'frog','Chim sâu':'bird','Rắn':'snake','Cáo':'fox','Đại bàng':'eagle'};
 const names=Object.keys(SP),preds=n=>names.filter(p=>(EAT[p]||[]).includes(n)),preyOf=n=>EAT[n]||[];
 const W={removed:new Set(),eff:{},why:[]};
 function compute(){const eff={},why=[],q=[];W.removed.forEach(n=>{eff[n]='x';why.push([n,'x','bị loại bỏ khỏi hệ sinh thái']);q.push([n,0])});
@@ -189,7 +189,7 @@ const draw=canvasOf($('cWeb'),(c,w,h)=>{const r=Math.max(22,Math.min(34,w/22)),X
     c.strokeStyle=c.fillStyle=dead?rgba('muted',.25):css('muted');c.lineWidth=1.6;c.setLineDash(dead?[4,4]:[]);c.beginPath();c.moveTo(a[0]+ux*r,a[1]+uy*r);c.lineTo(b[0]-ux*(r+3),b[1]-uy*(r+3));c.stroke();c.setLineDash([]);arrowHead(c,b[0]-ux*(r+3),b[1]-uy*(r+3),Math.atan2(uy,ux),9)}));
   names.forEach(n=>{const x=X(SP[n][0]),y=Y(SP[n][1]),s=W.eff[n],col=s==='+'?css('green'):s==='-'?css('amber'):s==='x'?css('muted'):css('ink');
     c.fillStyle=s==='x'?css('paper'):css('surface');c.beginPath();c.arc(x,y,r,0,7);c.fill();c.strokeStyle=col;c.lineWidth=s?3.5:2;c.stroke();
-    c.globalAlpha=s==='x'?.3:1;c.font=`${Math.round(r*1.05)}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillText(EMO[n],x,y+2);c.globalAlpha=1;c.font=font(700,12);c.lineWidth=4;c.strokeStyle=css('surface');c.strokeText(n,x,y+r+11);c.fillStyle=s==='x'?css('muted'):css('ink');c.fillText(n,x,y+r+11);
+    drawArt(c,EMO[n],x,y+1,r*1.55,{alpha:s==='x'?.3:1});c.font=font(700,12);c.lineWidth=4;c.strokeStyle=css('surface');c.strokeText(n,x,y+r+11);c.fillStyle=s==='x'?css('muted'):css('ink');c.fillText(n,x,y+r+11);
     if(s){c.fillStyle=col;c.font=font(700,14);c.fillText(s==='+'?'▲':s==='-'?'▼':'✕',x+r*.75,y-r*.75)}
     if(W.removed.has(n)){c.strokeStyle=css('red');c.lineWidth=2.5;c.beginPath();c.moveTo(x-r*.6,y-r*.6);c.lineTo(x+r*.6,y+r*.6);c.stroke()}});
   c.fillStyle=css('muted');c.font=font(500,12);c.textAlign='left';c.textBaseline='bottom';c.fillText('Mũi tên chỉ từ thức ăn đến sinh vật ăn nó',10,h-6)});
@@ -213,7 +213,7 @@ const draw=canvasOf($('cEco'),(c,w,h)=>{if(!S)return;const ml=46,mr=16,mt=30,mb=
   for(let t=0;t<=T;t+=10){c.beginPath();c.moveTo(X(t),mt);c.lineTo(X(t),h-mb);c.stroke();c.textAlign='center';c.textBaseline='top';c.fillText(t,X(t),h-mb+5)}
   const ys=niceStep(Ym,5);for(let v=0;v<=Ym;v+=ys){c.beginPath();c.moveTo(ml,Y(v));c.lineTo(w-mr,Y(v));c.stroke();c.textAlign='right';c.textBaseline='middle';c.fillText(Math.round(v),ml-5,Y(v))}
   c.textAlign='right';c.textBaseline='bottom';c.fillText('Thời gian (năm)',w-mr,h-mb-3);c.textAlign='left';c.textBaseline='top';c.fillText('Số cá thể',ml+4,mt-18);
-  [[1,'accent','🐇 Thỏ'],[2,'red','🐈 Mèo rừng']].forEach(([k,t,n],j)=>{c.strokeStyle=css(t);c.lineWidth=2.4;c.beginPath();S.out.forEach((p,i)=>i?c.lineTo(X(p[0]),Y(p[k])):c.moveTo(X(p[0]),Y(p[k])));c.stroke();{const L=S.out[S.out.length-1];c.font='22px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';c.textAlign='right';c.textBaseline='middle';c.fillText(k===1?'🐇':'🐈',X(L[0])-2,Y(L[k])-14)}
+  [[1,'accent','Thỏ'],[2,'red','Mèo rừng']].forEach(([k,t,n],j)=>{c.strokeStyle=css(t);c.lineWidth=2.4;c.beginPath();S.out.forEach((p,i)=>i?c.lineTo(X(p[0]),Y(p[k])):c.moveTo(X(p[0]),Y(p[k])));c.stroke();{const L=S.out[S.out.length-1];drawArt(c,k===1?'rabbit':'lynx',X(L[0])-18,Y(L[k])-18,34)}
     c.fillStyle=css(t);c.fillRect(w-mr-190+j*96,mt-20,14,4);c.font=font(600,12);c.textAlign='left';c.textBaseline='middle';c.fillText(n,w-mr-172+j*96,mt-18)})});
 const drawP=canvasOf($('cPhase'),(c,w,h)=>{if(!S)return;const m=28,Nm=Math.max(...S.out.map(p=>p[1]))*1.08||1,Pm=Math.max(...S.out.map(p=>p[2]))*1.08||1,X=v=>m+v/Nm*(w-m-8),Y=v=>h-m+4-v/Pm*(h-m-8);
   c.strokeStyle=css('muted');c.lineWidth=1;c.beginPath();c.moveTo(m,8);c.lineTo(m,h-m+4);c.lineTo(w-8,h-m+4);c.stroke();
