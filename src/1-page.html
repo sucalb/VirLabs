@@ -115,6 +115,20 @@ canvas.small{height:220px}
 .ctl label{font-family:var(--f-mono);font-weight:600;min-width:2.2em}
 .ctl output{font-family:var(--f-mono);font-variant-numeric:tabular-nums;min-width:4.4em;text-align:right}
 input[type=range]{width:100%;accent-color:var(--accent)}
+.dd{position:relative;width:100%;min-width:0}
+.ddnative{position:absolute!important;left:0;top:0;width:1px!important;height:1px;opacity:0;pointer-events:none}
+.ddbtn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;font:500 .95rem var(--f-body);text-align:left;padding:8px 10px;border:1px solid var(--frame);border-radius:2px;background:var(--surface);color:var(--ink);cursor:pointer;transition:box-shadow .12s}
+.ddbtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ddbtn svg{width:15px;height:15px;flex:none;color:var(--accent);transition:transform .15s}
+.ddbtn:hover{box-shadow:-3px 3px 0 var(--frame)}
+.ddbtn[aria-expanded="true"]{box-shadow:-3px 3px 0 var(--accent);border-color:var(--accent)}
+.ddbtn[aria-expanded="true"] svg{transform:rotate(180deg)}
+.ddlist{position:absolute;z-index:60;left:0;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--frame);box-shadow:-4px 4px 0 var(--frame);max-height:320px;overflow:auto;padding:4px 0}
+.ddopt{position:relative;padding:8px 12px 8px 32px;cursor:pointer;font-size:.94rem;color:var(--ink)}
+.ddopt:hover,.ddopt.act{background:var(--accentSoft)}
+.ddopt[aria-selected="true"]{font-weight:700;color:var(--accent)}
+.ddopt[aria-selected="true"]::before{content:"✓";position:absolute;left:12px;font-weight:700}
+.ddopt[aria-disabled="true"]{opacity:.4;cursor:not-allowed}
 select,input[type=text]{font:inherit;padding:7px 9px;border-radius:2px;border:1px solid var(--frame);background:var(--surface);color:var(--ink);width:100%}
 input[type=text]{font-family:var(--f-mono);text-transform:uppercase}
 .btn{font:700 .92rem var(--f-body);padding:9px 16px;border-radius:2px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:transform .12s,box-shadow .12s}
@@ -905,6 +919,211 @@ P = I²·R</div><dl class="kv" id="ohInfo"></dl><div class="verdict" id="ohV"></
           <p class="note">Tốc độ trôi của electron đã được phóng đại rất nhiều lần để dễ quan sát. Thực tế electron trôi chỉ cỡ phần mười milimét mỗi giây.</p></div>
         <div class="box"><h3>Quan sát</h3><div class="verdict" id="drV"></div><dl class="kv" id="drInfo"></dl>
           <div class="legend"><span><i style="background:var(--red)"></i>Ion dương ở nút mạng</span><span><i style="background:var(--accent)"></i>Electron tự do</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BỔ SUNG THEO CHƯƠNG TRÌNH GDPT 2018 ===================== -->
+  <section class="panel" id="p-intline" hidden>
+    <div class="lesson"><span class="chip">Toán 6</span><h2>Cộng, trừ số nguyên trên trục số</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cInt" aria-label="Trục số và chú ếch nhảy"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Phép tính</h3>
+          <div class="ctl"><label for="inA">a</label><input type="range" id="inA" min="-10" max="10" step="1" value="3"><output id="oinA"></output></div>
+          <div class="row"><span class="note">Phép:</span><button class="btn ghost sm" data-op="1">a + b</button><button class="btn ghost sm" data-op="-1">a − b</button></div>
+          <div class="ctl"><label for="inB">b</label><input type="range" id="inB" min="-10" max="10" step="1" value="-5"><output id="oinB"></output></div>
+          <div class="formula" id="inEq" style="font-size:1.2rem;text-align:center"></div>
+          <button class="btn" id="inGo">Cho ếch nhảy</button></div>
+        <div class="box"><h3>Từng bước</h3><dl class="kv" id="inInfo"></dl><div class="verdict" id="inV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-fraction" hidden>
+    <div class="lesson"><span class="chip">Toán 6</span><h2>Phân số: so sánh, cộng và trừ</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cFrac" aria-label="Thanh phân số"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Hai phân số</h3>
+          <div class="ctl"><label for="frA">tử 1</label><input type="range" id="frA" min="0" max="12" step="1" value="1"><output id="ofrA"></output></div>
+          <div class="ctl"><label for="frB">mẫu 1</label><input type="range" id="frB" min="1" max="12" step="1" value="2"><output id="ofrB"></output></div>
+          <div class="ctl"><label for="frC">tử 2</label><input type="range" id="frC" min="0" max="12" step="1" value="1"><output id="ofrC"></output></div>
+          <div class="ctl"><label for="frD">mẫu 2</label><input type="range" id="frD" min="1" max="12" step="1" value="3"><output id="ofrD"></output></div>
+          <div class="row"><button class="btn ghost sm" data-fo="cmp">So sánh</button><button class="btn ghost sm" data-fo="add">Cộng</button><button class="btn ghost sm" data-fo="sub">Trừ</button></div></div>
+        <div class="box"><h3>Kết quả</h3><div class="formula" id="frEq" style="font-size:1.1rem"></div><dl class="kv" id="frInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-triangle" hidden>
+    <div class="lesson"><span class="chip">Toán 7</span><h2>Tổng ba góc của một tam giác</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cTri" class="dragc" aria-label="Tam giác ABC, kéo các đỉnh để đổi hình"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Tam giác ABC</h3><p class="note">Kéo các đỉnh A, B, C trên hình. Ba góc được cắt ra và ghép lại bên phải.</p>
+          <div class="row"><button class="btn ghost sm" data-tp="deu">Tam giác đều</button><button class="btn ghost sm" data-tp="vc">Vuông cân</button><button class="btn ghost sm" data-tp="tu">Tam giác tù</button></div></div>
+        <div class="box"><h3>Số đo</h3><dl class="kv" id="triInfo"></dl><div class="verdict ok" id="triV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-pythag" hidden>
+    <div class="lesson"><span class="chip">Toán 8</span><h2>Định lí Pythagore</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cPy" aria-label="Tam giác vuông và ba hình vuông dựng trên ba cạnh"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Hai cạnh góc vuông</h3>
+          <div class="ctl"><label for="pyA">a</label><input type="range" id="pyA" min="1" max="12" step="1" value="3"><output id="opyA"></output></div>
+          <div class="ctl"><label for="pyB">b</label><input type="range" id="pyB" min="1" max="12" step="1" value="4"><output id="opyB"></output></div>
+          <div class="row"><button class="btn ghost sm" data-py="3,4">3 – 4 – 5</button><button class="btn ghost sm" data-py="6,8">6 – 8 – 10</button><button class="btn ghost sm" data-py="5,12">5 – 12 – 13</button></div></div>
+        <div class="box"><h3>Diện tích ba hình vuông</h3><div class="formula">a² + b² = c²</div><dl class="kv" id="pyInfo"></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-inscribed" hidden>
+    <div class="lesson"><span class="chip">Toán 9</span><h2>Góc nội tiếp và góc ở tâm</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cIns" class="dragc" aria-label="Đường tròn với góc nội tiếp, kéo các điểm A, B, M"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thao tác</h3><p class="note">Kéo các điểm A, B, M trên đường tròn.</p>
+          <label class="check"><input type="checkbox" id="isN"> Thêm điểm N cùng chắn cung AB</label>
+          <button class="btn ghost sm" id="isDia">Cho AB là đường kính</button></div>
+        <div class="box"><h3>Số đo</h3><dl class="kv" id="isInfo"></dl><div class="verdict" id="isV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-integral" hidden>
+    <div class="lesson"><span class="chip">Toán 12</span><h2>Tích phân và diện tích hình thang cong</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cItg" aria-label="Đồ thị hàm số và các hình chữ nhật xấp xỉ diện tích"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Hàm số và đoạn lấy tích phân</h3>
+          <select id="itF" aria-label="Hàm số"><option value="sq">f(x) = x²</option><option value="lin">f(x) = x/2 + 1</option><option value="sin">f(x) = sin x</option><option value="exp">f(x) = eˣ</option><option value="inv">f(x) = 1/x</option></select>
+          <div class="ctl"><label for="itA">a</label><input type="range" id="itA" min="0" max="3" step="0.1" value="0"><output id="oitA"></output></div>
+          <div class="ctl"><label for="itB">b</label><input type="range" id="itB" min="0" max="3" step="0.1" value="2"><output id="oitB"></output></div>
+          <div class="ctl"><label for="itN">n</label><input type="range" id="itN" min="1" max="60" step="1" value="6"><output id="oitN"></output></div>
+          <div class="row"><span class="note">Lấy chiều cao tại:</span><button class="btn ghost sm" data-im="0">mút trái</button><button class="btn ghost sm" data-im="0.5">trung điểm</button><button class="btn ghost sm" data-im="1">mút phải</button></div></div>
+        <div class="box"><h3>Diện tích</h3><div class="formula">S = ∫ₐᵇ f(x) dx = F(b) − F(a)</div><dl class="kv" id="itInfo"></dl><p class="note">Chia càng nhiều hình chữ nhật, tổng diện tích càng gần giá trị tích phân.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-mirror" hidden>
+    <div class="lesson"><span class="chip">KHTN 7</span><h2>Phản xạ ánh sáng và ảnh tạo bởi gương phẳng</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cMir" class="dragc" aria-label="Gương phẳng, ngọn nến và mắt, kéo để di chuyển"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Thao tác</h3><p class="note">Kéo ngọn nến S hoặc con mắt trên hình.</p>
+          <label class="check"><input type="checkbox" id="mrFan" checked> Vẽ chùm tia sáng từ S tới gương</label></div>
+        <div class="box"><h3>Định luật phản xạ</h3><div class="formula">Góc phản xạ i′ = góc tới i</div><dl class="kv" id="mrInfo"></dl><div class="verdict" id="mrV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-sound" hidden>
+    <div class="lesson"><span class="chip">KHTN 7</span><h2>Âm thanh: tần số, độ cao và độ to</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cSnd" aria-label="Dạng sóng âm và vùng nghe được của các loài"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Nguồn âm</h3>
+          <div class="ctl"><label for="snF">f</label><input type="range" id="snF" min="0" max="100" step="0.5" value="48"><output id="osnF"></output></div>
+          <div class="ctl"><label for="snA">biên độ</label><input type="range" id="snA" min="5" max="100" step="1" value="60"><output id="osnA"></output></div>
+          <div class="row"><button class="btn ghost sm" data-sf="15">15 Hz</button><button class="btn ghost sm" data-sf="262">Đô (262 Hz)</button><button class="btn ghost sm" data-sf="440">La (440 Hz)</button><button class="btn ghost sm" data-sf="25000">25 kHz</button></div>
+          <button class="btn" id="snPlay">Phát âm thanh</button>
+          <p class="note">Hạ âm và siêu âm không phát ra loa vì tai người không nghe được.</p></div>
+        <div class="box"><h3>Đặc trưng</h3><dl class="kv" id="snInfo"></dl><div class="verdict" id="snV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-archimedes" hidden>
+    <div class="lesson"><span class="chip">KHTN 8</span><h2>Lực đẩy Archimedes</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cArc" aria-label="Lực kế treo vật nhúng vào chất lỏng"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Vật và chất lỏng</h3>
+          <select id="arMat" aria-label="Chất làm vật"><option value="sat">Vật bằng sắt (7 800 kg/m³)</option><option value="nhom">Vật bằng nhôm (2 700 kg/m³)</option><option value="nhua">Vật bằng nhựa (950 kg/m³)</option><option value="da">Cục nước đá (920 kg/m³)</option><option value="go">Vật bằng gỗ thông (600 kg/m³)</option></select>
+          <select id="arLiq" aria-label="Chất lỏng"><option value="nuoc">Nước (1 000 kg/m³)</option><option value="muoi">Nước muối (1 200 kg/m³)</option><option value="dau">Dầu ăn (800 kg/m³)</option></select>
+          <div class="ctl"><label for="arV">V</label><input type="range" id="arV" min="100" max="1000" step="50" value="400"><output id="oarV"></output></div>
+          <div class="ctl"><label for="arD">hạ</label><input type="range" id="arD" min="0" max="100" step="1" value="0"><output id="oarD"></output></div>
+          <p class="note">Kéo thanh "hạ" để nhúng vật dần vào chất lỏng.</p></div>
+        <div class="box"><h3>Các lực</h3><div class="formula">F_A = d · V_chìm  (d = 10·D)</div><dl class="kv" id="arInfo"></dl><div class="verdict" id="arV2"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-lever" hidden>
+    <div class="lesson"><span class="chip">KHTN 8</span><h2>Đòn bẩy và moment lực</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cLev" aria-label="Đòn bẩy với hai vật treo hai bên"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Hai vật treo</h3>
+          <div class="ctl"><label for="lvM1">m₁</label><input type="range" id="lvM1" min="1" max="10" step="1" value="4"><output id="olvM1"></output></div>
+          <div class="ctl"><label for="lvD1">d₁</label><input type="range" id="lvD1" min="1" max="5" step="1" value="2"><output id="olvD1"></output></div>
+          <div class="ctl"><label for="lvM2">m₂</label><input type="range" id="lvM2" min="1" max="10" step="1" value="2"><output id="olvM2"></output></div>
+          <div class="ctl"><label for="lvD2">d₂</label><input type="range" id="lvD2" min="1" max="5" step="1" value="3"><output id="olvD2"></output></div>
+          <p class="note">Mỗi vạch trên đòn bẩy cách nhau 10 cm.</p></div>
+        <div class="box"><h3>Moment lực</h3><div class="formula">M = F · d ;  cân bằng khi F₁·d₁ = F₂·d₂</div><dl class="kv" id="lvInfo"></dl><div class="verdict" id="lvV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-galvanic" hidden>
+    <div class="lesson"><span class="chip">Hoá học 12</span><h2>Pin điện hoá</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cGal" aria-label="Pin điện hoá gồm hai cốc nối bằng cầu muối"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Hai điện cực</h3>
+          <select id="gvL" aria-label="Điện cực trái"><option>Mg</option><option selected>Zn</option><option>Fe</option><option>Ni</option><option>Pb</option><option>Cu</option><option>Ag</option></select>
+          <select id="gvR" aria-label="Điện cực phải"><option>Mg</option><option>Zn</option><option>Fe</option><option>Ni</option><option>Pb</option><option selected>Cu</option><option>Ag</option></select>
+          <button class="btn" id="gvK">Nối mạch ngoài</button></div>
+        <div class="box"><h3>Phản ứng</h3><dl class="kv" id="gvInfo"></dl><div class="verdict" id="gvV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-photo" hidden>
+    <div class="lesson"><span class="chip">KHTN 7 · Sinh học 11</span><h2>Quang hợp và các yếu tố ảnh hưởng</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cPho" aria-label="Cành rong trong nước dưới đèn, thải bọt khí oxygen"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Điều kiện</h3>
+          <div class="ctl"><label for="phL">ánh sáng</label><input type="range" id="phL" min="0" max="100" step="1" value="60"><output id="ophL"></output></div>
+          <div class="ctl"><label for="phC">CO₂</label><input type="range" id="phC" min="0.01" max="0.12" step="0.01" value="0.04"><output id="ophC"></output></div>
+          <div class="ctl"><label for="phT">t°</label><input type="range" id="phT" min="5" max="45" step="1" value="25"><output id="ophT"></output></div></div>
+        <div class="box"><h3>Kết quả</h3><div class="formula">6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂</div><dl class="kv" id="phInfo"></dl><div class="verdict" id="phV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-rgb" hidden>
+    <div class="lesson"><span class="chip">Tin học 10</span><h2>Biểu diễn màu sắc bằng mã RGB</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cRgb" aria-label="Pha trộn ba màu ánh sáng đỏ, lục, lam"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Ba kênh màu</h3>
+          <div class="ctl"><label for="rgR">R</label><input type="range" id="rgR" min="0" max="255" step="1" value="255"><output id="orgR"></output></div>
+          <div class="ctl"><label for="rgG">G</label><input type="range" id="rgG" min="0" max="255" step="1" value="160"><output id="orgG"></output></div>
+          <div class="ctl"><label for="rgB">B</label><input type="range" id="rgB" min="0" max="255" step="1" value="0"><output id="orgB"></output></div>
+          <div class="row"><button class="btn ghost sm" data-rgb="255,0,0">Đỏ</button><button class="btn ghost sm" data-rgb="255,255,0">Vàng</button><button class="btn ghost sm" data-rgb="0,255,255">Lục lam</button><button class="btn ghost sm" data-rgb="255,255,255">Trắng</button><button class="btn ghost sm" data-rgb="0,0,0">Đen</button></div></div>
+        <div class="box"><h3>Mã màu</h3><dl class="kv" id="rgInfo"></dl><p class="note">Mỗi điểm ảnh dùng 3 byte (24 bit), mỗi kênh có 256 mức, tổng cộng 2²⁴ ≈ 16,7 triệu màu.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-mapscale" hidden>
+    <div class="lesson"><span class="chip">Địa lí 6</span><h2>Tỉ lệ bản đồ và tính khoảng cách thực tế</h2></div>
+    <div class="bench">
+      <div class="stage"><canvas id="cMap" class="dragc" aria-label="Bản đồ khu phố và thước đo, kéo hai đầu thước"></canvas></div>
+      <div class="drawer">
+        <div class="box"><h3>Tỉ lệ bản đồ</h3>
+          <select id="msScale" aria-label="Tỉ lệ bản đồ"><option value="5000">1 : 5 000</option><option value="10000" selected>1 : 10 000</option><option value="50000">1 : 50 000</option><option value="100000">1 : 100 000</option></select>
+          <p class="note">Kéo hai đầu thước đỏ trên bản đồ. Đầu thước tự bám vào địa điểm khi kéo lại gần.</p>
+          <div class="row"><button class="btn ghost sm" data-ms="0,1">Nhà → Trường</button><button class="btn ghost sm" data-ms="0,2">Nhà → Chợ</button><button class="btn ghost sm" data-ms="3,4">Bưu điện → Bệnh viện</button></div></div>
+        <div class="box"><h3>Khoảng cách</h3><dl class="kv" id="msInfo"></dl><div class="verdict" id="msV"></div></div>
       </div>
     </div>
   </section>
