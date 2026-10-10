@@ -71,6 +71,7 @@ const LABS=[
   {id:'equil',subj:'hoa',grade:'Hoá 11',name:'Cân bằng hoá học'},
   {id:'titration',subj:'hoa',grade:'Hoá 11',name:'Chuẩn độ acid – base'},
   {id:'galvanic',subj:'hoa',grade:'Hoá 12',name:'Pin điện hoá'},
+  {id:'body3d',subj:'sinh',grade:'KHTN 8 · Sinh 11',name:'Cơ thể người 3D'},
   {id:'photo',subj:'sinh',grade:'KHTN 7 · Sinh 11',name:'Quang hợp'},
   {id:'cellstruct',subj:'sinh',grade:'KHTN 6 · Sinh 10',name:'Cấu tạo tế bào'},
   {id:'osmosis',subj:'sinh',grade:'Sinh 10',name:'Thẩm thấu'},

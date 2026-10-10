@@ -54,6 +54,11 @@ body.present .credit{display:none}
 .counter .cl{font-size:.92rem}
 .counter .cl i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
 .counter b{font:700 1.2rem var(--f-mono);text-align:center}
+.b3wrap{position:relative}
+canvas.tall{height:clamp(420px,74vh,760px);background:radial-gradient(circle at 50% 40%,#ffffff,#eef1f6)}
+.b3load{position:absolute;inset:0;display:grid;place-items:center;font-weight:600;color:var(--muted);background:var(--surface);text-align:center;padding:16px}
+.b3hint{position:absolute;left:10px;bottom:8px;font-size:.78rem;color:var(--muted);background:rgba(255,255,255,.85);padding:3px 8px;pointer-events:none}
+.b3tip{position:absolute;pointer-events:none;background:#10162f;color:#fff;font:600 .82rem var(--f-body);padding:4px 8px;transform:translate(-50%,-130%);white-space:nowrap}
 .tipcard{border:1px solid var(--navy);border-radius:14px;background:var(--surface);padding:18px;display:flex;flex-direction:column;gap:8px}
 .tipcard h2{font:700 1.05rem var(--f-display);margin:0}
 .tipcard p{margin:0;font-size:.9rem}
@@ -1240,6 +1245,26 @@ V = n · 24,79 L  (khí, 25 °C, 1 bar)</div><dl class="kv" id="moInfo"></dl></d
       <div class="drawer">
         <div class="box"><h3>Thực nghiệm</h3><div class="row"><button class="btn" data-sb="1">Sinh 1 bé</button><button class="btn ghost" data-sb="10">+10</button><button class="btn ghost" data-sb="100">+100</button><button class="btn ghost" id="sxReset">Làm lại</button></div></div>
         <div class="box"><h3>Tỉ lệ</h3><dl class="kv" id="sxInfo"></dl><div class="verdict" id="sxV"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SINH: CƠ THỂ NGƯỜI 3D ===================== -->
+  <section class="panel" id="p-body3d" hidden>
+    <div class="lesson"><span class="chip">KHTN 8 · Sinh học 11</span><h2>Cơ thể người 3D</h2></div>
+    <div class="bench">
+      <div class="stage b3wrap"><canvas id="cBody" class="dragc tall" aria-label="Mô hình 3D cơ thể người, kéo để xoay, cuộn để phóng to, bấm vào bộ phận để xem thông tin"></canvas>
+        <div class="b3load" id="b3load">Đang tải mô hình 3D (khoảng 4 MB)…</div>
+        <div class="b3hint">Kéo: xoay · Cuộn hoặc chụm hai ngón: phóng to · Bấm vào bộ phận: xem thông tin</div></div>
+      <div class="drawer">
+        <div class="box"><h3>Xem</h3>
+          <div class="row"><button class="btn ghost sm" data-b3="toan">Toàn thân</button><button class="btn ghost sm" data-b3="tim">Tim</button><button class="btn ghost sm" data-b3="nao">Não</button><button class="btn ghost sm" data-b3="hohap">Hệ hô hấp</button><button class="btn ghost sm" data-b3="tieuhoa">Hệ tiêu hoá</button></div>
+          <label class="check"><input type="checkbox" id="b3Skin" checked> Hiện da</label>
+          <label class="check"><input type="checkbox" id="b3Bone" checked> Hiện bộ xương</label>
+          <label class="check"><input type="checkbox" id="b3Spin"> Tự xoay</label></div>
+        <div class="box"><h3 id="b3Name">Chọn một bộ phận</h3><p style="margin:0" id="b3Desc">Bấm vào một cơ quan trên mô hình, máy sẽ phóng to vào hệ cơ quan đó.</p><dl class="kv" id="b3Info"></dl></div>
+        <div class="box"><h3>Các bộ phận</h3><div class="row" id="b3Parts"></div></div>
+        <p class="note">Mô hình: <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/" target="_blank" rel="noopener">BodyParts3D</a>, © The Database Center for Life Science, giấy phép <a href="https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en" target="_blank" rel="noopener">CC BY-SA 2.1 Japan</a>. Đã giảm số đa giác để hiển thị trên web.</p>
       </div>
     </div>
   </section>
