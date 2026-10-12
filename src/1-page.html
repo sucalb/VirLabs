@@ -31,7 +31,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,.el:focus-visible{
 .topin{max-width:1320px;margin:0 auto;padding-inline:16px;padding-block:12px;display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;font:700 1.45rem var(--f-display);color:var(--navy);letter-spacing:-.02em;margin:0}
 .logo b{border:2.5px solid var(--navy);padding:0 6px;margin-right:3px;line-height:1.2;font-weight:700}
-.topnote{color:var(--muted);font-size:.92rem}
+.topnote{color:var(--muted);font-size:.92rem;flex:1 1 280px;min-width:0}
 .topin .btn{margin-left:auto}
 .wrap{max-width:1320px;margin:0 auto;padding-inline:16px;padding-block:28px 48px;display:grid;grid-template-columns:236px minmax(0,1fr);gap:36px;align-items:start}
 .side{display:flex;flex-direction:column;gap:24px;position:sticky;top:16px}
@@ -102,6 +102,12 @@ canvas.tall{height:clamp(460px,78vh,800px)}
 .tipcard{border:1px solid var(--navy);border-radius:14px;background:var(--surface);padding:18px;display:flex;flex-direction:column;gap:8px}
 .tipcard h2{font:700 1.05rem var(--f-display);margin:0}
 .tipcard p{margin:0;font-size:.9rem}
+.topbtns{display:flex;gap:8px;align-items:center;margin-left:auto}
+.langbtn{min-width:96px}
+.adbox{border:1px dashed var(--line,#c9c4b8);border-radius:12px;padding:8px;min-height:100px;background:var(--surface)}
+.adbox small{display:block;font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.adbox.wide{margin-top:22px}
+body.present .adbox{display:none!important}
 .tipcard mark{background:var(--yellow);color:var(--navy);padding:0 3px}
 .main{display:flex;flex-direction:column;gap:18px;min-width:0}
 .subhead{display:flex;align-items:center;gap:20px}
@@ -269,7 +275,7 @@ body.present canvas:not(.small){height:clamp(360px,72vh,760px)}
 
 <div class="top"><div class="topin">
     <h1 class="logo"><b>Vir</b>Labs</h1><span class="topnote">Mô phỏng cho giáo viên cấp 2, cấp 3 · Theo Chương trình GDPT 2018 (sửa đổi theo Thông tư 17/2025)</span>
-    <button class="btn" id="present">Chế độ trình chiếu</button></div></div>
+    <span class="topbtns"><button class="btn ghost langbtn" id="langBtn" data-notr lang="en">English</button><button class="btn" id="present">Chế độ trình chiếu</button></span></div></div>
 <div class="wrap">
   <aside class="side">
     <nav class="tabs" role="tablist" aria-label="Môn học">
@@ -282,6 +288,7 @@ body.present canvas:not(.small){height:clamp(360px,72vh,760px)}
     </nav>
     <div class="gradebox"><h2>Lọc theo lớp</h2><div class="grades" id="gradeNav"></div></div>
     <div class="tipcard"><h2>Mẹo khi lên lớp</h2><p>Bấm <mark>Chế độ trình chiếu</mark> để phóng to mô phỏng trên máy chiếu. Thanh trượt và hình vẽ đều kéo được ngay trong lúc giảng.</p><p class="note">Bài nào đã mở sẽ có dấu tích vàng.</p></div>
+    <div class="adbox" data-ad="side" hidden><small>Quảng cáo</small></div>
   </aside>
   <main class="main">
   <section class="subhead"><div><h1 id="bandName"></h1><p id="bandDesc"></p><div class="prog"><span id="progTxt"></span><span class="barx"><i id="progBar"></i></span></div></div><span class="owlwrap" id="bandIcon"></span></section>
@@ -1320,6 +1327,7 @@ V = n · 24,79 L  (khí, 25 °C, 1 bar)</div><dl class="kv" id="moInfo"></dl></d
       </div>
     </div>
   </section>
+<div class="adbox wide" data-ad="bottom" hidden><small>Quảng cáo</small></div>
 </main>
 </div>
-<footer class="credit">VirLabs · Phát triển bởi thầy <b>Bùi Đức Hoàng</b></footer>
+<footer class="credit">VirLabs · Phát triển bởi thầy <b data-notr>Bùi Đức Hoàng</b></footer>

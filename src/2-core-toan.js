@@ -2,7 +2,7 @@
 /* ================= CORE ================= */
 const $=id=>document.getElementById(id);
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue('--'+n).trim();
-const fmt=(x,d=1)=>{if(!isFinite(x))return '—';let s=(+x).toFixed(d);if(s.startsWith('-')&&+s===0)s=s.slice(1);return s.replace('.',',').replace('-','−')};
+const fmt=(x,d=1)=>{if(!isFinite(x))return '—';let s=(+x).toFixed(d);if(s.startsWith('-')&&+s===0)s=s.slice(1);return s.replace('.',DEC).replace('-','−')};
 const hexRgb=h=>{h=(h||'#000').replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h,16);return[(n>>16)&255,(n>>8)&255,n&255]};
 const rgba=(tok,a)=>{const[r,g,b]=hexRgb(css(tok));return`rgba(${r},${g},${b},${a})`};
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;

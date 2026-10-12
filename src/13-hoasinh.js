@@ -1,6 +1,6 @@
 
 /* ================= HOÁ, SINH BỔ SUNG ================= */
-const sciE=(v,d=2)=>{if(!v)return'0';const[a,b]=v.toExponential(d).split('e');return a.replace('.',',')+'·10'+sup(Math.abs(+b)).replace(/^/,+b<0?'⁻':'')};
+const sciE=(v,d=2)=>{if(!v)return'0';const[a,b]=v.toExponential(d).split('e');return a.replace('.',DEC)+'·10'+sup(Math.abs(+b)).replace(/^/,+b<0?'⁻':'')};
 
 /* ---------- Hoá: lắp ráp nguyên tử ---------- */
 {const A={p:6,n:6,e:6,spin:0},LIM={p:20,n:30,e:22};

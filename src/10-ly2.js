@@ -165,7 +165,7 @@ let W=1,Hh=1;
 function field(px,py){let ex=0,ey=0;for(const q of E.q){const dx=(px-q.x*W)/W*WM,dy=(py-q.y*Hh)/W*WM,r2=dx*dx+dy*dy+1e-6,r=Math.sqrt(r2),f=kC*q.qv/(r2*r);ex+=f*dx;ey+=f*dy}return[ex,ey]}
 function up(){presetSync('#p-efield [data-ep]','ep',E.preset);presetSync('#p-efield [data-es]','es',E.sign);E.lines=null;info();draw()}
 function info(){const rows=[['Số điện tích',E.q.length],['Mỗi điện tích',E.preset==='plate'?'± 0,6 μC':'± 2 μC']];
-  if(E.hover){const[ex,ey]=field(...E.hover),m=Math.hypot(ex,ey),[a,b]=m.toExponential(2).split('e');rows.push(['E tại con trỏ',`${a.replace('.',',')}·10${sup(+b).replace('-','⁻')} V/m`])}else rows.push(['E tại con trỏ','rê chuột lên hình']);
+  if(E.hover){const[ex,ey]=field(...E.hover),m=Math.hypot(ex,ey),[a,b]=m.toExponential(2).split('e');rows.push(['E tại con trỏ',`${a.replace('.',DEC)}·10${sup(+b).replace('-','⁻')} V/m`])}else rows.push(['E tại con trỏ','rê chuột lên hình']);
   $('efInfo').innerHTML=kv(rows)}
 function trace(){const lines=[],pos=E.q.filter(q=>q.s>0),src=pos.length?pos:E.q,dir=pos.length?1:-1,n=E.q.length>6?6:16;
   src.forEach(q=>{for(let i=0;i<n;i++){const a=i/n*2*Math.PI+.2;let x=q.x*W+14*Math.cos(a),y=q.y*Hh+14*Math.sin(a);const pts=[[x,y]];
